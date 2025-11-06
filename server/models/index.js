@@ -1,7 +1,7 @@
-const Product = require("./Product");
-const User = require("./User");
-const Order = require("./Order");
-const Review = require("./Review");
+const Product = require("./Product.model");
+const User = require("./User.model");
+const Order = require("./Order.model");
+const Review = require("./Review.model");
 
 module.exports = {
   Product,
