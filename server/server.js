@@ -1,14 +1,8 @@
 const express = require("express");
 const { connectDb } = require("./connection/connection");
-const { router } = require("./routes");
-const cookieparser = require('cookie-parser');
-require("dotenv").config();
 
 const app = express();
 app.use(express.json());
-app.use(cookieparser());
-
-app.use("/api", router);
 
 connectDb();
 
