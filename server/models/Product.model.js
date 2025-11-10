@@ -7,7 +7,8 @@ const productSchema = new mongoose.Schema(
     description: { type: String },
     category: { type: String },
     quantity: { type: Number },
-    images: [{ type: String }],
+    imageUrl: { type: String, required: true },
+    imagePublicId: { type: String },
   },
   { timestamps: true } 
 );

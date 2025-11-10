@@ -7,10 +7,6 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
     },
-    role: {
-      type: Number,
-      default: 0,
-    },
     googleId: { type: String },
     refreshToken: { type: String },
     otp: { type: String, default: null },

@@ -1,4 +1,6 @@
 const express = require("express");
+const User = require("../models/User.model");
+
 // Middleware to verify access token
 const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -18,6 +20,7 @@ const verifyToken = async (req, res, next) => {
     }
 
     req.user = user;
+
     next();
   } catch (err) {
     if (err.name === "TokenExpiredError") {

@@ -2,8 +2,7 @@ const { User } = require("../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
-const { OAuth2Client } = require("google-auth-library");
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const admin = require("../config/firebaseAdmin");
 const {sendOTPEmail} = require("../utils/nodemailer");
 const saltRounds = 10;
 
@@ -172,41 +171,40 @@ const refresh = async (req, res) => {
   }
 };
 
-const google = async (req, res) => {
-  const { id_token } = req.body;
-  try {
-    const ticket = await client.verifyIdToken({
-      idToken: id_token,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
-    
-    const payload = ticket.getPayload();
-    const { email, name, sub: googleId } = payload;
+const googleLogin = async (req, res) => {
+  const { idToken } = req.body; // Firebase ID token from frontend
 
-    let user = await User.findOne({ email });
-    
+  if (!idToken) return res.status(400).json({ message: "ID token required" });
+
+  try {
+    // Verify Firebase token
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const { uid, email, name, picture } = decodedToken;
+
+    // Find or create user in your DB
+    let user = await User.findOne({ firebaseUid: uid });
     if (!user) {
-      user = new User({ 
-        name, 
-        email, 
-        googleId,
+      user = await User.create({
+        firebaseUid: uid,
+        email,
+        name,
+        avatar: picture,
       });
     }
 
-    // Generate tokens for Google auth user
+    // Issue your own JWT access & refresh tokens
     const accessToken = jwt.sign(
       { userId: user._id },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15m" }
     );
-    
+
     const refreshToken = jwt.sign(
       { userId: user._id },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "7d" }
     );
 
-    // Store refresh token in database
     user.refreshToken = refreshToken;
     await user.save();
 
@@ -217,18 +215,17 @@ const google = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.json({ 
-      accessToken, 
+    res.json({
+      accessToken,
       user: {
         id: user._id,
         email: user.email,
-        name: user.name
-      } 
+        name: user.name,
+      },
     });
-    
   } catch (err) {
-    console.error("Google auth error:", err);
-    res.status(401).json({ message: "Invalid Google Token" });
+    console.error(err);
+    res.status(401).json({ message: "Invalid Firebase ID token" });
   }
 };
 
@@ -385,7 +382,7 @@ const forgotPassword = async (req, res) => {
 module.exports = { 
   register, 
   login, 
-  google, 
+  googleLogin, 
   refresh, 
   logout,
   forgotPassword,

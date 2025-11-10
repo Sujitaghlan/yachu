@@ -1,12 +1,12 @@
 const express = require("express");
-const {register, login, refresh, google, logout, forgotPassword, resetPassword, verifyOTP} = require("../controllers/users.controller");
+const {register, login, refresh, googleLogin, logout, forgotPassword, resetPassword, verifyOTP} = require("../controllers/users.controller");
 
 const userRouter = express.Router();
 
 userRouter.post("/register", register);
 userRouter.post("/login", login);
 userRouter.post("/refresh", refresh);
-userRouter.post("/google/callback", google);
+userRouter.post("/google/callback", googleLogin);
 userRouter.post("/logout", logout);
 userRouter.post("/forgotPassword", forgotPassword);
 userRouter.post("/verifyOTP", verifyOTP);
