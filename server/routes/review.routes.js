@@ -13,7 +13,7 @@ const reviewRouter = express.Router();
 reviewRouter.post("/review",verifyToken, createReview);
 reviewRouter.get("/review", getReviews);
 reviewRouter.get("/review/:id", getReviewById);
-reviewRouter.put("/review",verifyToken, updateReview);
-reviewRouter.delete("/review",verifyToken, deleteReview);
+reviewRouter.put("/review/:id",verifyToken, updateReview);
+reviewRouter.delete("/review/:id",verifyToken, deleteReview);
 
 module.exports = {reviewRouter};

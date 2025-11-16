@@ -7,7 +7,18 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
     },
-    googleId: { type: String },
+    isAdmin: {
+      type: Boolean,
+      default: false
+    },
+    imageUrl: {
+      type: String,
+    },
+    imagePublicId: {
+      type: String,
+    },
+    firebaseUid: { type: String, unique: true,
+    sparse: true},
     refreshToken: { type: String },
     otp: { type: String, default: null },
     otpExpiry: { type: Date, default: null },

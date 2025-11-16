@@ -1,5 +1,7 @@
 const express = require("express");
 const User = require("../models/User.model");
+const jwt = require("jsonwebtoken");
+
 
 // Middleware to verify access token
 const verifyToken = async (req, res, next) => {

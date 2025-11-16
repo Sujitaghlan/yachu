@@ -1,46 +1,37 @@
 const { cloudinary } = require("../config/cloudinary.js");
-const Product = require("../models/Product.model.js");
+const { uploadBufferToCloudinary } = require("../utils/uploadBufferToCloudinary");
 const streamifier = require("streamifier");
+const {Product} = require("../models")
 const addProduct = async (req, res) => {
   try {
-    const { productName, description, price, category } = req.body;
+    const { productName, description, price, category, stock } = req.body;
 
     if (!req.file) {
       return res.status(400).json({ message: "Image file is required" });
     }
 
-    // Upload image to Cloudinary
-    const uploadStream = cloudinary.uploader.upload_stream(
-      { folder: "yachu-products" },
-      async (error, result) => {
-        if (error) {
-          console.error(error);
-          return res.status(500).json({ message: "Image upload failed" });
-        }
+    const { url: imageUrl, publicId: imagePublicId } =
+      await uploadBufferToCloudinary(req.file.buffer, "products");
 
-        // Save product to DB
-        const newProduct = new Product({
-          productName,
-          description,
-          price,
-          category,
-          imageUrl: result.secure_url,
-          imagePublicId: result.public_id,
-        });
+    const newProduct = new Product({
+      productName,
+      description,
+      price,
+      category,
+      stock,
+      imageUrl,
+      imagePublicId,
+    });
 
-        const savedProduct = await newProduct.save();
+    const savedProduct = await newProduct.save();
 
-        res.status(201).json({
-          message: "Product added successfully!",
-          product: savedProduct,
-        });
-      }
-    );
-
-    streamifier.createReadStream(req.file.buffer).pipe(uploadStream);
+    res.status(201).json({
+      message: "Product added successfully!",
+      product: savedProduct,
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error", err:err.message });
   }
 };
 
@@ -49,14 +40,14 @@ const getAllProducts = async (req, res) => {
     const products = await Product.find();
     if (products.length === 0) {
       return res.status(404).json({
-        message: "No Products available"
+        message: "No Products available",
       });
     }
     return res.status(200).json({
       success: true,
       message: "Products fetched successfully",
-      data: products
-    })
+      data: products,
+    });
   } catch (err) {
     return res
       .status(500)
@@ -67,44 +58,31 @@ const getAllProducts = async (req, res) => {
 const editProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { productName, description, price, category } = req.body;
+    const { productName, description, price, category, stock } = req.body;
 
     const product = await Product.findById(id);
-    if (!product) return res.status(404).json({ message: 'Product not found' });
+    if (!product) return res.status(404).json({ message: "Product not found" });
 
-    // Update fields
     if (productName) product.productName = productName;
     if (description) product.description = description;
     if (price) product.price = Number(price);
     if (category) product.category = category;
+    if (stock) product.stock = stock;
 
-    // If a new image is uploaded
     if (req.file) {
-      // Delete old image from Cloudinary
       if (product.imagePublicId) {
         await cloudinary.uploader.destroy(product.imagePublicId);
       }
-
-      // Upload new image
-      const uploadStream = cloudinary.uploader.upload_stream(
-        { folder: 'yachu-products' },
-        async (error, result) => {
-          if (error) return res.status(500).json({ message: 'Image upload failed' });
-          product.imageUrl = result.secure_url;
-          product.imagePublicId = result.public_id;
-
-          const saved = await product.save();
-          res.status(200).json({ message: 'Product updated', product: saved });
-        }
-      );
-      return streamifier.createReadStream(req.file.buffer).pipe(uploadStream);
+      const { url: imageUrl, publicId: imagePublicId } =
+        await uploadBufferToCloudinary(req.file.buffer, "products");
+      product.imageUrl = imageUrl;
+      product.imagePublicId = imagePublicId;
     }
-
     const saved = await product.save();
-    res.status(200).json({ message: 'Product updated', product: saved });
+    res.status(200).json({ message: "Product updated", product: saved });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -112,18 +90,17 @@ const removeProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const product = await Product.findById(id);
-    if (!product) return res.status(404).json({ message: 'Product not found' });
+    if (!product) return res.status(404).json({ message: "Product not found" });
 
-    // Delete image from Cloudinary
     if (product.imagePublicId) {
       await cloudinary.uploader.destroy(product.imagePublicId);
     }
 
     await product.deleteOne();
-    res.status(200).json({ message: 'Product deleted successfully' });
+    res.status(200).json({ message: "Product deleted successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -131,13 +108,18 @@ const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
     const product = await Product.findById(id);
-    if (!product) return res.status(404).json({ message: 'Product not found' });
+    if (!product) return res.status(404).json({ message: "Product not found" });
     res.status(200).json({ product });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
-
-module.exports = { addProduct, getAllProducts, editProduct, removeProduct, getProductById };
+module.exports = {
+  addProduct,
+  getAllProducts,
+  editProduct,
+  removeProduct,
+  getProductById,
+};
