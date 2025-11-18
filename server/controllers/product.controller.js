@@ -4,7 +4,7 @@ const streamifier = require("streamifier");
 const {Product} = require("../models")
 const addProduct = async (req, res) => {
   try {
-    const { productName, description, price, category, stock } = req.body;
+    const { productName, description, price, category, stock, discountedPrice } = req.body;
 
     if (!req.file) {
       return res.status(400).json({ message: "Image file is required" });
@@ -17,6 +17,7 @@ const addProduct = async (req, res) => {
       productName,
       description,
       price,
+      discountedPrice,
       category,
       stock,
       imageUrl,
@@ -58,7 +59,7 @@ const getAllProducts = async (req, res) => {
 const editProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { productName, description, price, category, stock } = req.body;
+    const { productName, description, price, category, stock, discountedPrice } = req.body;
 
     const product = await Product.findById(id);
     if (!product) return res.status(404).json({ message: "Product not found" });
@@ -67,6 +68,7 @@ const editProduct = async (req, res) => {
     if (description) product.description = description;
     if (price) product.price = Number(price);
     if (category) product.category = category;
+    if (discountedPrice) product.discountedPrice = Number(discountedPrice);
     if (stock) product.stock = stock;
 
     if (req.file) {
