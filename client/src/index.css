@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Placeholder for contentEditable */
+.editable:empty:before {
+  content: attr(data-placeholder);
+  color: #b3b3b3;
+  pointer-events: none;
+}
