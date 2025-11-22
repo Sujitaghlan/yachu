@@ -3,14 +3,14 @@ const {Review} = require("../models");
 // Create a new review
 const createReview = async (req, res) => {
   try {
-    const { description, rating } = req.body;
+    const { description } = req.body;
     const user = req.user._id; 
     const existingReview = await Review.findOne({ user });
     if (existingReview) {
       return res.status(400).json({ message: "You have already submitted a review" });
     }
 
-    const review = await Review.create({ user, description, rating });
+    const review = await Review.create({ user, description });
     res.status(201).json({ message: "Review created successfully", review });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -41,7 +41,7 @@ const getReviewById = async (req, res) => {
 // Update a review
 const updateReview = async (req, res) => {
   try {
-    const { description, rating } = req.body;
+    const { description } = req.body;
     const review = await Review.findById(req.params.id);
 
     if (!review) return res.status(404).json({ message: "Review not found" });
@@ -51,7 +51,6 @@ const updateReview = async (req, res) => {
     }
 
     review.description = description || review.description;
-    review.rating = rating || review.rating;
 
     await review.save();
     res.status(200).json({ message: "Review updated successfully", review });
