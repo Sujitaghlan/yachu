@@ -6,8 +6,14 @@ const orderSchema = new mongoose.Schema(
     address: { type: String, required: true },
     phone: { type: String, required: true },
     paymentType: { type: String, required: true },
+    deliveryCharge: { type: Number, required: true },
     status: { type: String, default: "pending" },
     stockDeducted: { type: Boolean, default: false },
+    note: { type: String },
+    paymentSlip: {
+      url: { type: String },
+      publicId: { type: String },
+    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -18,14 +24,14 @@ const orderSchema = new mongoose.Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: "Product",
         },
-        quantity: { type: Number, required: true},
+        quantity: { type: Number, required: true },
         price: { type: Number, required: true },
       },
     ],
     totalAmount: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   { timestamps: true }
 );

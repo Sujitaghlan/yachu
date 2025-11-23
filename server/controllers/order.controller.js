@@ -1,21 +1,36 @@
 const { Order, Cart, Product } = require("../models");
-
+const { uploadBufferToCloudinary } = require("../utils/uploadBufferToCloudinary");
 // Create Order
 const createOrder = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { fullName, address, phone, paymentType } = req.body;
+    const { fullName, address, phone, paymentType, deliveryCharge, note } = req.body;
 
-    const cart = await Cart.findOne({ userId }).populate("products.productId");
-    if (!cart || cart.products.length === 0) {
+    let paymentSlip = null;
+    if (paymentType === "esewa") {
+      if (!req.file) {
+        return res.status(400).json({
+          success: false,
+          message: "Payment screenshot is required for eSewa.",
+        });
+      }
+
+      paymentSlip = await uploadBufferToCloudinary(
+        req.file.buffer,
+        "payments"
+      );
+    }
+
+    const cart = await Cart.findOne({ user:userId }).populate("items.product");
+    if (!cart || cart.items.length === 0) {
       return res.status(400).json({ message: "Your cart is empty." });
     }
 
     let totalAmount = 0;
     const orderProducts = [];
 
-    for (let item of cart.products) {
-      const product = item.productId;
+    for (let item of cart.items) {
+      const product = item.product;
       if (product.stock < item.quantity) {
         return res.status(400).json({
           message: `Insufficient stock for product: ${product.name}`,
@@ -29,19 +44,24 @@ const createOrder = async (req, res) => {
       });
     }
 
+    totalAmount += deliveryCharge;
+
     const order = await Order.create({
       fullName,
       address,
       phone,
       paymentType,
+      deliveryCharge,
+      paymentSlip,
       status: "pending",
+      note,
       userId,
       products: orderProducts,
       totalAmount,
       stockDeducted: false, 
     });
 
-    cart.products = [];
+    cart.items = [];
     await cart.save();
 
     return res.status(200).json({
@@ -53,7 +73,7 @@ const createOrder = async (req, res) => {
     console.error(err);
     return res
       .status(500)
-      .json({ success: false, message: "Error while placing order" });
+      .json({ success: false, message: "Error while placing order", err: err.message });
   }
 };
 
@@ -76,6 +96,28 @@ const getAllOrder = async (req, res) => {
   }
 };
 
+const getOrderById = async (req, res) => {
+  try{
+    const { orderId } = req.params;
+    const order = await Order.findById(orderId)
+      .populate("products.productId")
+      .populate("userId", "fullName email");
+    if (!order) {
+      return res.status(404).json({ success: false, message: "Order not found" });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Order fetched successfully",
+      order,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch order",
+    });
+  }
+}
 const updateStatus = async (req, res) => {
   try {
     const { orderId } = req.params;
@@ -86,7 +128,7 @@ const updateStatus = async (req, res) => {
       return res.status(404).json({ success: false, message: "Order not found" });
     }
 
-    if (status === "paid" && !order.stockDeducted) {
+    if (status === "confirm" && !order.stockDeducted) {
       for (let item of order.products) {
         const product = await Product.findById(item.productId._id);
         if (product.stock < item.quantity) {
@@ -122,9 +164,9 @@ const updateStatus = async (req, res) => {
     console.error(err);
     res.status(500).json({
       success: false,
-      message: "Failed to update status",
+      message: "Failed to update status",err: err.message,
     });
   }
 };
 
-module.exports = { createOrder, getAllOrder, updateStatus };
+module.exports = { createOrder, getAllOrder, getOrderById, updateStatus };

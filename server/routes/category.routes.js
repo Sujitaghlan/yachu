@@ -3,9 +3,9 @@ const {createCategory, getAllCategories, deleteCategory, updateCategory} = requi
 
 const categoryRouter = express.Router();
 
-router.post("/category", createCategory); 
-router.get("/category", getAllCategories);
-router.delete("/category/:id", deleteCategory);
-router.put("/category/:id", updateCategory);
+categoryRouter.post("/category", createCategory); 
+categoryRouter.get("/category", getAllCategories);
+categoryRouter.delete("/category/:id", deleteCategory);
+categoryRouter.put("/category/:id", updateCategory);
 
 module.exports = {categoryRouter};
