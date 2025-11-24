@@ -28,6 +28,15 @@ import Signup from "./component/Signup";
 // Admin Components
 import AddProducts from "./admin/component/AddProducts";
 import AdProductForm from "./admin/component/AdProductForm";
+import Dashboard from "./admin/component/Dashboard";
+
+// Admin Layout
+import AdminLayout from "./admin/layout/AdminLayout";
+import ListProducts from "./admin/component/ListProducts";
+import CategoryList from "./admin/component/CategoryList";
+import OrderManagement from "./admin/component/OrderManagement";
+import ViewOrder from "./admin/component/ViewOrder";
+import AddCategory from "./admin/component/AddCategory";
 
 // -------------------- Animated Section Wrapper --------------------
 const AnimatedSection = ({ children, delay = 0 }) => {
@@ -65,35 +74,23 @@ const AnimatedSection = ({ children, delay = 0 }) => {
 };
 
 // -------------------- Public Layout --------------------
-const Layout = () => {
+const PublicLayout = () => {
   const location = useLocation();
   const [isCartOpen, setCartOpen] = useState(false);
 
   const openCart = () => setCartOpen(true);
   const closeCart = () => setCartOpen(false);
 
-  // Hide navbar on login and signup
   const hideNav = location.pathname === "/login" || location.pathname === "/signup";
 
   return (
     <>
       {!hideNav && <NavBar onCartClick={openCart} />}
       {!hideNav && isCartOpen && <Cart onClose={closeCart} />}
-
       <main className="pt-20 overflow-x-hidden">
         <Outlet />
       </main>
     </>
-  );
-};
-
-// -------------------- Admin Layout --------------------
-const AdminLayout = () => {
-  return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h2 className="text-2xl font-bold mb-6">Admin Dashboard</h2>
-      <Outlet />
-    </div>
   );
 };
 
@@ -103,10 +100,8 @@ function App() {
     <CartProvider>
       <Router>
         <Routes>
-
-          {/* ---------------- Public Pages Wrapped With Layout ---------------- */}
-          <Route element={<Layout />}>
-            {/* Home Page */}
+          {/* ---------------- Public Layout ---------------- */}
+          <Route element={<PublicLayout />}>
             <Route
               path="/"
               element={
@@ -123,8 +118,6 @@ function App() {
                 </>
               }
             />
-
-            {/* Other Public Routes */}
             <Route path="/product-view" element={<ProductView />} />
             <Route path="/product-details" element={<ProductDetails />} />
             <Route path="/payment" element={<PaymentDetails />} />
@@ -133,14 +126,21 @@ function App() {
             <Route path="/billing" element={<BillingForm />} />
           </Route>
 
-          {/* ---------------- Auth Pages (No Navbar) ---------------- */}
+          {/* ---------------- Auth Pages (no navbar) ---------------- */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
 
-          {/* ---------------- Admin Routes ---------------- */}
+          {/* ---------------- Admin Layout ---------------- */}
           <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Dashboard />} />
             <Route path="add-products" element={<AddProducts />} />
             <Route path="ad-products" element={<AdProductForm />} />
+             <Route path="list-products" element={<ListProducts />} />
+              <Route path="category" element={<CategoryList />} />
+              <Route path="order" element={<OrderManagement />} />
+                <Route path="order/:id" element={<ViewOrder />} />
+                 <Route path="add-category" element={<AddCategory />} />
+                
           </Route>
         </Routes>
       </Router>
