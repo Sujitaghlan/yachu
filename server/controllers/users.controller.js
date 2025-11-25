@@ -3,7 +3,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
 //const admin = require("../config/firebaseAdmin");
-const { uploadBufferToCloudinary } = require("../utils/uploadBufferToCloudinary");
+const {
+  uploadBufferToCloudinary,
+} = require("../utils/uploadBufferToCloudinary");
 const axios = require("axios");
 const { sendOTPEmail } = require("../utils/nodemailer");
 const saltRounds = 10;
@@ -31,13 +33,11 @@ const register = async (req, res) => {
     let imageUrl = null;
     let imagePublicId = null;
 
-    if (!req.file) {
-      return res.status(400).json({ message: "Image file is required" });
+    if (req.file) {
+      const result = await uploadBufferToCloudinary(req.file.buffer, "users");
+      imageUrl = result.url;
+      imagePublicId = result.publicId;
     }
-
-    const result = await uploadBufferToCloudinary(req.file.buffer, "users");
-    imageUrl = result.url;
-    imagePublicId = result.publicId;
 
     const user = await User.create({
       name,
@@ -113,7 +113,7 @@ const login = async (req, res) => {
       user: {
         id: existingUser._id,
         email: existingUser.email,
-        isAdmin: existingUser.isAdmin
+        isAdmin: existingUser.isAdmin,
       },
     });
   } catch (err) {
@@ -221,7 +221,7 @@ const googleLogin = async (req, res) => {
         imagePublicId,
       });
     } else if (!user.imageUrl) {
-      user.imageUrl= imageUrl;
+      user.imageUrl = imageUrl;
       user.imagePublicId = imagePublicId;
       await user.save();
     }
