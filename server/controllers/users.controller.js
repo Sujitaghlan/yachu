@@ -10,9 +10,9 @@ const saltRounds = 10;
 
 const register = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
 
-    if (!email || !password) {
+    if (!name || !email || !password) {
       return res
         .status(400)
         .json({ message: "Please provide email and password" });
@@ -40,6 +40,7 @@ const register = async (req, res) => {
     imagePublicId = result.publicId;
 
     const user = await User.create({
+      name,
       email,
       password: hashedPassword,
       imageUrl,
@@ -50,6 +51,7 @@ const register = async (req, res) => {
       message: "User registered successfully",
       user: {
         id: user._id,
+        name: user.name,
         email: user.email,
         imageUrl,
       },

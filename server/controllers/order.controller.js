@@ -44,7 +44,7 @@ const createOrder = async (req, res) => {
       });
     }
 
-    totalAmount += deliveryCharge;
+    totalAmount += Number(deliveryCharge);
 
     const order = await Order.create({
       fullName,
