@@ -14,8 +14,8 @@ const productRouter = express.Router();
 
 productRouter.post(
   "/products",
-  // verifyToken,
-  // verifyAdmin,
+  verifyToken,
+  verifyAdmin,
   upload.single("image"),
   addProduct
 );
@@ -26,6 +26,7 @@ productRouter.put(
   upload.single("image"),
   editProduct
 );
-productRouter.delete("/products/:id", removeProduct);
+productRouter.delete("/products/:id",  verifyToken,
+  verifyAdmin, removeProduct);
 
 module.exports = { productRouter };
