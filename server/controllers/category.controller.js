@@ -58,6 +58,4 @@ const updateCategory = async (req, res) => {
   }
 }
 
-
-
 module.exports = {createCategory, getAllCategories, deleteCategory, updateCategory};
