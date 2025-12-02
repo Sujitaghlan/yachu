@@ -17,14 +17,38 @@ export default function ProductDetails() {
     );
   }
 
-  const { id, title, description, size, price, productImg } = state;
+  const { id, title, description, size, price, productImg, discount } = state;
 
+  // Find cart item
   const cartItem = cartItems.find((item) => item.id === id);
   const quantity = cartItem ? cartItem.qty : 0;
+  const cartItemId = cartItem?.cartItemId;
 
-  const handleAddToCart = () => addToCart({ id, title, size, price, productImg }, 1);
-  const handleIncrease = () => updateQuantity(id, "inc");
-  const handleDecrease = () => updateQuantity(id, "dec");
+  // Calculate discounted price
+  const numericPrice = Number(price.toString().replace(/\D/g, ""));
+  const discountedPrice = discount
+    ? Math.round(numericPrice - (numericPrice * discount) / 100)
+    : numericPrice;
+
+  const handleAddToCart = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
+
+    if (!user || !token) {
+      navigate("/login");
+      return;
+    }
+
+    addToCart({
+      id,
+      title,
+      price: discountedPrice,
+      productImg,
+    });
+  };
+
+  const handleIncrease = () => updateQuantity(cartItemId, "inc");
+  const handleDecrease = () => updateQuantity(cartItemId, "dec");
 
   const handleBack = () => {
     if (window.history.state && window.history.state.idx > 0) {
@@ -64,10 +88,18 @@ export default function ProductDetails() {
           </h1>
 
           <p className="text-tertiary text-paragraph mt-1 text-left ml-4">{size}</p>
+
           <div className="flex gap-2">
-            <p className="text-[20px] font-semibold text-gray-900 mt-2 text-left ml-4">
-              {price}
-            </p>
+            {discount ? (
+              <p className="text-[20px] font-semibold text-gray-900 mt-2 text-left ml-4">
+                <span className="line-through text-gray-400 mr-2">Rs. {numericPrice}</span>
+                <span className="text-primary">Rs. {discountedPrice}</span>
+              </p>
+            ) : (
+              <p className="text-[20px] font-semibold text-gray-900 mt-2 text-left ml-4">
+                Rs. {numericPrice}
+              </p>
+            )}
             <p className="text-[12px] text-secondary mt-4 text-left">
               inclusive of all taxes
             </p>

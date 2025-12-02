@@ -1,24 +1,28 @@
 import React from "react";
+import { FaUserCircle } from "react-icons/fa";
 
-export default function CommentCard() {
+export default function CommentCard({ text, username, avatar, timestamp }) {
   return (
     <div className="w-[48%] bg-white shadow-md rounded-2xl p-4 flex gap-3">
-      <img
-        src="https://i.pravatar.cc/100"
-        alt="user"
-        className="w-12 h-12 rounded-full object-cover"
-      />
+      {avatar ? (
+        <img
+          src={avatar}
+          alt={username || "user"}
+          className="w-12 h-12 rounded-full object-cover"
+        />
+      ) : (
+        <FaUserCircle className="w-12 h-12 text-gray-400" />
+      )}
 
       <div className="flex-1">
         <h3 className="font-semibold text-h3 font-headline text-black">
-          Parma Lama
+          {username || "Anonymous"}
         </h3>
-        <p className="text-[10px] text-black leading-tight">4 minutes ago</p>
-
-        <p className="text-[12px] mt-1 text-black leading-snug">
-          After using Yachu Hair oil, thickness of my hair has increased
-          significantly. Best oil for your hair regrowth.
+        <p className="text-[10px] text-black leading-tight">
+          {timestamp ? new Date(timestamp).toLocaleString() : "Just now"}
         </p>
+
+        <p className="text-[12px] mt-1 text-black leading-snug">{text}</p>
       </div>
     </div>
   );

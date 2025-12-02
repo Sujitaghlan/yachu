@@ -1,6 +1,11 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation, Outlet } from "react-router-dom";
+import React, { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  Outlet,
+} from "react-router-dom";
 import { CartProvider } from "./context/CartContext";
 import "./App.css";
 
@@ -24,123 +29,134 @@ import Ingredients from "./component/Ingredients";
 import Gallery from "./component/Gallery";
 import Login from "./component/Login";
 import Signup from "./component/Signup";
+import Footer from "./component/Footer.jsx";
 
 // Admin Components
 import AddProducts from "./admin/component/AddProducts";
 import AdProductForm from "./admin/component/AdProductForm";
 import Dashboard from "./admin/component/Dashboard";
-
-// Admin Layout
 import AdminLayout from "./admin/layout/AdminLayout";
 import ListProducts from "./admin/component/ListProducts";
 import CategoryList from "./admin/component/CategoryList";
 import OrderManagement from "./admin/component/OrderManagement";
 import ViewOrder from "./admin/component/ViewOrder";
 import AddCategory from "./admin/component/AddCategory";
+import AdList from "./admin/component/AdList";
+import GalleryList from "./admin/component/GalleryList";
+import AddGallery from "./admin/component/AddImages";
 
-// -------------------- Animated Section Wrapper --------------------
-const AnimatedSection = ({ children, delay = 0 }) => {
-  const sectionRef = useRef(null);
+import ProtectedRoute from "./utils/ProtectedRoute.jsx";
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("opacity-100", "translate-y-0");
-            entry.target.classList.remove("opacity-0", "translate-y-6");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
-
-    return () => {
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
-    };
-  }, []);
-
-  return (
-    <section
-      ref={sectionRef}
-      className="section opacity-0 translate-y-6 transition-all duration-500 ease-out"
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      {children}
-    </section>
-  );
-};
-
-// -------------------- Public Layout --------------------
-const PublicLayout = () => {
+// -------------------- PUBLIC LAYOUT --------------------
+const PublicLayout = ({ onSearch }) => {
   const location = useLocation();
   const [isCartOpen, setCartOpen] = useState(false);
 
-  const openCart = () => setCartOpen(true);
-  const closeCart = () => setCartOpen(false);
-
-  const hideNav = location.pathname === "/login" || location.pathname === "/signup";
+  const hideNav =
+    location.pathname === "/login" || location.pathname === "/signup";
 
   return (
     <>
-      {!hideNav && <NavBar onCartClick={openCart} />}
-      {!hideNav && isCartOpen && <Cart onClose={closeCart} />}
-      <main className="pt-20 overflow-x-hidden">
-        <Outlet />
+      {!hideNav && (
+        <NavBar onCartClick={() => setCartOpen(true)} onSearch={onSearch} />
+      )}
+      {!hideNav && isCartOpen && <Cart onClose={() => setCartOpen(false)} />}
+
+      <main className="pt-20 pb-32 overflow-x-hidden">
+        <div className="page-container">
+          <Outlet />
+        </div>
       </main>
+
+      {!hideNav && <Footer />}
     </>
   );
 };
 
-// -------------------- App Component --------------------
+// -------------------- APP COMPONENT --------------------
 function App() {
+  const [search, setSearch] = useState("");
+
   return (
     <CartProvider>
       <Router>
         <Routes>
-          {/* ---------------- Public Layout ---------------- */}
-          <Route element={<PublicLayout />}>
+          {/* ---------- PUBLIC CLIENT SIDE ---------- */}
+          <Route element={<PublicLayout onSearch={setSearch} />}>
             <Route
               path="/"
               element={
                 <>
-                  <AnimatedSection delay={0}><HomePage /></AnimatedSection>
-                  <AnimatedSection delay={100}><DiscountBanner /></AnimatedSection>
-                  <AnimatedSection delay={200}><BestSellers /></AnimatedSection>
-                  <AnimatedSection delay={300}><ShareCard /></AnimatedSection>
-                  <AnimatedSection delay={400}><OurProducts /></AnimatedSection>
-                  <AnimatedSection delay={500}><HowToUse /></AnimatedSection>
-                  <AnimatedSection delay={600}><CommentsAndReviews /></AnimatedSection>
-                  <AnimatedSection delay={700}><ContactUs /></AnimatedSection>
-                  <AnimatedSection delay={800}><AdditionalInfo /></AnimatedSection>
+                  <div className="section">
+                    <HomePage search={search} />
+                  </div>
+
+                  <div className="section">
+                    <DiscountBanner />
+                  </div>
+
+                  <div className="section">
+                    <BestSellers search={search} />
+                  </div>
+
+                  <div className="section">
+                    <ShareCard />
+                  </div>
+
+                  <div className="section">
+                    <OurProducts search={search} />
+                  </div>
+
+                  <div className="section">
+                    <HowToUse />
+                  </div>
+
+                  <div className="section">
+                    <CommentsAndReviews />
+                  </div>
+
+                  <div className="section">
+                    <ContactUs />
+                  </div>
+
+                  <div className="section">
+                    <AdditionalInfo />
+                  </div>
                 </>
               }
             />
+
             <Route path="/product-view" element={<ProductView />} />
             <Route path="/product-details" element={<ProductDetails />} />
             <Route path="/payment" element={<PaymentDetails />} />
+            <Route path="/billing" element={<BillingForm />} />
             <Route path="/ingredients" element={<Ingredients />} />
             <Route path="/gallery" element={<Gallery />} />
-            <Route path="/billing" element={<BillingForm />} />
           </Route>
 
-          {/* ---------------- Auth Pages (no navbar) ---------------- */}
+          {/* ---------- AUTH ---------- */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
 
-          {/* ---------------- Admin Layout ---------------- */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="add-products" element={<AddProducts />} />
-            <Route path="ad-products" element={<AdProductForm />} />
-             <Route path="list-products" element={<ListProducts />} />
+          {/* ---------- ADMIN ONLY ---------- */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="add-products" element={<AddProducts />} />
+              <Route path="add-products/:id" element={<AddProducts />} />
+              <Route path="ad-products" element={<AdProductForm />} />
+              <Route path="list-products" element={<ListProducts />} />
               <Route path="category" element={<CategoryList />} />
               <Route path="order" element={<OrderManagement />} />
-                <Route path="order/:id" element={<ViewOrder />} />
-                 <Route path="add-category" element={<AddCategory />} />
-                
+              <Route path="order/:id" element={<ViewOrder />} />
+              <Route path="add-category" element={<AddCategory />} />
+              <Route path="ad-list" element={<AdList />} />
+              <Route path="ad-form" element={<AdProductForm />} />
+              <Route path="ad-form/:id" element={<AdProductForm />} />
+              <Route path="list-gallery" element={<GalleryList />} />
+              <Route path="add-images" element={<AddGallery />} />
+              <Route path="add-images/:id" element={<AddGallery />} />
+            </Route>
           </Route>
         </Routes>
       </Router>

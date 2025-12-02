@@ -1,31 +1,38 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import CommentCard from "../utils/CommentCard";
 import AddYourComment from "../utils/AddYourComment";
 import Button from "../utils/Button";
+import { getReviews } from "../api/reviewApi";
 
 export default function CommentsAndReviews() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("new");
   const [toggle, setToggle] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const commentList = [
-    { id: 1, text: "This is the first comment" },
-    { id: 2, text: "Here is another comment" },
-    { id: 3, text: "Yet another comment appears" },
-    { id: 4, text: "Fourth comment is here" },
-    { id: 5, text: "Fifth comment example" },
-  ];
+  const [commentList, setCommentList] = useState([]);
 
   useEffect(() => {
-    if (!toggle) return;
+    loadReviews();
+  }, []);
 
+  const loadReviews = async () => {
+    try {
+      const data = await getReviews();
+      setCommentList(data || []);
+    } catch (error) {
+      console.error("Failed to load reviews", error);
+      setCommentList([]);
+    }
+  };
+
+  useEffect(() => {
+    if (!toggle || commentList.length === 0) return;
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % commentList.length);
     }, 3000);
-
     return () => clearInterval(interval);
-  }, [toggle]);
+  }, [toggle, commentList]);
 
   const getTwoComments = () => {
     const first = commentList[currentIndex];
@@ -34,6 +41,10 @@ export default function CommentsAndReviews() {
   };
 
   const commentsToDisplay = toggle ? getTwoComments() : commentList.slice(0, 2);
+
+  const handleNewReview = (newReview) => {
+    setCommentList((prev) => [newReview, ...prev]);
+  };
 
   return (
     <div className="w-full px-6 md:px-32 lg:px-40 xl:px-48 2xl:px-64 py-6 bg-white rounded-3xl shadow-sm">
@@ -84,13 +95,32 @@ export default function CommentsAndReviews() {
 
       {/* Comments */}
       <div className="flex justify-between gap-3 mb-6 min-h-[150px]">
-        {commentsToDisplay.map((comment) => (
-          <CommentCard key={comment.id} text={comment.text} />
-        ))}
+        {commentsToDisplay.length > 0 ? (
+          commentsToDisplay.map((comment) => (
+            <CommentCard
+              key={comment._id || comment.id}
+              text={comment.description || comment.text}
+              username={comment.user?.name || "Anonymous"}
+              avatar={comment.user?.profileImage}
+              timestamp={comment.createdAt}
+            />
+          ))
+        ) : (
+          <p className="text-gray-500 italic">No comments found</p>
+        )}
       </div>
 
       {/* Add Comment Form */}
-      <AddYourComment />
+      <AddYourComment
+        onNewReview={(review) => {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            navigate("/login");
+            return;
+          }
+          handleNewReview(review);
+        }}
+      />
     </div>
   );
 }

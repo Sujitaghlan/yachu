@@ -1,14 +1,35 @@
 import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { getCategories, deleteCategory } from "../../api/categoryApi";
 
 function CategoryList() {
   const navigate = useNavigate();
 
-  const categories = [
-    "Hair Oil",
-    "Sachet Oil",
-    "Sachet Shampoo",
-    "Bottle Shampoo",
-  ];
+  const [categories, setCategories] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const data = await getCategories();
+      setCategories(data.categories || []);
+    } catch (err) {
+      console.error("Failed to load categories:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleDelete = async (id) => {
+    if (!confirm("Are you sure you want to delete this category?")) return;
+
+    try {
+      await deleteCategory(id);
+      fetchData(); // refresh list
+    } catch (err) {
+      alert(err.message || "Failed to delete category");
+    }
+  };
 
   return (
     <div className="min-h-screen w-full flex justify-center p-4 sm:p-6">
@@ -43,28 +64,41 @@ function CategoryList() {
             </thead>
 
             <tbody>
-              {categories.map((cat, i) => (
+              {categories.map((cat) => (
                 <tr
-                  key={i}
+                  key={cat._id}
                   className="border-b border-gray-200 last:border-none shadow-md hover:shadow-xl transition-shadow duration-300 rounded"
                 >
                   <td className="px-2 py-3 text-gray-800 text-sm sm:text-base">
-                    {cat}
+                    {cat.name}
                   </td>
 
                   <td className="px-2 py-3">
                     <div className="flex gap-2">
-                      <button className="bg-icon text-white text-xs py-1 px-3 rounded hover:bg-green-800 transition">
+
+                      {/* EDIT BUTTON */}
+                      <button
+                        onClick={() =>
+                          navigate("/admin/add-category", { state: cat })
+                        }
+                        className="bg-icon text-white text-xs py-1 px-3 rounded hover:bg-green-800 transition"
+                      >
                         Edit
                       </button>
 
-                      <button className="bg-red-600 text-white text-xs py-1 px-3 rounded hover:bg-red-700 transition">
+                      {/* DELETE BUTTON */}
+                      <button
+                        onClick={() => handleDelete(cat._id)}
+                        className="bg-red-600 text-white text-xs py-1 px-3 rounded hover:bg-red-700 transition"
+                      >
                         Delete
                       </button>
+
                     </div>
                   </td>
                 </tr>
               ))}
+
             </tbody>
           </table>
         </div>

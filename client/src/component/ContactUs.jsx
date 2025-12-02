@@ -1,22 +1,60 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; 
 import { FaPhone, FaMapMarkerAlt, FaClock, FaEnvelope, FaUser, FaComment } from "react-icons/fa";
 import Input from "../utils/Input";
 import Button from "../utils/Button";
+import { sendEmail } from "../api/mailApi";
 
 function ContactUs() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [agree, setAgree] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ email, name, message, agree });
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return navigate("/login");
+    }
+
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      return alert("Please fill all fields");
+    }
+    if (!agree) {
+      return alert("You must agree to receive commercial information");
+    }
+
+    try {
+      setLoading(true);
+      const res = await sendEmail({
+        to: email,
+        subject: `Message from ${name}`,
+        html: `<p>${message}</p>`,
+      });
+
+      if (res.success) {
+        alert(res.msg);
+        setName("");
+        setEmail("");
+        setMessage("");
+        setAgree(false);
+      } else {
+        alert(res.msg || "Failed to send email");
+      }
+    } catch (error) {
+      console.error(error);
+      alert(error.msg || "Failed to send email");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="flex flex-col items-center px-6 md:px-32 py-6 min-h-screen">
-      {/* Heading */}
       <h2 className="font-headline text-h1 mb-12 text-primary text-center">
         Contact Us
       </h2>
@@ -63,7 +101,6 @@ function ContactUs() {
           Get in touch today — we’re just a message away!
         </p>
 
-        {/* Name & Email side by side on desktop */}
         <div className="flex flex-col md:flex-row gap-4">
           <Input
             type="text"
@@ -87,7 +124,6 @@ function ContactUs() {
           />
         </div>
 
-        {/* Message */}
         <Input
           type="text"
           placeholder="Enter Your Message"
@@ -116,8 +152,9 @@ function ContactUs() {
           textColor="#FFFFFF"
           padding="14px 20px"
           borderRadius="30px"
+          disabled={loading}
         >
-          Submit
+          {loading ? "Submitting..." : "Submit"}
         </Button>
       </form>
     </div>

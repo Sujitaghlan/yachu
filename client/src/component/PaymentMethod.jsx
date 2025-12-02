@@ -1,9 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdOutlineDriveFolderUpload } from "react-icons/md";
 import qrImg from "../assets/Qr.jpg";
 
-function PaymentMethod() {
+function PaymentMethod({ onPaymentChange }) {
   const [selectedMethod, setSelectedMethod] = useState("cod");
+  const [paymentImage, setPaymentImage] = useState(null);
+
+  // Notify parent whenever method or image changes
+  useEffect(() => {
+    onPaymentChange(selectedMethod, paymentImage);
+  }, [selectedMethod, paymentImage, onPaymentChange]);
+
+  const handleMethodChange = (method) => {
+    setSelectedMethod(method);
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setPaymentImage(file);
+  };
 
   return (
     <div className="border rounded-md p-4 bg-white mt-4 font-paragraph text-sm shadow-sm">
@@ -13,8 +28,9 @@ function PaymentMethod() {
         <label className="flex items-center gap-2 cursor-pointer">
           <input
             type="radio"
+            name="payment"
             checked={selectedMethod === "cod"}
-            onChange={() => setSelectedMethod("cod")}
+            onChange={() => handleMethodChange("cod")}
             className="accent-primary"
           />
           <span className="font-medium">Cash on Delivery</span>
@@ -23,8 +39,9 @@ function PaymentMethod() {
         <label className="flex items-center gap-2 border-t pt-3 cursor-pointer">
           <input
             type="radio"
+            name="payment"
             checked={selectedMethod === "esewa"}
-            onChange={() => setSelectedMethod("esewa")}
+            onChange={() => handleMethodChange("esewa")}
             className="accent-primary"
           />
           <span className="font-medium">eSewa</span>
@@ -43,13 +60,23 @@ function PaymentMethod() {
           <p className="font-medium mb-2">Upload Payment Screenshot</p>
 
           <label className="block w-full border border-dashed rounded-md p-6 cursor-pointer hover:bg-secondary transition">
-            <input type="file" className="hidden" />
+            <input
+              type="file"
+              className="hidden"
+              onChange={handleImageChange}
+              accept="image/*"
+            />
             <div className="flex flex-col items-center">
               <MdOutlineDriveFolderUpload className="text-4xl text-primary" />
               <p className="text-sm mt-2">
                 Drop your image here, or{" "}
                 <span className="text-info font-medium">browse</span>
               </p>
+              {paymentImage && (
+                <p className="text-xs mt-1 text-green-600 font-semibold">
+                  {paymentImage.name}
+                </p>
+              )}
             </div>
           </label>
         </div>

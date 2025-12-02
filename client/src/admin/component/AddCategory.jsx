@@ -1,11 +1,14 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormField from "../../utils/FormField";
-
+import { createCategory, updateCategory } from "../../api/categoryApi";
 
 function AddCategory() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const editData = location.state;
 
   const [formData, setFormData] = useState({
     category: "",
@@ -16,35 +19,56 @@ function AddCategory() {
     category: "",
   });
 
+  useEffect(() => {
+    if (editData) {
+      setFormData({
+        category: editData.name,
+        description: editData.description,
+      });
+    }
+  }, [editData]);
+
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
 
-    // Clear error on change
     setErrors((prev) => ({
       ...prev,
       [e.target.name]: "",
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Simple validation example
     if (!formData.category.trim()) {
       setErrors({ category: "Category is required" });
       return;
     }
 
-    // Submit logic here
-    alert(`Submitted category: ${formData.category}\nDescription: ${formData.description}`);
+    try {
+      if (editData) {
+        // UPDATE MODE
+        await updateCategory(editData._id, formData);
+        alert("Category updated successfully!");
+      } else {
+        // CREATE MODE
+        await createCategory(formData);
+        alert("Category created successfully!");
+      }
+
+      navigate("/admin/category");
+    } catch (err) {
+      alert(err.message || "Something went wrong");
+    }
   };
 
   return (
     <div className="min-h-screen bg-white px-4 py-5 font-paragraph flex justify-center items-start md:items-center">
       <div className="w-full max-w-md md:max-w-lg lg:max-w-xl p-6 md:p-10 shadow-md rounded-md">
+
         {/* Header */}
         <div className="flex items-center mb-10">
           <button
@@ -82,7 +106,7 @@ function AddCategory() {
             type="submit"
             className="w-full bg-primary text-white font-semibold py-3 md:py-4 rounded text-base md:text-lg hover:bg-blue-700 transition mt-10"
           >
-            Submit
+            {editData ? "Update" : "Submit"}
           </button>
         </form>
       </div>
