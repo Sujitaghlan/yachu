@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ProductDetails from "./ProductDetails";
 import ResultPage from "./ResultPage";
 import CommentsAndReviews from "./CommentsAndReviews";
@@ -8,6 +8,12 @@ import RelatedProducts from "./RelatedProducts";
 
 function ProductView() {
   const { state: productData } = useLocation();
+  const navigate = useNavigate();
+
+  if (!productData) {
+    navigate("/"); 
+    return null;
+  }
 
   return (
     <div className="w-full">

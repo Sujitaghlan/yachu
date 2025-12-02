@@ -1,50 +1,55 @@
-import React from "react";
-import discountImage from "../assets/oil.png";
-import Button from "../utils/Button";
+import React, { useEffect, useState } from "react";
+import StaticAdCard from "./StaticAdCard";
+import DynamicAdCard from "./DynamicAdCard";
+import { getAllAds } from "../api/adApi";
 
 export default function DiscountBanner() {
+  const [ads, setAds] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Fetch dynamic ads
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const res = await getAllAds();
+        if (res.success && res.ads.length > 0) {
+          const dynamicAds = res.ads.map(a => ({
+            productName: a.productId.productName.replace(/"/g, ""),
+            productPrice: a.productPrice,
+            discountPercent: a.discountPercent,
+            discountedPrice: a.discountedPrice,
+            adContent: a.adContent,
+            netContent: a.productId.netContent,
+            imageUrl: a.productId.imageUrl,
+          }));
+          setAds(dynamicAds);
+        }
+      } catch (err) {
+        console.error("Error fetching ads:", err);
+      }
+    };
+
+    fetchAds();
+  }, []);
+
+  // Ads list: static + dynamic
+  const adsToDisplay = [null, ...ads]; 
+  // Auto-rotate every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex(prev => (prev + 1) % adsToDisplay.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [adsToDisplay.length]);
+
   return (
-    <div className="w-full max-w-[500px] bg-gradient-to-r from-primary to-info p-6 rounded-lg text-white font-paragraph relative flex items-center gap-1 md:flex-row md:max-w-[1000px] md:justify-between mx-auto animate-slide-in-left">
-
-      {/* Left text section */}
-      <div className="flex flex-col flex-1 text-left animate-fade-in-up">
-        <h1 className="text-heading font-headline font-bold mb-2 md:text-[55px]">
-          Get <span className="text-green">10%</span>
-        </h1>
-        <p className="text-h2 font-paragraph mb-1 md:text-[20px] md:leading-snug">
-          discount <br />
-          when you purchase <br />
-          <span className="text-tertiary text-xs md:text-sm font-normal">
-            3 bottles
-          </span>
-        </p>
-        <p className="font-headline text-h3 mt-1 md:text-[14px]">Of Yachu Hair oil</p>
-
-        <Button
-          className="mt-4 text-center text-sm md:text-lg leading-[30px] md:leading-[40px] hover:bg-green/90 animate-pulse-slow"
-          background="#00FF00"
-          textColor="#013067" 
-          width="140px"
-          padding="10px 0"
-          borderRadius="8px"
-        >
-          Shop Now
-        </Button>
-      </div>
-
-      {/* Right image and discount badge */}
-      <div className="relative w-[160px] h-[220px] flex flex-col items-center justify-center border border-white rounded-md md:w-[300px] md:h-[400px] animate-fade-in-down">
-        <img
-          src={discountImage}
-          alt="Yachu Hair oil"
-          className="object-contain w-[200px] h-[220px] sm:w-[80px] sm:h-[96px] md:w-[280px] md:h-[380px]"
-        />
-        {/* Badge on the left side */}
-        <div className="absolute top-0 left-0 bg-white text-primary font-bold text-xs md:text-lg px-3 py-1 md:px-4 md:py-2 rounded-sm border border-primary select-none animate-bounce-slow">
-          10% OFF
-        </div>
-      </div>
-
+    <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 py-4">
+      {adsToDisplay[currentIndex] === null ? (
+        <StaticAdCard />
+      ) : (
+        <DynamicAdCard ad={adsToDisplay[currentIndex]} />
+      )}
     </div>
   );
 }

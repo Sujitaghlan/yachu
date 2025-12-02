@@ -1,47 +1,51 @@
 import React, { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import productImg1 from "../assets/oil.png";
-import productImg2 from "../assets/sachet_shampoo-removebg-preview - Copy.png";
-import productImg3 from "../assets/product.png";
-
-const images = [productImg1, productImg2, productImg3];
+import { getAllProducts } from "../api/productApi";
 
 export default function MobileHero() {
   const [current, setCurrent] = useState(0);
+  const [products, setProducts] = useState([]);
 
-  // Auto-change images every 3 seconds
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(interval);
+    const fetchProducts = async () => {
+      const res = await getAllProducts();
+      setProducts(res.data);
+    };
+    fetchProducts();
   }, []);
 
-  // Go to previous image
+  useEffect(() => {
+    if (products.length === 0) return;
+
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % products.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [products]);
+
   const prevImage = () => {
-    setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    setCurrent((prev) => (prev === 0 ? products.length - 1 : prev - 1));
   };
 
-  // Go to next image
   const nextImage = () => {
-    setCurrent((prev) => (prev + 1) % images.length);
+    setCurrent((prev) => (prev + 1) % products.length);
   };
 
   return (
-    <div className="w-full bg-white pt-0 pb-4 px-3 sm:px-6 md:px-24 lg:px-32 xl:px-44">
+    <div className="w-full bg-white pt-0 pb-4 px-3 sm:px-6 md:px-8 lg:px-16 xl:px-20 2xl:px-24">
       <div className="flex flex-row flex-wrap items-start justify-between w-full md:items-center md:justify-between">
-
-        {/* LEFT CONTENT */}
+        
+        {/* Text Content Section */}
         <div className="w-1/2 sm:w-full pt-12 md:pt-0 md:w-[45%]">
           <h2 className="text-h1 md:text-heading font-headline text-primary leading-snug">
-            Dandruff Case
+            {products[current]?.productName || "Loading..."}
           </h2>
           <p className="text-paragraph md:text-[20px] text-tertiary leading-[30px] mt-1 md:mt-4 font-paragraph">
-            यसको प्रयोगले कपालबाट चाँहाँ हटाउँछ र <br />
-            कपाल झर्न रोक्नुकासाथै नयाँँ कपाल <br />
-            उमाँर्छ
+            यसको प्रयोगले कपालबाट चाँहाँ हटाउँछ <br />
+            कपाल झर्न रोक्छ र नयाँँ कपाल उमर्छ
           </p>
-          {/* BUTTONS */}
+
           <div className="flex flex-wrap gap-2 md:gap-5 mt-3 md:mt-8">
             <button className="bg-primary text-white font-semibold text-paragraph md:text-[18px] px-4 py-2 md:px-8 md:py-3 rounded-full hover:scale-105 transition-transform duration-300">
               Buy Now
@@ -52,54 +56,52 @@ export default function MobileHero() {
           </div>
         </div>
 
-        {/* RIGHT IMAGE + ARROWS */}
+        {/* Image Carousel Section */}
         <div className="w-1/2 sm:w-full flex flex-col items-center md:w-[45%] md:items-center relative mt-6 sm:mt-8 md:mt-0">
-
-          {/* PRODUCT IMAGE */}
           <div className="relative w-full flex justify-center items-center md:h-[400px]">
-            {images.map((img, index) => (
+            {products.map((product, index) => (
               <img
                 key={index}
-                src={img}
+                src={product.imageUrl || product.image}
                 alt={`product-${index}`}
                 className={`
                   object-contain drop-shadow-xl
                   w-[150px] sm:w-[180px] md:w-[360px] lg:w-[420px] xl:w-[480px]
                   transition-opacity duration-500
-                  ${index === current ? "opacity-100 z-10 relative" : "opacity-0 z-0 absolute md:absolute"}
+                  ${index === current ? "opacity-100 z-10 relative" : "opacity-0 z-0 absolute"}
                 `}
                 style={{ maxHeight: "400px" }}
               />
             ))}
           </div>
 
-          {/* DESKTOP ARROWS */}
+          {/* Desktop Navigation Buttons */}
           <div className="hidden md:flex gap-6 mt-10 lg:gap-8">
-            <button
-              onClick={prevImage}
-              className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center shadow-lg hover:bg-[#002244] transition"
+            <button 
+              onClick={prevImage} 
+              className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center shadow-lg hover:bg-[#002244] transition-colors duration-300"
             >
               <FaChevronLeft className="text-white text-2xl" />
             </button>
-            <button
-              onClick={nextImage}
-              className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center shadow-lg hover:bg-[#002244] transition"
+            <button 
+              onClick={nextImage} 
+              className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center shadow-lg hover:bg-[#002244] transition-colors duration-300"
             >
               <FaChevronRight className="text-white text-2xl" />
             </button>
           </div>
 
-          {/* MOBILE ARROWS */}
+          {/* Mobile Navigation Buttons */}
           <div className="flex gap-2 mt-2 md:hidden">
-            <button
-              onClick={prevImage}
-              className="w-8 h-8 bg-primary rounded-md flex items-center justify-center"
+            <button 
+              onClick={prevImage} 
+              className="w-8 h-8 bg-primary rounded-md flex items-center justify-center hover:bg-[#002244] transition-colors duration-300"
             >
               <FaChevronLeft className="text-white text-sm" />
             </button>
-            <button
-              onClick={nextImage}
-              className="w-8 h-8 bg-primary rounded-md flex items-center justify-center"
+            <button 
+              onClick={nextImage} 
+              className="w-8 h-8 bg-primary rounded-md flex items-center justify-center hover:bg-[#002244] transition-colors duration-300"
             >
               <FaChevronRight className="text-white text-sm" />
             </button>
