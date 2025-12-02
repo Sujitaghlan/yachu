@@ -7,7 +7,7 @@ const userRouter = express.Router();
 userRouter.post("/register", upload.single("image"), register);
 userRouter.post("/login", login);
 userRouter.post("/refresh", refresh);
-userRouter.post("/google", googleLogin);
+userRouter.post("/google-login", googleLogin);
 userRouter.post("/logout", logout);
 userRouter.post("/forgotPassword", forgotPassword);
 userRouter.post("/verifyOTP", verifyOTP);

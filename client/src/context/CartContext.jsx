@@ -30,7 +30,7 @@ export const CartProvider = ({ children }) => {
         })
         .catch(() => setCartItems([]));
     }
-  }, [user, token]);
+  }, [user?.id, token]);
 
   // Add product to cart
   const addToCart = async (product, qty = 1) => {

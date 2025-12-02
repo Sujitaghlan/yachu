@@ -23,3 +23,13 @@ export const loginUser = async (userData) => {
     throw error.response?.data || error;
   }
 };
+
+export const googleLogin = async (idToken) => {
+  try {
+    const res = await API.post("/google-login", { idToken }, { withCredentials: true }); 
+    return res.data;
+  } catch (error) {
+    console.error("Google login error:", error);
+    throw error.response?.data || error;
+  }
+};

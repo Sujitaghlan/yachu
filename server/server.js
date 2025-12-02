@@ -3,10 +3,15 @@ const express = require("express");
 const { connectDb } = require("./config/connection");
 const cors = require("cors");
 const { router } = require("./routes");
-const cookieparser = require('cookie-parser');
+const cookieparser = require("cookie-parser");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieparser());
 

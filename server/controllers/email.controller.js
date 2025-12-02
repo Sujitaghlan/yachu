@@ -9,20 +9,21 @@ const transporter = nodemailer.createTransport({
 });
 const sendEmail = async (req, res) => {
   try {
-    const { to, subject, message, html } = req.body;
+    const { email, name, subject, message, html } = req.body;
 
-    if (!to || !subject || (!message && !html)) {
+    if (!subject || (!message && !html)) {
       return res.status(400).json({
         success: false,
-        msg: "Missing required fields (to, subject, message/html)",
+        msg: "Missing required fields (from, subject, message/html)",
       });
     }
 
     await transporter.sendMail({
-      from: process.env.MAIL_USER,
-      to,
+      from: `"Enquiry from ${name}" <${process.env.MAIL_USER}>`,
+      to: process.env.MAIL_USER,
       subject,
       text: message,
+      replyTo: email,  
       html: html,
     });
 

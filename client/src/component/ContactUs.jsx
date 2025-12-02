@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; 
-import { FaPhone, FaMapMarkerAlt, FaClock, FaEnvelope, FaUser, FaComment } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import {
+  FaPhone,
+  FaMapMarkerAlt,
+  FaClock,
+  FaEnvelope,
+  FaUser,
+  FaComment,
+} from "react-icons/fa";
 import Input from "../utils/Input";
 import Button from "../utils/Button";
 import { sendEmail } from "../api/mailApi";
@@ -31,7 +38,8 @@ function ContactUs() {
     try {
       setLoading(true);
       const res = await sendEmail({
-        to: email,
+        email: email,
+        name: name,
         subject: `Message from ${name}`,
         html: `<p>${message}</p>`,
       });
@@ -61,19 +69,23 @@ function ContactUs() {
 
       {/* Contact Info */}
       <div className="flex flex-col md:flex-row gap-6 mb-12 w-full max-w-6xl">
-        {[{
-          icon: <FaPhone size={24} />,
-          title: "Phone Number",
-          lines: ["+977-01-5927179", "+977-9808731770"],
-        },{
-          icon: <FaMapMarkerAlt size={24} />,
-          title: "Our Office Location",
-          lines: ["Baneshwor, Kathmandu"],
-        },{
-          icon: <FaClock size={24} />,
-          title: "Business Hours",
-          lines: ["Sunday - Saturday: 10am-6pm"],
-        }].map((info, index) => (
+        {[
+          {
+            icon: <FaPhone size={24} />,
+            title: "Phone Number",
+            lines: ["+977-01-5927179", "+977-9808731770"],
+          },
+          {
+            icon: <FaMapMarkerAlt size={24} />,
+            title: "Our Office Location",
+            lines: ["Baneshwor, Kathmandu"],
+          },
+          {
+            icon: <FaClock size={24} />,
+            title: "Business Hours",
+            lines: ["Sunday - Saturday: 10am-6pm"],
+          },
+        ].map((info, index) => (
           <div
             key={index}
             className="flex items-start gap-4 bg-white p-6 rounded-2xl shadow-md flex-1"
@@ -82,9 +94,13 @@ function ContactUs() {
               {info.icon}
             </div>
             <div>
-              <h4 className="font-headline text-h2 text-primary mb-2">{info.title}</h4>
+              <h4 className="font-headline text-h2 text-primary mb-2">
+                {info.title}
+              </h4>
               {info.lines.map((line, i) => (
-                <p key={i} className="font-paragraph text-tertiary">{line}</p>
+                <p key={i} className="font-paragraph text-tertiary">
+                  {line}
+                </p>
               ))}
             </div>
           </div>
@@ -110,7 +126,7 @@ function ContactUs() {
             icon={<FaUser className="text-primary" />}
             borderColor="#003366"
             textColor="#003366"
-            className="flex-1 rounded-full" 
+            className="flex-1 rounded-full"
           />
           <Input
             type="email"
@@ -120,7 +136,7 @@ function ContactUs() {
             icon={<FaEnvelope className="text-primary" />}
             borderColor="#003366"
             textColor="#003366"
-            className="flex-1 rounded-full" 
+            className="flex-1 rounded-full"
           />
         </div>
 
@@ -132,7 +148,7 @@ function ContactUs() {
           icon={<FaComment className="text-primary" />}
           borderColor="#003366"
           textColor="#003366"
-          className="rounded-full" 
+          className="rounded-full"
         />
 
         <label className="flex items-center gap-2 text-sm font-paragraph text-tertiary">
