@@ -38,10 +38,11 @@ function OurProducts({ search }) {
   });
 
   return (
-    <div className="w-full flex flex-col items-center py-10">
-      <h2 className="text-3xl md:text-4xl font-bold mb-8 font-headline">Our Products</h2>
+    <div className="w-full py-10 bg-white">
+      <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center font-headline">Our Products</h2>
 
-      <div className="flex items-center gap-10 mb-10">
+      {/* Category filter icons with proper centering */}
+      <div className="flex justify-center items-center gap-6 md:gap-10 mb-10">
         <div
           className="flex flex-col items-center gap-1 cursor-pointer"
           onClick={() => setFilterCategory("oil")}
@@ -83,14 +84,17 @@ function OurProducts({ search }) {
         </div>
       </div>
 
-      <div className="w-full px-6 md:px-20 pb-6">
+      {/* Products container with same padding as NavBar */}
+      <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
         {filtered.length === 0 && (
           <p className="text-center text-gray-500 text-lg font-paragraph py-10">
             No products found.
           </p>
         )}
 
-        <div className="flex gap-6 overflow-x-auto scrollbar-hide md:grid md:grid-cols-3 md:gap-8 md:overflow-visible">
+        <div className="flex gap-4 overflow-x-auto scrollbar-hide 
+                       md:grid md:grid-cols-2 md:gap-6 
+                       lg:grid-cols-4 lg:gap-8 md:overflow-visible">
           {filtered.map((item) => (
             <ProductCard
               key={item._id}

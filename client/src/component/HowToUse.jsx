@@ -27,30 +27,36 @@ function HowToUse() {
   ];
 
   return (
-    <div className="max-w-md mx-auto p-5 text-primary font-paragraph md:max-w-5xl">
+    <div className="w-full py-10 bg-white">
       {/* Header */}
-      <h1 className="text-heading font-headline font-bold text-black mb-0 text-center">
-        How to Use
-      </h1>
-      <p className="font-headline text-h2 mb-8 text-tertiary text-center">
-        प्रयोग विधि
-      </p>
+      <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto mb-8">
+        <h1 className="text-heading font-headline font-bold text-black mb-0 text-center">
+          How to Use
+        </h1>
+        <p className="font-headline text-h1 mb-8 text-tertiary text-center">
+          प्रयोग विधि
+        </p>
+      </div>
 
       {/* Cards */}
-      <div className="space-y-6 mb-8 md:space-y-0 md:grid md:grid-cols-3 md:gap-6">
-        {cards.map((card, idx) => (
-          <HowToUseCard
-            key={idx}
-            icon={card.icon}
-            title={card.title}
-            textEN={card.textEN}
-            textNP={card.textNP}
-          />
-        ))}
+      <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto mb-10">
+        <div className="space-y-6 md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
+          {cards.map((card, idx) => (
+            <HowToUseCard
+              key={idx}
+              icon={card.icon}
+              title={card.title}
+              textEN={card.textEN}
+              textNP={card.textNP}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Video */}
-      <FactoryVideo videoId="BbU549WYbbI" />
+      <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
+        <FactoryVideo videoId="BbU549WYbbI" />
+      </div>
     </div>
   );
 }

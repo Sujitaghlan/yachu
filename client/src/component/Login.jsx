@@ -25,6 +25,7 @@ export default function Login() {
       if (res.accessToken && res.user) {
         localStorage.setItem("token", res.accessToken);
         localStorage.setItem("user", JSON.stringify(res.user));
+
         if (res.user.profileImage) {
           localStorage.setItem("profileImage", res.user.profileImage);
         } else {
@@ -36,12 +37,7 @@ export default function Login() {
           navigate("/admin");
         } else {
           alert("Login successful!");
-          // Navigate back safely, default to home if history is empty
-          if (window.history.length > 1) {
-            navigate(-1);
-          } else {
-            navigate("/");
-          }
+          navigate("/"); 
         }
       } else {
         alert("Login failed: invalid user data!");

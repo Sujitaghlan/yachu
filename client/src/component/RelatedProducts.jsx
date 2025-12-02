@@ -50,8 +50,11 @@ function RelatedProducts({ currentProduct }) {
     <div className="w-full py-6 bg-white">
       <h2 className="text-heading font-headline text-center mb-4">Related Products</h2>
 
-      <div className="px-4 md:pl-20 md:pr-12 pb-3">
-        <div className="flex gap-4 overflow-x-auto scrollbar-hide md:grid md:grid-cols-3 md:gap-6 md:overflow-visible">
+      {/* Updated: Same padding as NavBar */}
+      <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
+        <div className="flex gap-4 overflow-x-auto scrollbar-hide 
+                       md:grid md:grid-cols-2 md:gap-6 
+                       lg:grid-cols-4 lg:gap-8 md:overflow-visible">
           {relatedProducts.map((item) => (
             <ProductCard
               key={item._id}
