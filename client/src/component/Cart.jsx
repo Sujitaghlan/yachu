@@ -5,17 +5,20 @@ import { FaPlus, FaMinus, FaTimes, FaShoppingCart } from "react-icons/fa";
 import Button from "../utils/Button";
 
 function Cart({ onClose }) {
-  const { cartItems, updateQuantity, removeFromCart } = useCart();
+  const { cartItems, updateQuantity, removeFromCart, totalPrice, discount, finalTotal } = useCart();
   const navigate = useNavigate();
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + Number(item.price) * item.qty,
-    0
-  );
-
   const handleCheckout = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
+
+    if (!user || !token) {
+      navigate("/login");
+      return;
+    }
+
     onClose();
-    navigate("/billing", { state: { fromCart: true } }); 
+    navigate("/billing", { state: { fromCart: true } });
   };
 
   return (
@@ -24,14 +27,9 @@ function Cart({ onClose }) {
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-300">
         <div className="flex items-center gap-2">
           <FaShoppingCart className="text-xl text-primary" />
-          <h2 className="font-semibold text-sm tracking-wide text-primary">
-            SHOPPING CART
-          </h2>
+          <h2 className="font-semibold text-sm tracking-wide text-primary">SHOPPING CART</h2>
         </div>
-        <button
-          className="text-xl font-bold cursor-pointer text-tertiary"
-          onClick={onClose}
-        >
+        <button className="text-xl font-bold cursor-pointer text-tertiary" onClick={onClose}>
           <FaTimes />
         </button>
       </div>
@@ -44,11 +42,7 @@ function Cart({ onClose }) {
 
         {cartItems.map((item) => (
           <div key={item.id} className="flex items-start gap-3 mb-6">
-            <img
-              src={item.productImg}
-              alt={item.title}
-              className="w-12 h-20 object-contain"
-            />
+            <img src={item.productImg} alt={item.title} className="w-12 h-20 object-contain" />
             <div className="flex-1">
               <p className="text-sm font-medium text-primary">{item.title}</p>
               <p className="text-sm text-tertiary">Rs. {item.price}</p>
@@ -82,9 +76,21 @@ function Cart({ onClose }) {
 
       {/* Subtotal + Checkout */}
       <div className="border-t border-gray-300 px-4 py-4">
-        <div className="flex justify-between mb-4 text-primary font-bold text-base">
+        <div className="flex justify-between mb-2 text-primary font-bold text-base">
           <span>Subtotal</span>
-          <span>Rs. {subtotal}</span>
+          <span>Rs. {totalPrice.toFixed(2)}</span>
+        </div>
+
+        {discount > 0 && (
+          <div className="flex justify-between mb-2 text-green-600 font-semibold text-sm">
+            <span>Discount (10%)</span>
+            <span>- Rs. {discount.toFixed(2)}</span>
+          </div>
+        )}
+
+        <div className="flex justify-between mb-4 text-primary font-bold text-base">
+          <span>Total</span>
+          <span>Rs. {finalTotal.toFixed(2)}</span>
         </div>
 
         <Button

@@ -1,103 +1,170 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import FormField from "../../utils/FormField";
+import { createAd, updateAd, getAdById } from "../../api/adApi";
+import { getAllProducts } from "../../api/productApi";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function AdProductForm() {
+  const navigate = useNavigate();
+  const { id: adId } = useParams(); // For edit mode
+
   const [formData, setFormData] = useState({
-    product: "Dandruff Case",
-    price: "Rs. 2,500",
-    discountPercent: "10",
-    discountedPrice: "Rs. 2,250",
+    productId: "",
+    discountPercent: 10,
     adContent: "",
   });
 
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Load products for dropdown
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await getAllProducts();
+        if (res.success && res.data.length > 0) {
+          setProducts(res.data);
+
+          // Set default product if empty
+          setFormData((prev) => ({
+            ...prev,
+            productId: prev.productId || res.data[0]._id,
+          }));
+        }
+      } catch (err) {
+        console.error("Failed to load products:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  // Load ad data for editing
+  useEffect(() => {
+    if (!adId) return;
+
+    const loadAd = async () => {
+      try {
+        const res = await getAdById(adId);
+        if (res.success && res.ad) {
+          setFormData({
+            productId: res.ad.productId?._id || "",
+            discountPercent: res.ad.discountPercent || 10,
+            adContent: res.ad.adContent || "",
+          });
+        }
+      } catch (err) {
+        console.error("Failed to load ad:", err);
+      }
+    };
+
+    loadAd();
+  }, [adId]);
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "discountPercent" ? Number(value) : value,
+    }));
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.productId) {
+      alert("Please select a valid product.");
+      return;
+    }
+
+    // Validate ObjectId format
+    if (!/^[0-9a-fA-F]{24}$/.test(formData.productId)) {
+      alert("Please select a valid product.");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+
+      if (adId) {
+        await updateAd(adId, formData, token);
+        alert("Ad updated successfully!");
+      } else {
+        await createAd(formData, token);
+        alert("Ad created successfully!");
+      }
+
+      navigate("/admin/ad-list");
+    } catch (err) {
+      console.error("Failed to save ad:", err);
+      alert(err.message || "Failed to save ad.");
+    }
+  };
+
+  if (loading) return <div className="p-4">Loading...</div>;
+
   return (
-    <div className="min-h-screen bg-white flex justify-center items-start py-10">
-      {/* WRAPPER FOR DESKTOP VIEW */}
-      <div className="w-full max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-sm">
+    <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md font-sans">
+      <button
+        className="flex items-center gap-2 mb-6 text-gray-700"
+        onClick={() => navigate("/admin/ad-list")}
+      >
+        <AiOutlineArrowLeft size={20} /> Back
+      </button>
 
-        {/* Back Button */}
-        <div className="flex items-center gap-2 mb-6 text-gray-800 cursor-pointer">
-          <AiOutlineArrowLeft size={22} />
-          <span className="text-base font-medium">Back</span>
-        </div>
-
-        {/* FORM GRID - Desktop 2 column, Mobile 1 column */}
+      <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
           {/* Left Side */}
-          <div className="space-y-5">
-            <FormField
-
-              label="Select Product*"
-              name="product"
-              value={formData.product}
-              onChange={handleChange}
-              options={[
-                { label: "Dandruff Case" },
-                { label: "Skin Care" },
-                { label: "Oil Control" },
-              ]}
-            />
-
-            {/* Product Price */}
-            <div>
-              <label className="block text-xs font-medium mb-1 text-tertiary">
-                Product Price*
-              </label>
-              <input
-                readOnly
-                value={formData.price}
-                className="w-full border border-primary px-4 py-3 rounded text-sm bg-gray-100"
-              />
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label className="block font-medium mb-1">Select Product*</label>
+              <select
+                name="productId"
+                value={formData.productId}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded"
+              >
+                <option value="">Select Product</option>
+                {products.map((p) => (
+                  <option key={p._id} value={p._id}>
+                    {p.productName}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <FormField
-              label="Discount Percent*"
+              label="Discount Percent"
               name="discountPercent"
               type="number"
               value={formData.discountPercent}
               onChange={handleChange}
-              placeholder="10"
+              placeholder="Enter discount %"
             />
           </div>
 
           {/* Right Side */}
-          <div className="space-y-5">
-            {/* Discounted Price */}
-            <div>
-              <label className="block text-xs font-medium mb-1 text-tertiary">
-                Discounted Price*
-              </label>
-              <input
-                readOnly
-                value={formData.discountedPrice}
-                className="w-full border border-primary px-4 py-3 rounded text-sm bg-gray-100"
-              />
-            </div>
-
-            {/* Ad Content Textarea */}
+          <div className="space-y-4">
             <FormField
-              label="Ad Contents*"
+              label="Ad Content"
               name="adContent"
               value={formData.adContent}
               onChange={handleChange}
               textarea={true}
-              placeholder="Write a content you want to display in ad panel ...."
+              placeholder="Write ad content..."
             />
           </div>
-
         </div>
 
-        {/* Submit Button */}
-        <button className="w-full mt-6 bg-blue-900 text-white py-3 rounded text-sm hover:bg-blue-800 transition-all">
-          Submit
+        <button
+          type="submit"
+          className="w-full mt-6 bg-blue-900 text-white py-3 rounded hover:bg-blue-800 transition"
+        >
+          {adId ? "Update Ad" : "Add Ad"}
         </button>
-      </div>
+      </form>
     </div>
   );
 }
