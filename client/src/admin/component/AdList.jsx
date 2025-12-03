@@ -61,7 +61,7 @@ function AdList() {
         </div>
         <button
           onClick={() => navigate("/admin/ad-form")}
-          className="bg-blue-700 text-white text-xs py-1 px-3 rounded whitespace-nowrap hover:bg-blue-800"
+            className="text-white bg-info px-4 py-2 rounded text-sm sm:text-base hover:bg-blue-700 transition"
         >
           + Add Ad
         </button>

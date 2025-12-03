@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaShoppingCart, FaBars, FaUserCircle, FaUserAlt } from "react-icons/fa";
+import { FaShoppingCart, FaBars, FaUserCircle, FaUserAlt, FaSearch, FaClipboardList } from "react-icons/fa";
 import logo from "../assets/logo.png";
 import NavLinks from "../utils/NavLinks";
 import { useCart } from "../context/CartContext";
@@ -74,6 +74,7 @@ function NavBar({ onSearch }) {
             </div>
           </div>
 
+          {/* Search Bar */}
           <div className="flex-1 max-w-md mx-4">
             <div className="block md:hidden">
               <div className="relative">
@@ -83,7 +84,7 @@ function NavBar({ onSearch }) {
                   onChange={(e) => onSearch && onSearch(e.target.value)}
                   className="w-full py-2 pl-3 pr-10 rounded-full shadow-lg text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
-                <FaShoppingCart className="absolute right-3 top-2 text-black text-lg" />
+                <FaSearch className="absolute right-3 top-2.5 text-gray-500 text-lg" />
               </div>
             </div>
             <div className="hidden md:block">
@@ -93,10 +94,10 @@ function NavBar({ onSearch }) {
 
           {/* Right Section - Cart, Profile, Menu */}
           <div className="flex items-center gap-3 md:gap-8 lg:gap-10">
-            {/* Cart Icon - Hidden on mobile since search has it */}
-            <div className="hidden md:block relative">
+            {/* Cart Icon */}
+            <div className="relative">
               <FaShoppingCart
-                className="text-white text-2xl cursor-pointer hover:scale-110 transition-transform"
+                className="text-white text-2xl md:text-3xl cursor-pointer hover:scale-110 transition-transform"
                 onClick={() => setShowCart(true)}
               />
               {totalItems > 0 && (
@@ -144,9 +145,6 @@ function NavBar({ onSearch }) {
                         )}
                         <div className="flex flex-col">
                           <span className="text-gray-800 font-semibold text-sm">{user.email}</span>
-                          {user.isAdmin && (
-                            <span className="text-xs text-green font-medium">Admin</span>
-                          )}
                         </div>
                       </div>
                     </div>
@@ -155,13 +153,22 @@ function NavBar({ onSearch }) {
                   {/* Actions */}
                   <div className="flex flex-col p-2">
                     {user ? (
-                      <button
-                        className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 font-medium"
-                        onClick={handleLogout}
-                      >
-                        <FaUserCircle className="text-gray-500" /> 
-                        Logout
-                      </button>
+                      <>
+                        <button
+                          className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 font-medium"
+                          onClick={() => navigate("/order-history")}
+                        >
+                          <FaClipboardList className="text-gray-500" />
+                          Order History
+                        </button>
+                        <button
+                          className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 font-medium"
+                          onClick={handleLogout}
+                        >
+                          <FaUserCircle className="text-gray-500" /> 
+                          Logout
+                        </button>
+                      </>
                     ) : (
                       <button
                         className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 font-medium"

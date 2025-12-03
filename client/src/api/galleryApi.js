@@ -1,15 +1,24 @@
+/* eslint-disable no-unused-vars */
+import axios from "axios";
+
 const BASE_URL = "/api/gallery";
 
 export const getGalleryList = async () => {
-  const res = await fetch(BASE_URL);
-  if (!res.ok) throw new Error("Failed to fetch gallery list");
-  return res.json();
+  try {
+    const res = await axios.get(BASE_URL);
+    return res.data;
+  } catch (err) {
+    throw new Error("Failed to fetch gallery list");
+  }
 };
 
 export const getGalleryById = async (id) => {
-  const res = await fetch(`${BASE_URL}/${id}`);
-  if (!res.ok) throw new Error("Failed to fetch gallery item");
-  return res.json();
+  try {
+    const res = await axios.get(`${BASE_URL}/${id}`);
+    return res.data;
+  } catch (err) {
+    throw new Error("Failed to fetch gallery item");
+  }
 };
 
 export const createGallery = async ({ image, description }) => {
@@ -19,17 +28,21 @@ export const createGallery = async ({ image, description }) => {
   formData.append("image", image);
   formData.append("description", description);
 
-  const res = await fetch(BASE_URL, {
-    method: "POST",
-    body: formData,
-  });
+  try {
+    const res = await axios.post(BASE_URL, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(errorText || "Failed to create gallery item");
+    return res.data;
+  } catch (err) {
+    const errorText =
+      err.response?.data ||
+      err.message ||
+      "Failed to create gallery item";
+    throw new Error(errorText);
   }
-
-  return res.json();
 };
 
 export const updateGallery = async (id, { image, description }) => {
@@ -37,21 +50,28 @@ export const updateGallery = async (id, { image, description }) => {
   if (image) formData.append("image", image);
   formData.append("description", description);
 
-  const res = await fetch(`${BASE_URL}/${id}`, {
-    method: "PUT",
-    body: formData,
-  });
+  try {
+    const res = await axios.put(`${BASE_URL}/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(errorText || "Failed to update gallery item");
+    return res.data;
+  } catch (err) {
+    const errorText =
+      err.response?.data ||
+      err.message ||
+      "Failed to update gallery item";
+    throw new Error(errorText);
   }
-
-  return res.json();
 };
 
 export const deleteGallery = async (id) => {
-  const res = await fetch(`${BASE_URL}/${id}`, { method: "DELETE" });
-  if (!res.ok) throw new Error("Failed to delete gallery item");
-  return res.json();
+  try {
+    const res = await axios.delete(`${BASE_URL}/${id}`);
+    return res.data;
+  } catch (err) {
+    throw new Error("Failed to delete gallery item");
+  }
 };

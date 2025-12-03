@@ -1,10 +1,13 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; 
 import OrderSummary from "./OrderSummary";
 import PaymentMethod from "./PaymentMethod";
 import Button from "../utils/Button";
 import { createOrder } from "../api/OrderApi";
 
 function PaymentDetails() {
+  const navigate = useNavigate(); 
   const [billing, setBilling] = useState(null);
   const [cartAtCheckout, setCartAtCheckout] = useState({ items: [], deliveryCharge: 0 });
   const [selectedMethod, setSelectedMethod] = useState("cod");
@@ -12,7 +15,6 @@ function PaymentDetails() {
   const [buttonText, setButtonText] = useState("Place Order");
   const [loading, setLoading] = useState(false);
 
-  // Load billing and cart info from localStorage
   useEffect(() => {
     const b = localStorage.getItem("billingData");
     const c = localStorage.getItem("cartAtCheckout");
@@ -56,6 +58,8 @@ function PaymentDetails() {
       console.log("Order placed:", res);
 
       setButtonText(res.message || "Order Placed");
+
+      navigate("/order-history");
     } catch (error) {
       console.error("Failed to place order:", error);
       setButtonText("Failed. Try Again");

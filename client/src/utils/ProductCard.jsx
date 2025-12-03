@@ -73,18 +73,18 @@ function ProductCard({ id, title, description, size, price, productImg, discount
             Add to Cart
           </Button>
         ) : (
-          <div className="flex items-center justify-center space-x-4 bg-white shadow-md rounded-xl px-3 py-2 w-full md:w-[260px]">
+          <div className="flex items-center justify-between border border-gray-300 rounded-lg overflow-hidden w-full h-12">
             <button
               onClick={() => updateQuantity(cartItemId, "dec")}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 shadow-md text-lg font-bold"
-            >
+className="w-1/3 h-full flex items-center justify-center bg-white hover:bg-gray-50 border-r border-gray-300 text-xl font-bold transition-colors"            >
               –
             </button>
+             <div className="w-1/3 h-full flex items-center justify-center bg-gray-50">
             <span className="font-semibold text-lg">{quantity}</span>
+             </div>
             <button
               onClick={() => updateQuantity(cartItemId, "inc")}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 shadow-md text-lg font-bold"
-            >
+   className="w-1/3 h-full flex items-center justify-center bg-white hover:bg-gray-50 border-l border-gray-300 text-xl font-bold transition-colors"            >
               +
             </button>
           </div>

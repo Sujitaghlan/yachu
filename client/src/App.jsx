@@ -46,6 +46,7 @@ import GalleryList from "./admin/component/GalleryList";
 import AddGallery from "./admin/component/AddImages";
 
 import ProtectedRoute from "./utils/ProtectedRoute.jsx";
+import OrderHistory from "./component/OrderHistory.jsx";
 
 // -------------------- PUBLIC LAYOUT --------------------
 const PublicLayout = ({ onSearch }) => {
@@ -132,6 +133,8 @@ function App() {
             <Route path="/billing" element={<BillingForm />} />
             <Route path="/ingredients" element={<Ingredients />} />
             <Route path="/gallery" element={<Gallery />} />
+            <Route path="/order-history" element={<OrderHistory />} />
+
           </Route>
 
           {/* ---------- AUTH ---------- */}
