@@ -1,11 +1,7 @@
 import { FiFileText, FiCheckCircle, FiClock, FiTruck } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
-import { getOrders } from "../../api/OrderApi"; 
-=======
 import { getOrders, updateOrderStatus } from "../../api/OrderApi";
->>>>>>> jivan
 
 function OrderManagement() {
   const navigate = useNavigate();
@@ -14,11 +10,7 @@ function OrderManagement() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-<<<<<<< HEAD
-        const res = await getOrders(); 
-=======
         const res = await getOrders();
->>>>>>> jivan
         setOrders(res.orders || []);
       } catch (err) {
         console.error("Failed to fetch orders:", err);
@@ -27,8 +19,6 @@ function OrderManagement() {
 
     fetchOrders();
   }, []);
-<<<<<<< HEAD
-=======
 
   // UPDATE ORDER STATUS FUNCTION
   const handleStatusUpdate = async (orderId, newStatus) => {
@@ -45,12 +35,11 @@ function OrderManagement() {
       console.error("Failed to update status:", err);
     }
   };
->>>>>>> jivan
 
   const totalOrders = orders.length;
-  const completedOrders = orders.filter(o => o.status === "Delivered").length;
-  const pendingOrders = orders.filter(o => o.status === "pending").length;
-  const inTransitOrders = orders.filter(o => o.status === "Shipped").length;
+  const completedOrders = orders.filter((o) => o.status === "Delivered").length;
+  const pendingOrders = orders.filter((o) => o.status === "pending").length;
+  const inTransitOrders = orders.filter((o) => o.status === "Shipped").length;
 
   const formatOrders = orders.map((o) => ({
     id: o._id,
@@ -60,20 +49,12 @@ function OrderManagement() {
     contact: o.phone,
     amount: o.totalAmount,
     payment: o.paymentType,
-<<<<<<< HEAD
-    status: o.status.charAt(0).toUpperCase() + o.status.slice(1), 
-    raw: o, 
-  }));
-
-  const renderActions = (status) => {
-=======
     status: o.status.charAt(0).toUpperCase() + o.status.slice(1),
     raw: o,
   }));
 
   // RENDER ACTION BUTTONS
   const renderActions = (status, id) => {
->>>>>>> jivan
     switch (status) {
       case "Pending":
         return (
@@ -92,7 +73,6 @@ function OrderManagement() {
             </button>
           </>
         );
-
       case "Confirmed":
         return (
           <>
@@ -110,7 +90,6 @@ function OrderManagement() {
             </button>
           </>
         );
-
       case "Shipped":
         return (
           <button
@@ -120,7 +99,6 @@ function OrderManagement() {
             Deliver
           </button>
         );
-
       default:
         return null;
     }
@@ -128,7 +106,6 @@ function OrderManagement() {
 
   return (
     <div className="w-full font-paragraph p-6">
-
       <h2 className="text-h2 font-headline text-primary mb-4">
         Manage your customer orders
       </h2>
@@ -216,13 +193,10 @@ function OrderManagement() {
 
                 <td className="py-3">
                   <div className="flex gap-2">
-
                     {/* VIEW BUTTON */}
                     <button
                       onClick={() =>
-                        navigate(`/admin/order/${o.id}`, {
-                          state: { order: o.raw },
-                        })
+                        navigate(`/admin/order/${o.id}`, { state: { order: o.raw } })
                       }
                       className="border px-3 py-1 text-xs rounded bg-white hover:bg-gray-100 transition"
                     >
@@ -232,13 +206,11 @@ function OrderManagement() {
                     {renderActions(o.status, o.id)}
                   </div>
                 </td>
-
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
     </div>
   );
 }

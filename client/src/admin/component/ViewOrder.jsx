@@ -1,10 +1,6 @@
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
-import { getOrderById } from "../../api/OrderApi";
-=======
 import { getOrderById, updateOrderStatus } from "../../api/OrderApi";
->>>>>>> jivan
 
 function ViewOrder() {
   const { id } = useParams();
@@ -13,14 +9,8 @@ function ViewOrder() {
 
   const [order, setOrder] = useState(location.state?.order || null);
 
-<<<<<<< HEAD
-
-  useEffect(() => {
-    if (order) return; 
-=======
   useEffect(() => {
     if (order) return;
->>>>>>> jivan
 
     const fetchOrder = async () => {
       try {
@@ -53,12 +43,7 @@ function ViewOrder() {
     amount: order.totalAmount,
     qty: order.products?.[0]?.quantity || 1,
     productName: order.products?.[0]?.productId?.productName || "Product",
-    productImage:
-<<<<<<< HEAD
-      order.products?.[0]?.productId?.imageUrl ||
-      "/placeholder.png",
-=======
-      order.products?.[0]?.productId?.imageUrl || "/placeholder.png",
+    productImage: order.products?.[0]?.productId?.imageUrl || "/placeholder.png",
   };
 
   // Function to update order status
@@ -69,7 +54,6 @@ function ViewOrder() {
     } catch (err) {
       console.error("Failed to update order status", err);
     }
->>>>>>> jivan
   };
 
   return (

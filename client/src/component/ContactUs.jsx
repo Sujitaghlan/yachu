@@ -79,35 +79,14 @@ function ContactUs() {
 
   return (
     <div className="w-full py-10 bg-white">
-<<<<<<< HEAD
-      {/* Outer container with same padding as NavBar */}
-      <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
-=======
       <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto animate-fade-in-up">
->>>>>>> jivan
         <h2 className="font-headline text-h1 mb-10 md:mb-12 text-primary text-center">
           Contact Us
         </h2>
 
         {/* Contact Info */}
         <div className="flex flex-col md:flex-row gap-6 mb-12 w-full">
-<<<<<<< HEAD
-          {[{
-            icon: <FaPhone size={24} />,
-            title: "Phone Number",
-            lines: ["+977-01-5927179", "+977-9808731770"],
-          },{
-            icon: <FaMapMarkerAlt size={24} />,
-            title: "Our Office Location",
-            lines: ["Baneshwor, Kathmandu"],
-          },{
-            icon: <FaClock size={24} />,
-            title: "Business Hours",
-            lines: ["Sunday - Saturday: 10am-6pm"],
-          }].map((info, index) => (
-=======
           {contactInfos.map((info, index) => (
->>>>>>> jivan
             <div
               key={index}
               className="flex items-start gap-4 bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex-1"
@@ -127,11 +106,7 @@ function ContactUs() {
 
         {/* Contact Form */}
         <form
-<<<<<<< HEAD
-          className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-3xl mx-auto flex flex-col gap-6"
-=======
           className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-3xl mx-auto flex flex-col gap-6 animate-fade-in-up"
->>>>>>> jivan
           onSubmit={handleSubmit}
         >
           <p className="font-paragraph text-tertiary text-center mb-4 text-lg">
@@ -148,11 +123,7 @@ function ContactUs() {
               icon={<FaUser className="text-primary" />}
               borderColor="#003366"
               textColor="#003366"
-<<<<<<< HEAD
-              className="flex-1 rounded-full" 
-=======
               className="flex-1 rounded-full"
->>>>>>> jivan
             />
             <Input
               type="email"
@@ -162,18 +133,10 @@ function ContactUs() {
               icon={<FaEnvelope className="text-primary" />}
               borderColor="#003366"
               textColor="#003366"
-<<<<<<< HEAD
-              className="flex-1 rounded-full" 
-            />
-          </div>
-
-          {/* Textarea for message */}
-=======
               className="flex-1 rounded-full"
             />
           </div>
 
->>>>>>> jivan
           <div className="relative">
             <div className="absolute left-4 top-4 text-primary">
               <FaComment className="text-xl" />

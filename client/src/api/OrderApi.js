@@ -34,7 +34,6 @@ export const createOrder = async (orderData) => {
     return res.data;
   } catch (err) {
     console.error("Create Order Error:", err.response?.data || err);
-<<<<<<< HEAD
     throw err.response?.data || err;
   }
 };
@@ -50,31 +49,7 @@ export const getOrders = async () => {
   }
 };
 
-//  GET ORDER BY ID
-export const getOrderById = async (orderId) => {
-  try {
-    const res = await API.get(`/orders/${orderId}`);
-    return res.data;
-  } catch (err) {
-    console.error("Get Order By ID Error:", err.response?.data || err);
-=======
->>>>>>> jivan
-    throw err.response?.data || err;
-  }
-};
-
-// GET ALL ORDERS
-export const getOrders = async () => {
-  try {
-    const res = await API.get("/orders");
-    return res.data;
-  } catch (err) {
-    console.error("Get Orders Error:", err.response?.data || err);
-    throw err.response?.data || err;
-  }
-};
-
-//  GET ORDER BY ID
+// GET ORDER BY ID
 export const getOrderById = async (orderId) => {
   try {
     const res = await API.get(`/orders/${orderId}`);

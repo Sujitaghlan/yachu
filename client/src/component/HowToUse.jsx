@@ -30,17 +30,10 @@ function HowToUse() {
     <div className="w-full py-10 bg-white">
       {/* Header */}
       <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto mb-8">
-<<<<<<< HEAD
-        <h1 className="text-heading font-headline font-bold text-black mb-0 text-center">
-          How to Use
-        </h1>
-        <p className="font-headline text-h1 mb-8 text-tertiary text-center">
-=======
         <h1 className="text-heading font-headline font-bold text-black mb-0 text-center animate-fade-in-up">
           How to Use
         </h1>
         <p className="font-headline text-h1 mb-8 text-tertiary text-center animate-fade-in-up">
->>>>>>> jivan
           प्रयोग विधि
         </p>
       </div>
@@ -49,15 +42,6 @@ function HowToUse() {
       <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto mb-10">
         <div className="space-y-6 md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
           {cards.map((card, idx) => (
-<<<<<<< HEAD
-            <HowToUseCard
-              key={idx}
-              icon={card.icon}
-              title={card.title}
-              textEN={card.textEN}
-              textNP={card.textNP}
-            />
-=======
             <div
               key={idx}
               className="animate-fade-in-up"
@@ -70,17 +54,12 @@ function HowToUse() {
                 textNP={card.textNP}
               />
             </div>
->>>>>>> jivan
           ))}
         </div>
       </div>
 
       {/* Video */}
-<<<<<<< HEAD
-      <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
-=======
       <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto animate-fade-in-up">
->>>>>>> jivan
         <FactoryVideo videoId="BbU549WYbbI" />
       </div>
     </div>
