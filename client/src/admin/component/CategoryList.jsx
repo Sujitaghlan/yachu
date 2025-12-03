@@ -25,7 +25,7 @@ function CategoryList() {
 
     try {
       await deleteCategory(id);
-      fetchData(); // refresh list
+      fetchData(); 
     } catch (err) {
       alert(err.message || "Failed to delete category");
     }

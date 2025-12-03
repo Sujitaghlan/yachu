@@ -1,18 +1,60 @@
 import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getOrderById, updateOrderStatus } from "../../api/OrderApi";
 
 function ViewOrder() {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const order = location.state?.order;
+  const [order, setOrder] = useState(location.state?.order || null);
 
-  if (!order)
+  useEffect(() => {
+    if (order) return;
+
+    const fetchOrder = async () => {
+      try {
+        const res = await getOrderById(id);
+        setOrder(res.order);
+      } catch (err) {
+        console.error("Failed to fetch order", err);
+      }
+    };
+
+    fetchOrder();
+  }, [id, order]);
+
+  if (!order) {
     return (
       <div className="flex items-center justify-center min-h-screen text-lg">
-        Order not found.
+        Loading order...
       </div>
     );
+  }
+
+  const formatted = {
+    id,
+    customer: order.fullName,
+    address: order.address,
+    contact: order.phone,
+    payment: order.paymentType,
+    status: order.status.charAt(0).toUpperCase() + order.status.slice(1),
+    date: order.createdAt ? order.createdAt.slice(0, 10) : "",
+    amount: order.totalAmount,
+    qty: order.products?.[0]?.quantity || 1,
+    productName: order.products?.[0]?.productId?.productName || "Product",
+    productImage: order.products?.[0]?.productId?.imageUrl || "/placeholder.png",
+  };
+
+  // Function to update order status
+  const handleStatusUpdate = async (newStatus) => {
+    try {
+      await updateOrderStatus(id, newStatus);
+      setOrder((prev) => ({ ...prev, status: newStatus }));
+    } catch (err) {
+      console.error("Failed to update order status", err);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -27,38 +69,39 @@ function ViewOrder() {
 
         {/* Customer & Order Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
           {/* Customer Info */}
           <div className="p-4 border rounded-md bg-white shadow-sm">
             <h2 className="font-semibold text-lg mb-2">Customer Information</h2>
-            <p><b>Name:</b> {order.customer}</p>
-            <p><b>Phone:</b> {order.contact}</p>
-            <p><b>Address:</b> {order.address}</p>
+            <p><b>Name:</b> {formatted.customer}</p>
+            <p><b>Phone:</b> {formatted.contact}</p>
+            <p><b>Address:</b> {formatted.address}</p>
           </div>
 
           {/* Order Info */}
           <div className="p-4 border rounded-md bg-white shadow-sm">
             <h2 className="font-semibold text-lg mb-2">Order Information</h2>
-            <p><b>Date:</b> {order.date}</p>
-            <p><b>Payment:</b> {order.payment}</p>
-            <p><b>Status:</b> {order.status}</p>
+            <p><b>Date:</b> {formatted.date}</p>
+            <p><b>Payment:</b> {formatted.payment}</p>
+            <p><b>Status:</b> {formatted.status}</p>
           </div>
         </div>
 
-        {/* Order Items */}
+        {/* Order Item */}
         <div className="p-4 border rounded-md bg-white shadow-sm">
           <h2 className="font-semibold text-lg mb-4">Order Item</h2>
 
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
             <img
-              src="/mnt/data/3e63ff99-445b-47c5-8491-2818864c0c48.png"
+              src={formatted.productImage}
               className="w-24 h-28 sm:w-20 sm:h-24 object-contain"
             />
             <div className="flex-1 text-sm sm:text-base">
-              <p className="font-bold">Dandruff Case</p>
-              <p>Quantity: {order.qty || 1}</p>
+              <p className="font-bold">{formatted.productName}</p>
+              <p>Quantity: {formatted.qty}</p>
             </div>
             <p className="font-bold text-base sm:text-lg">
-              Rs. {order.amount}
+              Rs. {formatted.amount}
             </p>
           </div>
         </div>
@@ -66,22 +109,35 @@ function ViewOrder() {
         {/* Summary */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 border rounded-md bg-white shadow-sm">
           <div className="space-y-1 text-sm md:text-base">
-            <p>Subtotal: Rs. {order.amount}</p>
+            <p>Subtotal: Rs. {formatted.amount}</p>
             <p>Shipping: Rs. 100</p>
           </div>
           <p className="font-bold text-lg mt-2 md:mt-0">
-            Total: Rs. {order.amount + 100}
+            Total: Rs. {formatted.amount + 100}
           </p>
         </div>
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 mt-4">
-          <button className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
-            Confirm
-          </button>
-          <button className="flex-1 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
-            Cancel
-          </button>
+          {(order.status === "Pending" || order.status === "Confirmed") && (
+            <>
+              {order.status === "Pending" && (
+                <button
+                  onClick={() => handleStatusUpdate("Confirmed")}
+                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                >
+                  Confirm
+                </button>
+              )}
+              <button
+                onClick={() => handleStatusUpdate("Canceled")}
+                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+              >
+                Cancel
+              </button>
+            </>
+          )}
+
           <button
             onClick={() => navigate(-1)}
             className="flex-1 px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400 transition"

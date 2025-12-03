@@ -1,0 +1,248 @@
+[33mcommit 3547ded880dfd94da3e0b7b872191fabbf6b1897[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mjivan[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mdevelop[m[33m)[m
+Merge: b86a782 fab62a2
+Author: jivan-mukhiya <your-email@example.com>
+Date:   Wed Dec 3 13:39:22 2025 +0545
+
+    front merge
+
+[33mcommit fab62a2ad57a67fb29840b87867ee954c8cdcd6b[m[33m ([m[1;31morigin/jivan[m[33m)[m
+Author: jivan-mukhiya <your-email@example.com>
+Date:   Wed Dec 3 13:30:38 2025 +0545
+
+    front chnages
+
+[33mcommit b86a782f99302b2184b3f9c2dd1f914225f7b453[m[33m ([m[1;32mmain[m[33m)[m
+Merge: f19f17a a3eabde
+Author: jivan-mukhiya <your-email@example.com>
+Date:   Wed Dec 3 12:42:59 2025 +0545
+
+    front chnages
+
+[33mcommit a3eabdef8d595bd9b60213cab64b70b900f8045c[m
+Merge: 23ed32a be0d85f
+Author: jivan-mukhiya <your-email@example.com>
+Date:   Wed Dec 3 12:35:21 2025 +0545
+
+     chnages made in frontend
+
+[33mcommit be0d85fed16a76005b93f601a771db388342626e[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Tue Dec 2 15:23:24 2025 +0545
+
+    Changes in frontend
+
+[33mcommit 23ed32a8a4e629ba12c50aae1eed27a69f77adc7[m
+Author: jivan-mukhiya <your-email@example.com>
+Date:   Tue Dec 2 10:29:30 2025 +0545
+
+    client_api
+
+[33mcommit f19f17a5f8c408e95ee7484e60fd180e93812499[m
+Author: jivan-mukhiya <your-email@example.com>
+Date:   Tue Dec 2 10:29:30 2025 +0545
+
+    client_api
+
+[33mcommit c3236dddb00dcd286742f26ed5344867986bc617[m
+Merge: dfa15df b642846
+Author: Sujitaghlan <154888171+Sujitaghlan@users.noreply.github.com>
+Date:   Tue Dec 2 10:27:47 2025 +0545
+
+    Merge pull request #9 from Sujitaghlan/jivan
+    
+    Remove client/node_modules from Git tracking
+
+[33mcommit b6428469c9944d537750cbfc1ff59f61da8a9776[m
+Author: jivan-mukhiya <your-email@example.com>
+Date:   Tue Dec 2 10:07:33 2025 +0545
+
+    Remove client/node_modules from Git tracking
+
+[33mcommit dfa15dfc258d5ab708bc5bba3c75ea272a44419e[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Tue Nov 25 20:11:18 2025 +0545
+
+    Changes in controller
+
+[33mcommit 2447ba45dd2e2fd54280940eb735eaa035fae1a9[m[33m ([m[1;31morigin/sujita[m[33m)[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Tue Nov 25 20:03:54 2025 +0545
+
+    Change in user controller
+
+[33mcommit aca8e765bfb83fac5beb7fad92ffc0ffd9f61437[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Tue Nov 25 19:53:30 2025 +0545
+
+    Added name in registe
+
+[33mcommit c2f163542feec06575d1c977830526d7ead5c3ae[m
+Merge: 7b463bc 01aacac
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Tue Nov 25 10:20:50 2025 +0545
+
+    Deleted files conflict resolving
+
+[33mcommit 01aacac0c8b83fc0adb81111b025998abe2b9b24[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Tue Nov 25 10:04:33 2025 +0545
+
+    Bug fix
+
+[33mcommit 7b463bc42c8a0220e13010d4a32ebd4a2c1a1fa4[m
+Author: jivan-mukhiya <your-email@example.com>
+Date:   Tue Nov 25 09:18:39 2025 +0545
+
+    chnages
+
+[33mcommit 137201d1b8acea20b1b2c2382aaba6b7d0e33d52[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Tue Nov 25 08:19:58 2025 +0545
+
+    Changes in cart route
+
+[33mcommit 6976a89365b4de52b40f463e7ee3186b7854a971[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Mon Nov 24 20:09:13 2025 +0545
+
+    updated cart
+
+[33mcommit e6c742a88e6b20f9914be647c1e3087ea44ce3f8[m
+Author: jivan-mukhiya <your-email@example.com>
+Date:   Mon Nov 24 14:46:57 2025 +0545
+
+    update
+
+[33mcommit 14040c9b60b10720c4241f8719793b8ee7516fc7[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Mon Nov 24 14:19:35 2025 +0545
+
+    Deleted client folder
+
+[33mcommit be1e02abcb61adec82a52c95ef376d58b18431c1[m
+Author: jivan-mukhiya <your-email@example.com>
+Date:   Mon Nov 24 14:04:58 2025 +0545
+
+    admin update
+
+[33mcommit 9582df1b60d658bc83174df73ce1d0c79b7dc44a[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Mon Nov 24 13:03:52 2025 +0545
+
+    Added gallery apis
+
+[33mcommit 97d1bbe9555ca056b468bad0d1cbf18e1de67a4b[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Sun Nov 23 18:33:44 2025 +0545
+
+    adProduct controller
+
+[33mcommit 232b80786dfffb52215dd8ec19470cd215a5b84b[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Sat Nov 22 21:21:57 2025 +0545
+
+    Updated cart
+
+[33mcommit 8ef944488da1f1eba85777e4d4170af846b366d5[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Sat Nov 22 21:09:18 2025 +0545
+
+    Added category api
+
+[33mcommit 352569a9969a4ce7851870dcbf2620d9e50e8751[m
+Author: jivan-mukhiya <your-email@example.com>
+Date:   Sat Nov 22 20:29:40 2025 +0545
+
+    front_update
+
+[33mcommit 1e7d72e0ead13700bdb05a5e10bb92bece095450[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Tue Nov 18 19:34:49 2025 +0545
+
+    Created offer apis
+
+[33mcommit b91e5041c004b67491adf7a0c277c30603cc814d[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Sun Nov 16 13:35:26 2025 +0545
+
+    Created apis
+
+[33mcommit 81954282518b77e225d043fc9f6efe46b76d8343[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Mon Nov 10 19:47:21 2025 +0545
+
+    Client folder added
+
+[33mcommit 6392c6f2f56ee27ad6a1af95d175831fb9a74c51[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Mon Nov 10 19:35:20 2025 +0545
+
+    Added product and review controller
+
+[33mcommit 3c51c306c7d89c40ea2ec631800addce24be8929[m
+Merge: 68445c8 d142d8a
+Author: Sujitaghlan <154888171+Sujitaghlan@users.noreply.github.com>
+Date:   Thu Nov 6 21:33:29 2025 +0545
+
+    Merge pull request #4 from Sujitaghlan/development
+    
+    .
+
+[33mcommit d142d8a85558342b163fef4b207aa8d155f32a6b[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Thu Nov 6 21:20:23 2025 +0545
+
+[33mcommit 68445c8a0a24eb173e7e269c9db33d56ec017708[m
+Merge: 0a8ce98 9b9c969
+Author: Sujitaghlan <154888171+Sujitaghlan@users.noreply.github.com>
+Date:   Thu Nov 6 20:01:30 2025 +0545
+
+    Merge pull request #3 from Sujitaghlan/authentication
+
+[33mcommit 9b9c969d9857fa6bb804f458a6ba656bd9ce0cbe[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Thu Nov 6 19:50:47 2025 +0545
+
+    Authentication
+
+[33mcommit e10ab603aa8748b2fc0c30f0fc175e48c780517c[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Wed Nov 5 19:05:43 2025 +0545
+
+    created store
+
+[33mcommit 0a8ce982fc1988c2c08fd61a9bef0435e43bd046[m
+Merge: 01ea5f6 9d2478e
+Author: Sujitaghlan <154888171+Sujitaghlan@users.noreply.github.com>
+Date:   Wed Nov 5 18:45:39 2025 +0545
+
+    Merge pull request #2 from Sujitaghlan/development
+    
+    tailwind setup and backend setup
+
+[33mcommit 9d2478e6efab26b7faf0b255679abdd9d1192b5b[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Wed Nov 5 18:44:08 2025 +0545
+
+    tailwind setup and backend setup
+
+[33mcommit 01ea5f62d325108d4eca0c6360146ea0aa3bdd95[m
+Merge: 7523030 baeecfd
+Author: Sujitaghlan <154888171+Sujitaghlan@users.noreply.github.com>
+Date:   Wed Nov 5 17:42:55 2025 +0545
+
+    Merge pull request #1 from Sujitaghlan/feature/project-setup
+    
+    project-setup
+
+[33mcommit baeecfd4493aeeccb4accfe3235e2361a946c1d4[m[33m ([m[1;31morigin/feature/project-setup[m[33m)[m
+Author: Sujitaghlan <sujitaghlan7@gmail.com>
+Date:   Wed Nov 5 17:41:06 2025 +0545
+
+    project-setup
+
+[33mcommit 752303029587aec0f5e762ac8e81520469fd079c[m
+Author: Sujitaghlan <154888171+Sujitaghlan@users.noreply.github.com>
+Date:   Wed Nov 5 16:55:43 2025 +0545
+
+    Initial commit

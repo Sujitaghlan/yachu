@@ -44,6 +44,7 @@ export const createProduct = async (data) => {
     });
 
     return res.data;
+    return res.data;
   } catch (err) {
     console.error("Create Product Error:", err);
     throw err;
@@ -71,6 +72,7 @@ export const updateProduct = async (id, data) => {
       },
     });
 
+    return res.data;
     return res.data;
   } catch (err) {
     console.error("Update Product Error:", err);

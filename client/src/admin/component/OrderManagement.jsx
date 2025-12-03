@@ -1,31 +1,74 @@
 import { FiFileText, FiCheckCircle, FiClock, FiTruck } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getOrders, updateOrderStatus } from "../../api/OrderApi";
 
 function OrderManagement() {
   const navigate = useNavigate();
+  const [orders, setOrders] = useState([]);
 
-  const orders = [
-    { id: 1, date: "2082-08-06", customer: "Pratik Lama", address: "Indrayani, Kathmandu", contact: "9848849886", amount: 2500, qty: 1, payment: "Cash On Delivery", status: "Pending" },
-    { id: 2, date: "2082-08-06", customer: "Pratik Lama", address: "Indrayani, Kathmandu", contact: "9848849886", amount: 2500, qty: 1, payment: "Cash On Delivery", status: "Confirmed" },
-    { id: 3, date: "2082-08-06", customer: "Pratik Lama", address: "Indrayani, Kathmandu", contact: "9848849886", amount: 2500, qty: 1, payment: "Cash On Delivery", status: "Shipped" },
-    { id: 4, date: "2082-08-06", customer: "Pratik Lama", address: "Indrayani, Kathmandu", contact: "9848849886", amount: 2500, qty: 1, payment: "Cash On Delivery", status: "Delivered" },
-    { id: 5, date: "2082-08-06", customer: "Pratik Lama", address: "Indrayani, Kathmandu", contact: "9848849886", amount: 2500, qty: 1, payment: "Cash On Delivery", status: "Canceled" },
-  ];
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await getOrders();
+        setOrders(res.orders || []);
+      } catch (err) {
+        console.error("Failed to fetch orders:", err);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  // UPDATE ORDER STATUS FUNCTION
+  const handleStatusUpdate = async (orderId, newStatus) => {
+    try {
+      await updateOrderStatus(orderId, newStatus);
+
+      // Update UI instantly
+      setOrders((prev) =>
+        prev.map((o) =>
+          o._id === orderId ? { ...o, status: newStatus } : o
+        )
+      );
+    } catch (err) {
+      console.error("Failed to update status:", err);
+    }
+  };
 
   const totalOrders = orders.length;
-  const completedOrders = orders.filter(o => o.status === "Delivered").length;
-  const pendingOrders = orders.filter(o => o.status === "Pending").length;
-  const inTransitOrders = orders.filter(o => o.status === "Shipped").length;
+  const completedOrders = orders.filter((o) => o.status === "Delivered").length;
+  const pendingOrders = orders.filter((o) => o.status === "pending").length;
+  const inTransitOrders = orders.filter((o) => o.status === "Shipped").length;
 
-  const renderActions = (status) => {
+  const formatOrders = orders.map((o) => ({
+    id: o._id,
+    date: o.createdAt?.slice(0, 10),
+    customer: o.fullName,
+    address: o.address,
+    contact: o.phone,
+    amount: o.totalAmount,
+    payment: o.paymentType,
+    status: o.status.charAt(0).toUpperCase() + o.status.slice(1),
+    raw: o,
+  }));
+
+  // RENDER ACTION BUTTONS
+  const renderActions = (status, id) => {
     switch (status) {
       case "Pending":
         return (
           <>
-            <button className="bg-primary text-white px-3 py-1 text-xs rounded hover:bg-blue-700 transition">
+            <button
+              onClick={() => handleStatusUpdate(id, "Confirmed")}
+              className="bg-primary text-white px-3 py-1 text-xs rounded hover:bg-blue-700 transition"
+            >
               Confirm
             </button>
-            <button className="bg-red-600 text-white px-3 py-1 text-xs rounded hover:bg-red-800 transition">
+            <button
+              onClick={() => handleStatusUpdate(id, "Canceled")}
+              className="bg-red-600 text-white px-3 py-1 text-xs rounded hover:bg-red-800 transition"
+            >
               Cancel
             </button>
           </>
@@ -33,17 +76,26 @@ function OrderManagement() {
       case "Confirmed":
         return (
           <>
-            <button className="bg-primary text-white px-3 py-1 text-xs rounded hover:bg-blue-700 transition">
+            <button
+              onClick={() => handleStatusUpdate(id, "Shipped")}
+              className="bg-primary text-white px-3 py-1 text-xs rounded hover:bg-blue-700 transition"
+            >
               Ship
             </button>
-            <button className="bg-red-600 text-white px-3 py-1 text-xs rounded hover:bg-red-800 transition">
+            <button
+              onClick={() => handleStatusUpdate(id, "Canceled")}
+              className="bg-red-600 text-white px-3 py-1 text-xs rounded hover:bg-red-800 transition"
+            >
               Cancel
             </button>
           </>
         );
       case "Shipped":
         return (
-          <button className="bg-primary text-white px-3 py-1 text-xs rounded hover:bg-blue-700 transition">
+          <button
+            onClick={() => handleStatusUpdate(id, "Delivered")}
+            className="bg-primary text-white px-3 py-1 text-xs rounded hover:bg-blue-700 transition"
+          >
             Deliver
           </button>
         );
@@ -54,7 +106,6 @@ function OrderManagement() {
 
   return (
     <div className="w-full font-paragraph p-6">
-
       <h2 className="text-h2 font-headline text-primary mb-4">
         Manage your customer orders
       </h2>
@@ -112,47 +163,54 @@ function OrderManagement() {
           </thead>
 
           <tbody>
-            {orders.map((o) => (
+            {formatOrders.map((o) => (
               <tr key={o.id} className="border-b">
                 <td className="py-3">{o.id}</td>
                 <td>{o.date}</td>
                 <td>{o.customer}</td>
                 <td>{o.address}</td>
                 <td>{o.contact}</td>
-                <td>Rs. {o.amount.toLocaleString()}</td>
+                <td>Rs. {o.amount?.toLocaleString()}</td>
                 <td>{o.payment}</td>
 
                 <td>
-                  {o.status === "Pending" && <span className="bg-yellow-200 text-tertiary px-3 py-1 rounded text-xs">Pending</span>}
-                  {o.status === "Confirmed" && <span className="bg-green text-primary px-3 py-1 rounded text-xs">Confirmed</span>}
-                  {o.status === "Shipped" && <span className="bg-info text-primary px-3 py-1 rounded text-xs">Shipped</span>}
-                  {o.status === "Delivered" && <span className="bg-[#95b89b] text-green px-3 py-1 rounded text-xs">Delivered</span>}
-                  {o.status === "Canceled" && <span className="bg-red-200 text-red-700 px-3 py-1 rounded text-xs">Canceled</span>}
+                  {o.status === "Pending" && (
+                    <span className="bg-yellow-200 text-tertiary px-3 py-1 rounded text-xs">Pending</span>
+                  )}
+                  {o.status === "Confirmed" && (
+                    <span className="bg-green text-primary px-3 py-1 rounded text-xs">Confirmed</span>
+                  )}
+                  {o.status === "Shipped" && (
+                    <span className="bg-info text-primary px-3 py-1 rounded text-xs">Shipped</span>
+                  )}
+                  {o.status === "Delivered" && (
+                    <span className="bg-[#95b89b] text-green px-3 py-1 rounded text-xs">Delivered</span>
+                  )}
+                  {o.status === "Canceled" && (
+                    <span className="bg-red-200 text-red-700 px-3 py-1 rounded text-xs">Canceled</span>
+                  )}
                 </td>
 
                 <td className="py-3">
                   <div className="flex gap-2">
-
-                    {/* VIEW BUTTON WITH NAVIGATION */}
+                    {/* VIEW BUTTON */}
                     <button
                       onClick={() =>
-                        navigate(`/admin/order/${o.id}`, { state: { order: o } })
+                        navigate(`/admin/order/${o.id}`, { state: { order: o.raw } })
                       }
                       className="border px-3 py-1 text-xs rounded bg-white hover:bg-gray-100 transition"
                     >
                       View
                     </button>
 
-                    {renderActions(o.status)}
+                    {renderActions(o.status, o.id)}
                   </div>
                 </td>
-
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
     </div>
   );
 }

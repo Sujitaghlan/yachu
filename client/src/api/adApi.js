@@ -10,6 +10,7 @@ export const createAd = async (data, token) => {
       },
     });
     return res.data;
+    return res.data;
   } catch (err) {
     console.error("Create Ad Error:", err);
     throw err;
@@ -25,6 +26,7 @@ export const updateAd = async (id, data, token) => {
         "Content-Type": "application/json",
       },
     });
+    return res.data;
     return res.data;
   } catch (err) {
     console.error("Update Ad Error:", err);
@@ -62,6 +64,7 @@ export const deleteAd = async (id, token) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    return res.data;
     return res.data;
   } catch (err) {
     console.error("Delete Ad Error:", err);

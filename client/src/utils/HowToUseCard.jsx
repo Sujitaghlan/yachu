@@ -9,7 +9,7 @@ function HowToUseCard({ icon: Icon, title, textEN, textNP }) {
       <p className="text-paragraph font-paragraph text-tertiary text-center mb-1">
         {textEN}
       </p>
-      <p className="text-paragraph font-paragraph text-tertiary text-center">
+      <p className="text-paragraph font-paragraph text-tertiary text-center mb-6">
         {textNP}
       </p>
     </div>

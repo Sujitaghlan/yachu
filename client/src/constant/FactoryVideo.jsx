@@ -2,7 +2,7 @@ import React from "react";
 
 function FactoryVideo({ videoId }) {
   return (
-    <div className="relative rounded-xl overflow-hidden shadow-md">
+    <div className="relative rounded-xl overflow-hidden shadow-lg">
       <iframe
         className="w-full aspect-video md:h-[500px]"
         src={`https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}&mute=1&controls=0&modestbranding=1`}

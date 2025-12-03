@@ -9,8 +9,14 @@ export const createCategory = async (data) => {
     });
 
     return res.data;
+    return res.data;
   } catch (err) {
     console.error("Create Category API Error:", err);
+
+    if (err.response?.data?.message) {
+      throw new Error(err.response.data.message);
+    }
+
     throw err;
   }
 };
@@ -35,8 +41,14 @@ export const updateCategory = async (id, data) => {
     });
 
     return res.data;
+    return res.data;
   } catch (err) {
     console.error("Update Category API Error:", err);
+
+    if (err.response?.data?.message) {
+      throw new Error(err.response.data.message);
+    }
+
     throw err;
   }
 };
@@ -48,6 +60,6 @@ export const deleteCategory = async (id) => {
     return res.data;
   } catch (err) {
     console.error("Delete Category API Error:", err);
-    throw err;
+    throw new Error("Failed to delete category");
   }
 };
