@@ -1,6 +1,10 @@
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 import { getOrderById } from "../../api/OrderApi";
+=======
+import { getOrderById, updateOrderStatus } from "../../api/OrderApi";
+>>>>>>> jivan
 
 function ViewOrder() {
   const { id } = useParams();
@@ -9,9 +13,14 @@ function ViewOrder() {
 
   const [order, setOrder] = useState(location.state?.order || null);
 
+<<<<<<< HEAD
 
   useEffect(() => {
     if (order) return; 
+=======
+  useEffect(() => {
+    if (order) return;
+>>>>>>> jivan
 
     const fetchOrder = async () => {
       try {
@@ -45,8 +54,22 @@ function ViewOrder() {
     qty: order.products?.[0]?.quantity || 1,
     productName: order.products?.[0]?.productId?.productName || "Product",
     productImage:
+<<<<<<< HEAD
       order.products?.[0]?.productId?.imageUrl ||
       "/placeholder.png",
+=======
+      order.products?.[0]?.productId?.imageUrl || "/placeholder.png",
+  };
+
+  // Function to update order status
+  const handleStatusUpdate = async (newStatus) => {
+    try {
+      await updateOrderStatus(id, newStatus);
+      setOrder((prev) => ({ ...prev, status: newStatus }));
+    } catch (err) {
+      console.error("Failed to update order status", err);
+    }
+>>>>>>> jivan
   };
 
   return (
@@ -112,12 +135,25 @@ function ViewOrder() {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 mt-4">
-          <button className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
-            Confirm
-          </button>
-          <button className="flex-1 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
-            Cancel
-          </button>
+          {(order.status === "Pending" || order.status === "Confirmed") && (
+            <>
+              {order.status === "Pending" && (
+                <button
+                  onClick={() => handleStatusUpdate("Confirmed")}
+                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                >
+                  Confirm
+                </button>
+              )}
+              <button
+                onClick={() => handleStatusUpdate("Canceled")}
+                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+              >
+                Cancel
+              </button>
+            </>
+          )}
+
           <button
             onClick={() => navigate(-1)}
             className="flex-1 px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400 transition"

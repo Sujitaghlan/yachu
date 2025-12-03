@@ -2,7 +2,7 @@ const { User } = require("../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
-//const admin = require("../config/firebaseAdmin");
+const admin = require("../config/firebaseAdmin");
 const {
   uploadBufferToCloudinary,
 } = require("../utils/uploadBufferToCloudinary");
@@ -211,7 +211,7 @@ const googleLogin = async (req, res) => {
       imagePublicId = publicId;
     }
 
-    let user = await User.findOne({ googleId: uid });
+    let user = await User.findOne({ email });
     if (!user) {
       user = await User.create({
         googleId: uid,
@@ -219,6 +219,7 @@ const googleLogin = async (req, res) => {
         email,
         imageUrl,
         imagePublicId,
+        isAdmin: false,
       });
     } else if (!user.imageUrl) {
       user.imageUrl = imageUrl;
@@ -227,13 +228,13 @@ const googleLogin = async (req, res) => {
     }
 
     const accessToken = jwt.sign(
-      { userId: user._id },
+      { userId: user._id, isAdmin: user.isAdmin },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15m" }
     );
 
     const refreshToken = jwt.sign(
-      { userId: user._id },
+      { userId: user._id, isAdmin: user.isAdmin },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "7d" }
     );

@@ -29,9 +29,16 @@ export default function AdditionalInfo() {
             </div>
           </div>
 
+<<<<<<< HEAD
           {/* Content */}
           {isOpen && (
             <div className="text-tertiary space-y-4 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-6 lg:gap-x-12 lg:gap-y-8 font-paragraph text-base md:text-lg">
+=======
+          {/* Content with Tailwind animation */}
+          {isOpen && (
+            <div className="text-tertiary space-y-4 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-6 lg:gap-x-12 lg:gap-y-8 font-paragraph text-base md:text-lg 
+                            animate-fade-in-up">
+>>>>>>> jivan
               <div>
                 <p className="font-semibold text-primary mb-1 md:mb-2">Manufactured By:</p>
                 <p className="leading-relaxed">

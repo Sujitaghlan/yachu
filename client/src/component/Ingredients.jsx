@@ -1,50 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import Img from "../assets/image.png";
-
-const ingredients = [
-  {
-    id: 1,
-    name: "Aloe Vera",
-    category: "Soothing",
-    works: "Soothes and moisturizes skin",
-    image: "https://images.unsplash.com/photo-1612831455543-5c50e6ef8f2b",
-  },
-  {
-    id: 2,
-    name: "Vitamin C",
-    category: "Brightening",
-    works: "Brightens skin and reduces dark spots",
-    image: "https://images.unsplash.com/photo-1600180758890-4d4f6b1d24e6",
-  },
-  {
-    id: 3,
-    name: "Green Tea",
-    category: "Antioxidant",
-    works: "Antioxidant and reduces inflammation",
-    image: "https://images.unsplash.com/photo-1592928303187-b1bb6f6d4f1e",
-  },
-  {
-    id: 4,
-    name: "Hyaluronic Acid",
-    category: "Hydration",
-    works: "Deeply hydrates and plumps skin",
-    image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883",
-  },
-  {
-    id: 5,
-    name: "Retinol",
-    category: "Anti-aging",
-    works: "Reduces fine lines and wrinkles",
-    image: "https://images.unsplash.com/photo-1595428774223-ef52624120d2",
-  },
-  {
-    id: 6,
-    name: "Niacinamide",
-    category: "Repair",
-    works: "Strengthens skin barrier and reduces redness",
-    image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908",
-  },
-];
+import { hairCareIngredients, ingredientImages } from "../constant/hairCareIngredients";
 
 export default function Ingredients() {
   const cardRefs = useRef([]);
@@ -59,9 +14,7 @@ export default function Ingredients() {
           }
         });
       },
-      {
-        threshold: 0.1,
-      }
+      { threshold: 0.1 }
     );
 
     cardRefs.current.forEach((card) => {
@@ -77,6 +30,7 @@ export default function Ingredients() {
 
   return (
     <div className="w-full py-12 bg-white">
+<<<<<<< HEAD
       {/* Outer container with same padding as NavBar */}
       <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
         
@@ -113,11 +67,47 @@ export default function Ingredients() {
                 <span className="text-lg md:text-xl text-green mb-2 md:mb-3 font-paragraph">
                   {ingredient.category}
                 </span>
+=======
+      <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
+
+        {/* Header */}
+        <div className="text-center mb-12 md:mb-16">
+          <h1 className="font-headline text-4xl md:text-5xl lg:text-6xl text-primary mb-4 md:mb-6">
+            Our Ingredients
+          </h1>
+          <p className="font-paragraph text-lg md:text-xl text-tertiary mt-2 max-w-2xl mx-auto">
+            Discover the natural and effective ingredients we use to care for your hair.
+          </p>
+        </div>
+
+        {/* Ingredients List */}
+        <div className="flex flex-col space-y-8 md:space-y-10 max-w-6xl mx-auto w-full">
+          {hairCareIngredients.map((ingredient, index) => (
+            <div
+              key={index}
+              ref={(el) => setCardRef(el, index)}
+              className="group relative h-48 md:h-56 lg:h-64 w-full rounded-xl overflow-hidden shadow-lg opacity-0 -translate-x-6 transition-all duration-500 ease-out hover:shadow-xl"
+              style={{ transitionDelay: `${index * 150}ms` }}
+            >
+              {/* Background Image */}
+              <img
+                src={ingredientImages[ingredient.image]}
+                alt={ingredient.name}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+              />
+
+              {/* Content Overlay */}
+              <div className="relative z-10 p-6 md:p-8 flex flex-col justify-end h-full bg-gradient-to-t from-black/80 via-black/40 to-transparent rounded-xl">
+>>>>>>> jivan
                 <h2 className="text-white text-2xl md:text-3xl font-headline mb-2">
                   {ingredient.name}
                 </h2>
                 <p className="text-white text-base md:text-lg font-paragraph opacity-90">
+<<<<<<< HEAD
                   {ingredient.works}
+=======
+                  {ingredient.description}
+>>>>>>> jivan
                 </p>
               </div>
             </div>
@@ -130,6 +120,10 @@ export default function Ingredients() {
             All ingredients are carefully selected and tested for maximum effectiveness and safety.
           </p>
         </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> jivan
       </div>
     </div>
   );

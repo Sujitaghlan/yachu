@@ -1,7 +1,11 @@
 import { FiFileText, FiCheckCircle, FiClock, FiTruck } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 import { getOrders } from "../../api/OrderApi"; 
+=======
+import { getOrders, updateOrderStatus } from "../../api/OrderApi";
+>>>>>>> jivan
 
 function OrderManagement() {
   const navigate = useNavigate();
@@ -10,7 +14,11 @@ function OrderManagement() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
+<<<<<<< HEAD
         const res = await getOrders(); 
+=======
+        const res = await getOrders();
+>>>>>>> jivan
         setOrders(res.orders || []);
       } catch (err) {
         console.error("Failed to fetch orders:", err);
@@ -19,6 +27,25 @@ function OrderManagement() {
 
     fetchOrders();
   }, []);
+<<<<<<< HEAD
+=======
+
+  // UPDATE ORDER STATUS FUNCTION
+  const handleStatusUpdate = async (orderId, newStatus) => {
+    try {
+      await updateOrderStatus(orderId, newStatus);
+
+      // Update UI instantly
+      setOrders((prev) =>
+        prev.map((o) =>
+          o._id === orderId ? { ...o, status: newStatus } : o
+        )
+      );
+    } catch (err) {
+      console.error("Failed to update status:", err);
+    }
+  };
+>>>>>>> jivan
 
   const totalOrders = orders.length;
   const completedOrders = orders.filter(o => o.status === "Delivered").length;
@@ -33,40 +60,67 @@ function OrderManagement() {
     contact: o.phone,
     amount: o.totalAmount,
     payment: o.paymentType,
+<<<<<<< HEAD
     status: o.status.charAt(0).toUpperCase() + o.status.slice(1), 
     raw: o, 
   }));
 
   const renderActions = (status) => {
+=======
+    status: o.status.charAt(0).toUpperCase() + o.status.slice(1),
+    raw: o,
+  }));
+
+  // RENDER ACTION BUTTONS
+  const renderActions = (status, id) => {
+>>>>>>> jivan
     switch (status) {
       case "Pending":
         return (
           <>
-            <button className="bg-primary text-white px-3 py-1 text-xs rounded hover:bg-blue-700 transition">
+            <button
+              onClick={() => handleStatusUpdate(id, "Confirmed")}
+              className="bg-primary text-white px-3 py-1 text-xs rounded hover:bg-blue-700 transition"
+            >
               Confirm
             </button>
-            <button className="bg-red-600 text-white px-3 py-1 text-xs rounded hover:bg-red-800 transition">
+            <button
+              onClick={() => handleStatusUpdate(id, "Canceled")}
+              className="bg-red-600 text-white px-3 py-1 text-xs rounded hover:bg-red-800 transition"
+            >
               Cancel
             </button>
           </>
         );
+
       case "Confirmed":
         return (
           <>
-            <button className="bg-primary text-white px-3 py-1 text-xs rounded hover:bg-blue-700 transition">
+            <button
+              onClick={() => handleStatusUpdate(id, "Shipped")}
+              className="bg-primary text-white px-3 py-1 text-xs rounded hover:bg-blue-700 transition"
+            >
               Ship
             </button>
-            <button className="bg-red-600 text-white px-3 py-1 text-xs rounded hover:bg-red-800 transition">
+            <button
+              onClick={() => handleStatusUpdate(id, "Canceled")}
+              className="bg-red-600 text-white px-3 py-1 text-xs rounded hover:bg-red-800 transition"
+            >
               Cancel
             </button>
           </>
         );
+
       case "Shipped":
         return (
-          <button className="bg-primary text-white px-3 py-1 text-xs rounded hover:bg-blue-700 transition">
+          <button
+            onClick={() => handleStatusUpdate(id, "Delivered")}
+            className="bg-primary text-white px-3 py-1 text-xs rounded hover:bg-blue-700 transition"
+          >
             Deliver
           </button>
         );
+
       default:
         return null;
     }
@@ -175,7 +229,7 @@ function OrderManagement() {
                       View
                     </button>
 
-                    {renderActions(o.status)}
+                    {renderActions(o.status, o.id)}
                   </div>
                 </td>
 

@@ -6,7 +6,8 @@ import productImage from "../assets/product.png";
 import Input from "../utils/Input";
 import Button from "../utils/Button";
 import GoogleButton from "../constant/HandleGoogleLoginAndSignup";
-import { loginUser } from "../api/userApi";
+import { googlePopup } from "../firebase/firebaseAuth";
+import { loginUser, googleLogin } from "../api/userApi";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -50,6 +51,26 @@ export default function Login() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      const idToken = await googlePopup();
+      const data = await googleLogin(idToken);
+      console.log("Google Login Response:", data);
+      localStorage.setItem("token", data.accessToken);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      console.log("Authenticated User:", data.user);
+      alert("Login Successful!");
+      if (window.history.length > 1) {
+        navigate(-1);
+      } else {
+        navigate("/");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Login failed");
+    }
+  };
+
   return (
     <div className="w-full h-screen bg-[#1C1C1C] flex flex-col md:flex-row overflow-hidden">
       <div className="w-full md:w-1/2 h-1/2 md:h-full bg-[#013067] flex flex-col items-center justify-center px-8 py-12">
@@ -60,7 +81,9 @@ export default function Login() {
             alt="product"
           />
         </div>
-        <h1 className="text-white text-4xl font-bold mt-8 hidden md:block">Login</h1>
+        <h1 className="text-white text-4xl font-bold mt-8 hidden md:block">
+          Login
+        </h1>
       </div>
 
       <div className="w-full md:w-1/2 h-full bg-white flex flex-col justify-center px-8 py-12 overflow-auto">
@@ -110,7 +133,10 @@ export default function Login() {
               </span>
             </p>
 
-            <GoogleButton text="Login with Google" />
+            <GoogleButton
+              text="Login with Google"
+              onClick={handleGoogleLogin}
+            />
           </form>
         </div>
       </div>

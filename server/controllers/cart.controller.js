@@ -75,7 +75,8 @@ const removeFromCart = async (req, res) => {
 
 const updateQuantity = async (req, res) => {
   try {
-    const { productId, quantity } = req.body;
+    const {quantity } = req.body;
+    const { productId } = req.params;
     const userId = req.user._id;
 
     if (quantity < 1) {
