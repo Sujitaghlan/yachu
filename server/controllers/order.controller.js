@@ -118,6 +118,27 @@ const getOrderById = async (req, res) => {
     });
   }
 }
+
+const getOrderByUserId = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const orders = await Order.find({ userId })
+      .populate("products.productId")
+      .populate("userId", "fullName email");
+    res.status(200).json({
+      success: true,
+      message: "User orders fetched successfully",
+      orders,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({  
+      success: false,
+      message: "Failed to fetch user orders",
+    });
+  }
+};
+
 const updateStatus = async (req, res) => {
   try {
     const { orderId } = req.params;
@@ -169,4 +190,4 @@ const updateStatus = async (req, res) => {
   }
 };
 
-module.exports = { createOrder, getAllOrder, getOrderById, updateStatus };
+module.exports = { createOrder, getAllOrder, getOrderById, updateStatus, getOrderByUserId };

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosClient from "./axiosClient";
 
 export const createOrder = async (orderData) => {
   try {
@@ -15,7 +15,7 @@ export const createOrder = async (orderData) => {
       }
     }
 
-    const res = await axios.post("/api/order", formData, {
+    const res = await axiosClient.post("/api/order", formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
