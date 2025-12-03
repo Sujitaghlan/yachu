@@ -1,16 +1,33 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../utils/Button";
 import discountImage from "../assets/oil.png";
 
 export default function StaticAdCard() {
+  const navigate = useNavigate();
+
   const ad = {
     productName: "Yachu Hair oil",
     productPrice: 200,
     discountPercent: 10,
     discountedPrice: 180,
     adContent: "Get healthy hair with Yachu Hair oil",
-    netContent: "3 bottels",
+    netContent: "3 bottles",
     imageUrl: discountImage,
+  };
+
+  const handleShopNow = () => {
+    navigate("/product-view", {
+      state: {
+        id: "static-1",
+        title: ad.productName,
+        description: ad.adContent,
+        size: ad.netContent,
+        price: ad.productPrice,
+        discount: ad.discountPercent,
+        productImg: ad.imageUrl,
+      },
+    });
   };
 
   return (
@@ -31,6 +48,7 @@ export default function StaticAdCard() {
         <p className="font-headline text-h3 mt-1 md:text-[14px]">{ad.productName}</p>
 
         <Button
+          onClick={handleShopNow}
           className="mt-4 text-center text-sm md:text-lg leading-[30px] md:leading-[40px] hover:bg-green/90 animate-pulse-slow"
           background="#00FF00"
           textColor="#013067"

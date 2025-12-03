@@ -1,7 +1,24 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../utils/Button";
 
 export default function DynamicAdCard({ ad }) {
+  const navigate = useNavigate();
+
+  const handleShopNow = () => {
+    navigate("/product-view", {
+      state: {
+        id: ad.id || ad.productName,
+        title: ad.productName,
+        description: ad.adContent,
+        size: ad.netContent,
+        price: ad.productPrice,
+        discount: ad.discountPercent,
+        productImg: ad.imageUrl,
+      },
+    });
+  };
+
   return (
     <div className="w-full bg-gradient-to-r from-primary to-info p-6 rounded-lg text-white font-paragraph relative flex items-center gap-1 md:flex-row md:justify-between mx-auto animate-slide-in-left">
 
@@ -20,6 +37,7 @@ export default function DynamicAdCard({ ad }) {
         <p className="font-headline text-h3 mt-1 md:text-[14px]">{ad.productName}</p>
 
         <Button
+          onClick={handleShopNow}
           className="mt-4 text-center text-sm md:text-lg leading-[30px] md:leading-[40px] hover:bg-green/90 animate-pulse-slow"
           background="#00FF00"
           textColor="#013067"

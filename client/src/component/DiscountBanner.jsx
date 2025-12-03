@@ -15,7 +15,7 @@ export default function DiscountBanner() {
 
         if (res.success && Array.isArray(res.ads) && res.ads.length > 0) {
           const dynamicAds = res.ads
-            .filter(a => a.productId) 
+            .filter(a => a.productId)
             .map(a => ({
               productName: a.productId?.productName?.replace(/"/g, "") || "Unknown Product",
               productPrice: a.productPrice || 0,
@@ -36,7 +36,8 @@ export default function DiscountBanner() {
     fetchAds();
   }, []);
 
-  const adsToDisplay = [null, ...ads]; 
+  const adsToDisplay = [null, ...ads];
+
   // Auto-rotate every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
