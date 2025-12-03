@@ -30,10 +30,10 @@ function HowToUse() {
     <div className="w-full py-10 bg-white">
       {/* Header */}
       <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto mb-8">
-        <h1 className="text-heading font-headline font-bold text-black mb-0 text-center">
+        <h1 className="text-heading font-headline font-bold text-black mb-0 text-center animate-fade-in-up">
           How to Use
         </h1>
-        <p className="font-headline text-h1 mb-8 text-tertiary text-center">
+        <p className="font-headline text-h1 mb-8 text-tertiary text-center animate-fade-in-up">
           प्रयोग विधि
         </p>
       </div>
@@ -42,19 +42,24 @@ function HowToUse() {
       <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto mb-10">
         <div className="space-y-6 md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
           {cards.map((card, idx) => (
-            <HowToUseCard
+            <div
               key={idx}
-              icon={card.icon}
-              title={card.title}
-              textEN={card.textEN}
-              textNP={card.textNP}
-            />
+              className="animate-fade-in-up"
+              style={{ animationDelay: `${idx * 150}ms` }}
+            >
+              <HowToUseCard
+                icon={card.icon}
+                title={card.title}
+                textEN={card.textEN}
+                textNP={card.textNP}
+              />
+            </div>
           ))}
         </div>
       </div>
 
       {/* Video */}
-      <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
+      <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto animate-fade-in-up">
         <FactoryVideo videoId="BbU549WYbbI" />
       </div>
     </div>

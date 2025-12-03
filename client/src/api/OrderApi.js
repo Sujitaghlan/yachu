@@ -59,3 +59,14 @@ export const getOrderById = async (orderId) => {
     throw err.response?.data || err;
   }
 };
+
+// UPDATE ORDER STATUS
+export const updateOrderStatus = async (orderId, status) => {
+  try {
+    const res = await API.patch(`/orders/${orderId}`, { status });
+    return res.data;
+  } catch (err) {
+    console.error("Update Order Status Error:", err.response?.data || err);
+    throw err.response?.data || err;
+  }
+};

@@ -12,16 +12,20 @@ export default function DiscountBanner() {
     const fetchAds = async () => {
       try {
         const res = await getAllAds();
-        if (res.success && res.ads.length > 0) {
-          const dynamicAds = res.ads.map(a => ({
-            productName: a.productId.productName.replace(/"/g, ""),
-            productPrice: a.productPrice,
-            discountPercent: a.discountPercent,
-            discountedPrice: a.discountedPrice,
-            adContent: a.adContent,
-            netContent: a.productId.netContent,
-            imageUrl: a.productId.imageUrl,
-          }));
+
+        if (res.success && Array.isArray(res.ads) && res.ads.length > 0) {
+          const dynamicAds = res.ads
+            .filter(a => a.productId) 
+            .map(a => ({
+              productName: a.productId?.productName?.replace(/"/g, "") || "Unknown Product",
+              productPrice: a.productPrice || 0,
+              discountPercent: a.discountPercent || 0,
+              discountedPrice: a.discountedPrice || 0,
+              adContent: a.adContent || "",
+              netContent: a.productId?.netContent || "",
+              imageUrl: a.productId?.imageUrl || "/placeholder.png",
+            }));
+
           setAds(dynamicAds);
         }
       } catch (err) {
@@ -32,9 +36,8 @@ export default function DiscountBanner() {
     fetchAds();
   }, []);
 
-  // Ads list: static + dynamic
   const adsToDisplay = [null, ...ads]; 
-  // Auto-rotate every 5 seconds
+  // Auto-rotate every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % adsToDisplay.length);
