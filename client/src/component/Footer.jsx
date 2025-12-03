@@ -76,7 +76,7 @@ const Footer = () => {
                 <FaEnvelope className="text-yellow-400" /> uchityachu@gmail.com
               </li>
               <li className="flex items-center gap-3">
-                <FaMapMarkerAlt className="text-yellow-400" /> uchityachu@gmail.com
+                <FaMapMarkerAlt className="text-yellow-400" /> Bijulibazar, Kathmandu, Nepal
               </li>
             </ul>
           </div>

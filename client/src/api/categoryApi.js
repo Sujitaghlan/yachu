@@ -1,21 +1,14 @@
-import axios from "axios";
+import axiosClient from "./axiosClient";
 
 // Create a new category
 export const createCategory = async (data) => {
   try {
-    const res = await axios.post(
-      "/api/category",
-      {
-        name: data.category,
-        description: data.description,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await axiosClient.post("/api/category", {
+      name: data.category,
+      description: data.description,
+    });
 
+    return res.data;
     return res.data;
   } catch (err) {
     console.error("Create Category API Error:", err);
@@ -31,31 +24,23 @@ export const createCategory = async (data) => {
 // Fetch all categories
 export const getCategories = async () => {
   try {
-    const res = await axios.get("/api/category");
-
+    const res = await axiosClient.get("/api/category");
     return res.data;
   } catch (err) {
-    console.error("Get Category API Error:", err);
-    throw new Error("Failed to fetch categories");
+    console.error("Get Categories Error:", err);
+    throw err;
   }
 };
 
-// UPDATE CATEGORY
+// Update category
 export const updateCategory = async (id, data) => {
   try {
-    const res = await axios.put(
-      `/api/category/${id}`,
-      {
-        name: data.category,
-        description: data.description,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await axiosClient.put(`/api/category/${id}`, {
+      name: data.category,
+      description: data.description,
+    });
 
+    return res.data;
     return res.data;
   } catch (err) {
     console.error("Update Category API Error:", err);
@@ -68,11 +53,10 @@ export const updateCategory = async (id, data) => {
   }
 };
 
-// DELETE CATEGORY
+// Delete category
 export const deleteCategory = async (id) => {
   try {
-    const res = await axios.delete(`/api/category/${id}`);
-
+    const res = await axiosClient.delete(`/api/category/${id}`);
     return res.data;
   } catch (err) {
     console.error("Delete Category API Error:", err);

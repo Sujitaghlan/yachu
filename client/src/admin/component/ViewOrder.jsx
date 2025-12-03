@@ -43,8 +43,7 @@ function ViewOrder() {
     amount: order.totalAmount,
     qty: order.products?.[0]?.quantity || 1,
     productName: order.products?.[0]?.productId?.productName || "Product",
-    productImage:
-      order.products?.[0]?.productId?.imageUrl || "/placeholder.png",
+    productImage: order.products?.[0]?.productId?.imageUrl || "/placeholder.png",
   };
 
   // Function to update order status

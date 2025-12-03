@@ -59,19 +59,23 @@ const getCart = async (req, res) => {
 // Remove item from cart
 const removeFromCart = async (req, res) => {
   try {
-    const { productId } = req.params;
-    const cart = await Cart.findOne({ user: req.user._id });
+    const { cartItemId } = req.params; // unique cart item id
+    const cart = await Cart.findOne({ user: req.user._id }).populate("items.product");
     if (!cart) return res.status(404).json({ message: "Cart not found" });
 
     cart.items = cart.items.filter(
-      (item) => item.product.toString() !== productId
+      (item) => item._id.toString() !== cartItemId
     );
+
     await cart.save();
+    await cart.populate("items.product"); // ensure product info is available
+
     res.status(200).json({ message: "Item removed successfully", cart });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 const updateQuantity = async (req, res) => {
   try {

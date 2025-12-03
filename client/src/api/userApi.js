@@ -1,6 +1,6 @@
-import axios from "axios";
+import axiosClient from "./axiosClient";
 
-const API = axios.create({
+const API = axiosClient.create({
   baseURL: "/api/auth", 
 });
 

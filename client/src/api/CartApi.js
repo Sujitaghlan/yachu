@@ -1,26 +1,21 @@
-import axios from "axios";
-
-// Add token to headers
-const tokenHeader = () => ({
-  headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-});
+import axiosClient from "./axiosClient";
 
 // Add item to cart
 export const addToCartApi = (productId, quantity) => {
-  return axios.post("/api/cart", { productId, quantity }, tokenHeader());
+  return axiosClient.post("/api/cart", { productId, quantity });
 };
 
 // Get cart by user
 export const getCartApi = (userId) => {
-  return axios.get(`/api/cart/${userId}`, tokenHeader());
+  return axiosClient.get(`/api/cart/${userId}`);
 };
 
 // Update cart quantity
 export const updateCartQuantityApi = (productId, quantity) => {
-  return axios.put(`/api/cart/${productId}`, { quantity }, tokenHeader());
+  return axiosClient.put(`/api/cart/${productId}`, { quantity });
 };
 
 // Remove from cart
-export const removeFromCartApi = (productId) => {
-  return axios.delete(`/api/cart/${productId}`, tokenHeader());
+export const removeFromCartApi = (cartItemId) => {
+  return axiosClient.delete(`/api/cart/${cartItemId}`);
 };

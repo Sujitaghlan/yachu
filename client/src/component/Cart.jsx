@@ -5,7 +5,14 @@ import { FaPlus, FaMinus, FaTimes, FaShoppingCart } from "react-icons/fa";
 import Button from "../utils/Button";
 
 function Cart({ onClose }) {
-  const { cartItems, updateQuantity, removeFromCart, totalPrice, discount, finalTotal } = useCart();
+  const {
+    cartItems,
+    updateQuantity,
+    removeFromCart,
+    totalPrice,
+    discount,
+    finalTotal,
+  } = useCart();
   const navigate = useNavigate();
 
   const handleCheckout = () => {
@@ -27,9 +34,14 @@ function Cart({ onClose }) {
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-300">
         <div className="flex items-center gap-2">
           <FaShoppingCart className="text-xl text-primary" />
-          <h2 className="font-semibold text-sm tracking-wide text-primary">SHOPPING CART</h2>
+          <h2 className="font-semibold text-sm tracking-wide text-primary">
+            SHOPPING CART
+          </h2>
         </div>
-        <button className="text-xl font-bold cursor-pointer text-tertiary" onClick={onClose}>
+        <button
+          className="text-xl font-bold cursor-pointer text-tertiary"
+          onClick={onClose}
+        >
           <FaTimes />
         </button>
       </div>
@@ -40,9 +52,13 @@ function Cart({ onClose }) {
           <p className="text-center mt-10 text-tertiary">Cart is empty</p>
         )}
 
-        {cartItems.map((item) => (
-          <div key={item.id} className="flex items-start gap-3 mb-6">
-            <img src={item.productImg} alt={item.title} className="w-12 h-20 object-contain" />
+        {cartItems.map((item, index) => (
+          <div key={index} className="flex items-start gap-3 mb-6">
+            <img
+              src={item.productImg}
+              alt={item.title}
+              className="w-12 h-20 object-contain"
+            />
             <div className="flex-1">
               <p className="text-sm font-medium text-primary">{item.title}</p>
               <p className="text-sm text-tertiary">Rs. {item.price}</p>
@@ -65,7 +81,7 @@ function Cart({ onClose }) {
 
               <button
                 className="text-red-500 text-xs mt-2 hover:underline flex items-center gap-1"
-                onClick={() => removeFromCart(item.id)}
+                onClick={() => removeFromCart(item.cartItemId)}
               >
                 <FaTimes /> Remove
               </button>

@@ -31,7 +31,7 @@ export default function Ingredients() {
   return (
     <div className="w-full py-12 bg-white">
       <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
-
+        
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
           <h1 className="font-headline text-4xl md:text-5xl lg:text-6xl text-primary mb-4 md:mb-6">
@@ -77,7 +77,6 @@ export default function Ingredients() {
             All ingredients are carefully selected and tested for maximum effectiveness and safety.
           </p>
         </div>
-
       </div>
     </div>
   );

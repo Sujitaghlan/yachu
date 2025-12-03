@@ -118,6 +118,27 @@ const getOrderById = async (req, res) => {
     });
   }
 }
+
+const getOrderByUserId = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const orders = await Order.find({ userId })
+      .populate("products.productId")
+      .populate("userId", "fullName email");
+    res.status(200).json({
+      success: true,
+      message: "User orders fetched successfully",
+      orders,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({  
+      success: false,
+      message: "Failed to fetch user orders",
+    });
+  }
+};
+
 const updateStatus = async (req, res) => {
   try {
     const { orderId } = req.params;
@@ -128,7 +149,7 @@ const updateStatus = async (req, res) => {
       return res.status(404).json({ success: false, message: "Order not found" });
     }
 
-    if (status === "confirm" && !order.stockDeducted) {
+    if (status === "Confirmed" && !order.stockDeducted) {
       for (let item of order.products) {
         const product = await Product.findById(item.productId._id);
         if (product.stock < item.quantity) {
@@ -143,7 +164,7 @@ const updateStatus = async (req, res) => {
       order.stockDeducted = true;
     }
 
-    if (status === "cancelled" && order.stockDeducted) {
+    if (status === "Cancelled" && order.stockDeducted) {
       for (let item of order.products) {
         const product = await Product.findById(item.productId._id);
         product.stock += item.quantity;
@@ -169,4 +190,4 @@ const updateStatus = async (req, res) => {
   }
 };
 
-module.exports = { createOrder, getAllOrder, getOrderById, updateStatus };
+module.exports = { createOrder, getAllOrder, getOrderById, updateStatus, getOrderByUserId };

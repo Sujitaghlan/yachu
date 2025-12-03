@@ -27,9 +27,7 @@ function OrderManagement() {
 
       // Update UI instantly
       setOrders((prev) =>
-        prev.map((o) =>
-          o._id === orderId ? { ...o, status: newStatus } : o
-        )
+        prev.map((o) => (o._id === orderId ? { ...o, status: newStatus } : o))
       );
     } catch (err) {
       console.error("Failed to update status:", err);
@@ -37,9 +35,9 @@ function OrderManagement() {
   };
 
   const totalOrders = orders.length;
-  const completedOrders = orders.filter(o => o.status === "Delivered").length;
-  const pendingOrders = orders.filter(o => o.status === "Pending").length;
-  const inTransitOrders = orders.filter(o => o.status === "Shipped").length;
+  const completedOrders = orders.filter((o) => o.status === "Delivered").length;
+  const pendingOrders = orders.filter((o) => o.status === "pending").length;
+  const inTransitOrders = orders.filter((o) => o.status === "Shipped").length;
 
   const formatOrders = orders.map((o) => ({
     id: o._id,
@@ -73,7 +71,6 @@ function OrderManagement() {
             </button>
           </>
         );
-
       case "Confirmed":
         return (
           <>
@@ -84,14 +81,13 @@ function OrderManagement() {
               Ship
             </button>
             <button
-              onClick={() => handleStatusUpdate(id, "Canceled")}
+              onClick={() => handleStatusUpdate(id, "Cancelled")}
               className="bg-red-600 text-white px-3 py-1 text-xs rounded hover:bg-red-800 transition"
             >
               Cancel
             </button>
           </>
         );
-
       case "Shipped":
         return (
           <button
@@ -101,7 +97,6 @@ function OrderManagement() {
             Deliver
           </button>
         );
-
       default:
         return null;
     }
@@ -109,7 +104,6 @@ function OrderManagement() {
 
   return (
     <div className="w-full font-paragraph p-6">
-
       <h2 className="text-h2 font-headline text-primary mb-4">
         Manage your customer orders
       </h2>
@@ -179,25 +173,34 @@ function OrderManagement() {
 
                 <td>
                   {o.status === "Pending" && (
-                    <span className="bg-yellow-200 text-tertiary px-3 py-1 rounded text-xs">Pending</span>
+                    <span className="bg-yellow-200 text-tertiary px-3 py-1 rounded text-xs">
+                      Pending
+                    </span>
                   )}
                   {o.status === "Confirmed" && (
-                    <span className="bg-green text-primary px-3 py-1 rounded text-xs">Confirmed</span>
+                    <span className="bg-green text-primary px-3 py-1 rounded text-xs">
+                      Confirmed
+                    </span>
                   )}
                   {o.status === "Shipped" && (
-                    <span className="bg-info text-primary px-3 py-1 rounded text-xs">Shipped</span>
+                    <span className="bg-info text-primary px-3 py-1 rounded text-xs">
+                      Shipped
+                    </span>
                   )}
                   {o.status === "Delivered" && (
-                    <span className="bg-[#95b89b] text-green px-3 py-1 rounded text-xs">Delivered</span>
+                    <span className="bg-[#95b89b] text-green px-3 py-1 rounded text-xs">
+                      Delivered
+                    </span>
                   )}
                   {o.status === "Canceled" && (
-                    <span className="bg-red-200 text-red-700 px-3 py-1 rounded text-xs">Canceled</span>
+                    <span className="bg-red-200 text-red-700 px-3 py-1 rounded text-xs">
+                      Canceled
+                    </span>
                   )}
                 </td>
 
                 <td className="py-3">
                   <div className="flex gap-2">
-
                     {/* VIEW BUTTON */}
                     <button
                       onClick={() =>
@@ -213,13 +216,11 @@ function OrderManagement() {
                     {renderActions(o.status, o.id)}
                   </div>
                 </td>
-
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
     </div>
   );
 }
