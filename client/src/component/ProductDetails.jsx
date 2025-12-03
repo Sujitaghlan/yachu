@@ -121,19 +121,21 @@ export default function ProductDetails() {
                 Add to Cart
               </Button>
             ) : (
-              <div className="flex items-center justify-center space-x-4 bg-white shadow-md rounded-xl px-3 py-2 w-full md:w-64">
+              <div className="flex items-center justify-between border border-gray-300 rounded-lg overflow-hidden w-full md:w-64 h-12">
                 <button
                   onClick={handleDecrease}
-                  className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 shadow-md text-lg font-bold select-none"
+                  className="w-1/3 h-full flex items-center justify-center bg-white hover:bg-gray-50 border-r border-gray-300 text-xl font-bold transition-colors"
                 >
                   –
                 </button>
 
-                <span className="font-semibold text-lg select-none">{quantity}</span>
+                <div className="w-1/3 h-full flex items-center justify-center bg-gray-50">
+                  <span className="font-semibold text-lg">{quantity}</span>
+                </div>
 
                 <button
                   onClick={handleIncrease}
-                  className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 shadow-md text-lg font-bold select-none"
+                  className="w-1/3 h-full flex items-center justify-center bg-white hover:bg-gray-50 border-l border-gray-300 text-xl font-bold transition-colors"
                 >
                   +
                 </button>
