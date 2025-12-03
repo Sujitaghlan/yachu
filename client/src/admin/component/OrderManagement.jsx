@@ -27,9 +27,7 @@ function OrderManagement() {
 
       // Update UI instantly
       setOrders((prev) =>
-        prev.map((o) =>
-          o._id === orderId ? { ...o, status: newStatus } : o
-        )
+        prev.map((o) => (o._id === orderId ? { ...o, status: newStatus } : o))
       );
     } catch (err) {
       console.error("Failed to update status:", err);
@@ -83,7 +81,7 @@ function OrderManagement() {
               Ship
             </button>
             <button
-              onClick={() => handleStatusUpdate(id, "Canceled")}
+              onClick={() => handleStatusUpdate(id, "Cancelled")}
               className="bg-red-600 text-white px-3 py-1 text-xs rounded hover:bg-red-800 transition"
             >
               Cancel
@@ -175,19 +173,29 @@ function OrderManagement() {
 
                 <td>
                   {o.status === "Pending" && (
-                    <span className="bg-yellow-200 text-tertiary px-3 py-1 rounded text-xs">Pending</span>
+                    <span className="bg-yellow-200 text-tertiary px-3 py-1 rounded text-xs">
+                      Pending
+                    </span>
                   )}
                   {o.status === "Confirmed" && (
-                    <span className="bg-green text-primary px-3 py-1 rounded text-xs">Confirmed</span>
+                    <span className="bg-green text-primary px-3 py-1 rounded text-xs">
+                      Confirmed
+                    </span>
                   )}
                   {o.status === "Shipped" && (
-                    <span className="bg-info text-primary px-3 py-1 rounded text-xs">Shipped</span>
+                    <span className="bg-info text-primary px-3 py-1 rounded text-xs">
+                      Shipped
+                    </span>
                   )}
                   {o.status === "Delivered" && (
-                    <span className="bg-[#95b89b] text-green px-3 py-1 rounded text-xs">Delivered</span>
+                    <span className="bg-[#95b89b] text-green px-3 py-1 rounded text-xs">
+                      Delivered
+                    </span>
                   )}
                   {o.status === "Canceled" && (
-                    <span className="bg-red-200 text-red-700 px-3 py-1 rounded text-xs">Canceled</span>
+                    <span className="bg-red-200 text-red-700 px-3 py-1 rounded text-xs">
+                      Canceled
+                    </span>
                   )}
                 </td>
 
@@ -196,7 +204,9 @@ function OrderManagement() {
                     {/* VIEW BUTTON */}
                     <button
                       onClick={() =>
-                        navigate(`/admin/order/${o.id}`, { state: { order: o.raw } })
+                        navigate(`/admin/order/${o.id}`, {
+                          state: { order: o.raw },
+                        })
                       }
                       className="border px-3 py-1 text-xs rounded bg-white hover:bg-gray-100 transition"
                     >

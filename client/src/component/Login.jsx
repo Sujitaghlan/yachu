@@ -8,6 +8,7 @@ import Button from "../utils/Button";
 import GoogleButton from "../constant/HandleGoogleLoginAndSignup";
 import { googlePopup } from "../firebase/firebaseAuth";
 import { loginUser, googleLogin } from "../api/userApi";
+import { toast } from "react-hot-toast";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -34,18 +35,18 @@ export default function Login() {
         }
 
         if (res.user.isAdmin) {
-          alert("Admin login successful!");
+          toast.success("Admin login successful!");
           navigate("/admin");
         } else {
-          alert("Login successful!");
-          navigate("/"); 
+          toast.success("Login Successful!");
+          navigate("/");
         }
       } else {
-        alert("Login failed: invalid user data!");
+        toast.error("Login failed: invalid user data!");
       }
     } catch (error) {
       console.error(error);
-      alert(error.response?.data?.message || "Login failed");
+      toast.error(error.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
