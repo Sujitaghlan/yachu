@@ -59,7 +59,7 @@ export const CartProvider = ({ children }) => {
     const newQty = action === "inc" ? item.qty + 1 : Math.max(item.qty - 1, 1);
 
     try {
-      const response = await updateCartQuantityApi(item.id, newQty);
+      const response = await updateCartQuantityApi(item.cartItemId, newQty);
       const serverItems = response.data.cart.items.map((item) => ({
         cartItemId: item._id,
         id: item.product._id,
@@ -75,25 +75,24 @@ export const CartProvider = ({ children }) => {
   };
 
   // Remove item
- const removeFromCart = async (cartItemId) => {
-  try {
-    const response = await removeFromCartApi(cartItemId);
+  const removeFromCart = async (cartItemId) => {
+    try {
+      const response = await removeFromCartApi(cartItemId);
 
-    const updatedItems = response.data.cart.items.map((item) => ({
-      cartItemId: item._id,
-      id: item.product?._id || "",
-      title: item.product?.productName || "N/A",
-      productImg: item.product?.imageUrl || "",
-      price: item.product?.price || 0,
-      qty: item.quantity || 1,
-    }));
+      const updatedItems = response.data.cart.items.map((item) => ({
+        cartItemId: item._id,
+        id: item.product?._id || "",
+        title: item.product?.productName || "N/A",
+        productImg: item.product?.imageUrl || "",
+        price: item.product?.price || 0,
+        qty: item.quantity || 1,
+      }));
 
-    setCartItems(updatedItems);
-  } catch (error) {
-    console.error("Remove from cart failed", error);
-  }
-};
-
+      setCartItems(updatedItems);
+    } catch (error) {
+      console.error("Remove from cart failed", error);
+    }
+  };
 
   const clearCart = () => setCartItems([]);
 

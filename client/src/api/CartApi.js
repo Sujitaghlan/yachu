@@ -11,8 +11,8 @@ export const getCartApi = (userId) => {
 };
 
 // Update cart quantity
-export const updateCartQuantityApi = (productId, quantity) => {
-  return axiosClient.put(`/api/cart/${productId}`, { quantity });
+export const updateCartQuantityApi = (cartItemId, quantity) => {
+  return axiosClient.put(`/api/cart/${cartItemId}`, { quantity });
 };
 
 // Remove from cart

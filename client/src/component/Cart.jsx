@@ -66,14 +66,14 @@ function Cart({ onClose }) {
               <div className="flex items-center gap-3 mt-1">
                 <button
                   className="border border-primary text-primary px-2 rounded text-xs hover:bg-primary hover:text-white transition"
-                  onClick={() => updateQuantity(item.id, "dec")}
+                  onClick={() => updateQuantity(item.cartItemId, "dec")}
                 >
                   <FaMinus />
                 </button>
                 <span className="text-sm text-primary">{item.qty}</span>
                 <button
                   className="border border-primary text-primary px-2 rounded text-xs hover:bg-primary hover:text-white transition"
-                  onClick={() => updateQuantity(item.id, "inc")}
+                  onClick={() => updateQuantity(item.cartItemId, "inc")}
                 >
                   <FaPlus />
                 </button>
