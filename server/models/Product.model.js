@@ -15,6 +15,11 @@ const productSchema = new mongoose.Schema(
     stock: { type: Number, required: true, default: 0 },
     imageUrl: { type: String, required: true },
     imagePublicId: { type: String },
+    adProduct: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "AdProduct",
+      default: null,
+    },
   },
   { timestamps: true }
 );

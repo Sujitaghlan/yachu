@@ -24,6 +24,7 @@ export const CartProvider = ({ children }) => {
             title: item.product.productName,
             productImg: item.product.imageUrl,
             price: item.product.price,
+            discountedPrice: item.product.discountedPrice,
             qty: item.quantity,
           }));
           setCartItems(serverItems);
@@ -43,6 +44,7 @@ export const CartProvider = ({ children }) => {
         title: item.product.productName,
         productImg: item.product.imageUrl,
         price: item.product.price,
+        discountedPrice: item.product.discountedPrice,
         qty: item.quantity,
       }));
       setCartItems(serverItems);
@@ -66,6 +68,7 @@ export const CartProvider = ({ children }) => {
         title: item.product.productName,
         productImg: item.product.imageUrl,
         price: item.product.price,
+        discountedPrice: item.product.discountedPrice,
         qty: item.quantity,
       }));
       setCartItems(serverItems);
@@ -85,6 +88,7 @@ export const CartProvider = ({ children }) => {
         title: item.product?.productName || "N/A",
         productImg: item.product?.imageUrl || "",
         price: item.product?.price || 0,
+        discountedPrice: item.product?.discountedPrice || null,
         qty: item.quantity || 1,
       }));
 
@@ -98,10 +102,11 @@ export const CartProvider = ({ children }) => {
 
   // Derived values
   const totalItems = cartItems.reduce((sum, item) => sum + item.qty, 0);
-  const totalPrice = cartItems.reduce(
-    (sum, item) => sum + Number(item.price) * item.qty,
-    0
-  );
+  const totalPrice = cartItems.reduce((sum, item) => {
+    const priceToUse = item.discountedPrice || item.price; // ⭐ FIX
+    return sum + priceToUse * item.qty;
+  }, 0);
+
   const discount = totalItems >= 3 ? totalPrice * 0.1 : 0;
   const finalTotal = totalPrice - discount;
 
