@@ -119,9 +119,16 @@ function OrderHistory() {
                             Quantity: {item.quantity}
                           </p>
                         </div>
-                        <p className="font-medium text-primary">
-                          Rs. {item.productId?.price * item.quantity}
-                        </p>
+                        {item.productId?.discountedPrice ? (
+                          <p className="font-medium text-primary">
+                            Rs.{" "}
+                            {item.productId?.discountedPrice * item.quantity}
+                          </p>
+                        ) : (
+                          <p className="font-medium text-primary">
+                            Rs. {item.productId?.price * item.quantity}
+                          </p>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -130,7 +137,7 @@ function OrderHistory() {
                   <div className="bg-white border border-secondary rounded p-3">
                     <div className="flex justify-between mb-1">
                       <span className="text-tertiary">Subtotal:</span>
-                      <span>Rs. {order.totalAmount}</span>
+                      <span>Rs. {order.subTotal}</span>
                     </div>
                     <div className="flex justify-between mb-1">
                       <span className="text-tertiary">Shipping:</span>

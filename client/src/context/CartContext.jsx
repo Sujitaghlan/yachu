@@ -24,6 +24,7 @@ export const CartProvider = ({ children }) => {
             title: item.product.productName,
             productImg: item.product.imageUrl,
             price: item.product.price,
+            discountedPrice: item.product.discountedPrice,
             qty: item.quantity,
           }));
           setCartItems(serverItems);
@@ -43,6 +44,7 @@ export const CartProvider = ({ children }) => {
         title: item.product.productName,
         productImg: item.product.imageUrl,
         price: item.product.price,
+        discountedPrice: item.product.discountedPrice,
         qty: item.quantity,
       }));
       setCartItems(serverItems);
@@ -59,13 +61,14 @@ export const CartProvider = ({ children }) => {
     const newQty = action === "inc" ? item.qty + 1 : Math.max(item.qty - 1, 1);
 
     try {
-      const response = await updateCartQuantityApi(item.id, newQty);
+      const response = await updateCartQuantityApi(item.cartItemId, newQty);
       const serverItems = response.data.cart.items.map((item) => ({
         cartItemId: item._id,
         id: item.product._id,
         title: item.product.productName,
         productImg: item.product.imageUrl,
         price: item.product.price,
+        discountedPrice: item.product.discountedPrice,
         qty: item.quantity,
       }));
       setCartItems(serverItems);
@@ -75,34 +78,35 @@ export const CartProvider = ({ children }) => {
   };
 
   // Remove item
- const removeFromCart = async (cartItemId) => {
-  try {
-    const response = await removeFromCartApi(cartItemId);
+  const removeFromCart = async (cartItemId) => {
+    try {
+      const response = await removeFromCartApi(cartItemId);
 
-    const updatedItems = response.data.cart.items.map((item) => ({
-      cartItemId: item._id,
-      id: item.product?._id || "",
-      title: item.product?.productName || "N/A",
-      productImg: item.product?.imageUrl || "",
-      price: item.product?.price || 0,
-      qty: item.quantity || 1,
-    }));
+      const updatedItems = response.data.cart.items.map((item) => ({
+        cartItemId: item._id,
+        id: item.product?._id || "",
+        title: item.product?.productName || "N/A",
+        productImg: item.product?.imageUrl || "",
+        price: item.product?.price || 0,
+        discountedPrice: item.product?.discountedPrice || null,
+        qty: item.quantity || 1,
+      }));
 
-    setCartItems(updatedItems);
-  } catch (error) {
-    console.error("Remove from cart failed", error);
-  }
-};
-
+      setCartItems(updatedItems);
+    } catch (error) {
+      console.error("Remove from cart failed", error);
+    }
+  };
 
   const clearCart = () => setCartItems([]);
 
   // Derived values
   const totalItems = cartItems.reduce((sum, item) => sum + item.qty, 0);
-  const totalPrice = cartItems.reduce(
-    (sum, item) => sum + Number(item.price) * item.qty,
-    0
-  );
+  const totalPrice = cartItems.reduce((sum, item) => {
+    const priceToUse = item.discountedPrice || item.price; // ⭐ FIX
+    return sum + priceToUse * item.qty;
+  }, 0);
+
   const discount = totalItems >= 3 ? totalPrice * 0.1 : 0;
   const finalTotal = totalPrice - discount;
 

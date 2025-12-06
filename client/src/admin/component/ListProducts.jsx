@@ -2,14 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllProducts, deleteProduct } from "../../api/productApi";
+import { toast } from "react-hot-toast";
 
 function ListProducts() {
   const navigate = useNavigate();
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
 
   // Load products from API
   const loadProducts = async () => {
@@ -19,10 +18,10 @@ function ListProducts() {
       if (response.success) {
         setProducts(response.data);
       } else {
-        setError(response.message || "Failed to load products");
+        toast.error(response.message || "Failed to load products");
       }
     } catch (err) {
-      setError("Error fetching products");
+      toast.error("Error fetching products");
     }
     setLoading(false);
   };
@@ -35,35 +34,24 @@ function ListProducts() {
   const handleDeleteProduct = async (productId) => {
     if (!window.confirm("Are you sure you want to delete?")) return;
 
-    // Optimistic UI: remove product immediately
     const prevProducts = [...products];
     setProducts(products.filter((p) => p._id !== productId));
-    setMessage("");
-    setError("");
 
     try {
       const result = await deleteProduct(productId);
-      if (result.ok) {
-        setMessage(result.data.message || "Product deleted successfully!");
-      } else {
-        setProducts(prevProducts); 
-        setError(result.data.message || "Failed to delete");
-      }
-    } catch (err) {
-      setProducts(prevProducts); 
-      setError("Error deleting product");
-    }
 
+      // result = { message: "Product deleted successfully" }
+      toast.success(result.message || "Product deleted successfully!");
+    } catch (err) {
+      setProducts(prevProducts);
+      toast.error("Error deleting product");
+    }
   };
 
   if (loading) return <div className="p-4">Loading products...</div>;
 
   return (
     <div className="w-full font-sans text-sm p-4">
-      {/* Messages */}
-      {message && <div className="mb-4 p-3 bg-green-100 text-green-800 rounded">{message}</div>}
-      {error && <div className="mb-4 p-3 bg-red-100 text-red-800 rounded">{error}</div>}
-
       {/* Header */}
       <div className="flex justify-between items-center mb-3 flex-wrap gap-2">
         <div className="text-gray-600 text-xs flex-grow min-w-[150px] truncate">
@@ -72,7 +60,7 @@ function ListProducts() {
 
         <button
           onClick={() => navigate("/admin/add-products")}
-            className="text-white bg-info px-4 py-2 rounded text-sm sm:text-base hover:bg-blue-700 transition"
+          className="text-white bg-info px-4 py-2 rounded text-sm sm:text-base hover:bg-blue-700 transition"
         >
           + Add Product
         </button>
@@ -103,7 +91,9 @@ function ListProducts() {
                 <td className="py-4 px-2">
                   <div className="flex gap-2">
                     <button
-                      onClick={() => navigate(`/admin/add-products/${product._id}`)}
+                      onClick={() =>
+                        navigate(`/admin/add-products/${product._id}`)
+                      }
                       className="bg-[#008000] text-white text-xs py-1 px-3 rounded hover:bg-green-700"
                     >
                       Edit

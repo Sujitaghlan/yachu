@@ -61,19 +61,25 @@ function Cart({ onClose }) {
             />
             <div className="flex-1">
               <p className="text-sm font-medium text-primary">{item.title}</p>
-              <p className="text-sm text-tertiary">Rs. {item.price}</p>
+              {item.discountedPrice ? (
+                <p className="text-sm text-tertiary">
+                  Rs. {item.discountedPrice}
+                </p>
+              ) : (
+                <p className="text-sm text-tertiary">Rs. {item.price} </p>
+              )}
 
               <div className="flex items-center gap-3 mt-1">
                 <button
                   className="border border-primary text-primary px-2 rounded text-xs hover:bg-primary hover:text-white transition"
-                  onClick={() => updateQuantity(item.id, "dec")}
+                  onClick={() => updateQuantity(item.cartItemId, "dec")}
                 >
                   <FaMinus />
                 </button>
                 <span className="text-sm text-primary">{item.qty}</span>
                 <button
                   className="border border-primary text-primary px-2 rounded text-xs hover:bg-primary hover:text-white transition"
-                  onClick={() => updateQuantity(item.id, "inc")}
+                  onClick={() => updateQuantity(item.cartItemId, "inc")}
                 >
                   <FaPlus />
                 </button>
@@ -96,18 +102,18 @@ function Cart({ onClose }) {
           <span>Subtotal</span>
           <span>Rs. {totalPrice.toFixed(2)}</span>
         </div>
-
+        {/* 
         {discount > 0 && (
           <div className="flex justify-between mb-2 text-green-600 font-semibold text-sm">
             <span>Discount (10%)</span>
             <span>- Rs. {discount.toFixed(2)}</span>
           </div>
-        )}
-
+        )} */}
+        {/* 
         <div className="flex justify-between mb-4 text-primary font-bold text-base">
           <span>Total</span>
           <span>Rs. {finalTotal.toFixed(2)}</span>
-        </div>
+        </div> */}
 
         <Button
           onClick={handleCheckout}

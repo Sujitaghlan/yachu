@@ -6,20 +6,23 @@ const createAd = async (req, res) => {
     const { productId, discountPercent, adContent } = req.body;
 
     const product = await Product.findById(productId);
+    if (!product) return res.status(404).json({ success: false, message: "Product not found" });
 
-    if (!product) {
-      return res.status(404).json({ success: false, message: "Product not found" });
-    }
-
-    const productPrice = product.price;
-    const discountedPrice = Math.round(productPrice - (productPrice * discountPercent) / 100);
+    const productPrice = Number(product.price);
+    const discount = Number(discountPercent);
+    const discountedPrice = Math.round(productPrice - (productPrice * discount) / 100);
 
     const ad = await AdProduct.create({
       productId,
       productPrice,
-      discountPercent,
+      discountPercent: discount,
       discountedPrice,
       adContent,
+    });
+
+    await Product.findByIdAndUpdate(productId, {
+      discountedPrice,
+      adProduct: ad._id,
     });
 
     res.status(201).json({ success: true, message: "Ad created successfully", ad });
