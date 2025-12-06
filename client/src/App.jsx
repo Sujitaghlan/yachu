@@ -49,6 +49,7 @@ import ProtectedRoute from "./utils/ProtectedRoute.jsx";
 import OrderHistory from "./component/OrderHistory.jsx";
 
 import { Toaster } from "react-hot-toast";
+import AboutUs from "./component/AboutUs.jsx";
 
 // -------------------- PUBLIC LAYOUT --------------------
 const PublicLayout = ({ onSearch }) => {
@@ -138,6 +139,7 @@ function App() {
               <Route path="/ingredients" element={<Ingredients />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/order-history" element={<OrderHistory />} />
+               <Route path="/about" element={<AboutUs />} />
             </Route>
 
             {/* ---------- AUTH ---------- */}
