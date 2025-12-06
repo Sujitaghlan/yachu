@@ -1,9 +1,9 @@
-import axios from "axios";
+import axiosClient from "./axiosClient";
 
 // Fetch all products
 export const getAllProducts = async () => {
   try {
-    const res = await axios.get("/api/products");
+    const res = await axiosClient.get("/api/products");
     return res.data;
   } catch (err) {
     console.error("Get Products Error:", err);
@@ -14,7 +14,7 @@ export const getAllProducts = async () => {
 // Fetch one product
 export const getProductById = async (id) => {
   try {
-    const res = await axios.get(`/api/products/${id}`);
+    const res = await axiosClient.get(`/api/products/${id}`);
     return res.data;
   } catch (err) {
     console.error("Get Product Error:", err);
@@ -26,7 +26,6 @@ export const getProductById = async (id) => {
 export const createProduct = async (data) => {
   try {
     const formData = new FormData();
-
     formData.append("productName", data.productName || "");
     formData.append("price", data.price || 0);
     formData.append("stock", data.stock || 0);
@@ -37,13 +36,14 @@ export const createProduct = async (data) => {
 
     const token = localStorage.getItem("token");
 
-    const res = await axios.post("/api/products", formData, {
+    const res = await axiosClient.post("/api/products", formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
     });
 
+    return res.data;
     return res.data;
   } catch (err) {
     console.error("Create Product Error:", err);
@@ -55,7 +55,6 @@ export const createProduct = async (data) => {
 export const updateProduct = async (id, data) => {
   try {
     const formData = new FormData();
-
     formData.append("productName", data.productName || "");
     formData.append("price", data.price || 0);
     formData.append("stock", data.stock || 0);
@@ -66,13 +65,14 @@ export const updateProduct = async (id, data) => {
 
     const token = localStorage.getItem("token");
 
-    const res = await axios.put(`/api/products/${id}`, formData, {
+    const res = await axiosClient.put(`/api/products/${id}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
     });
 
+    return res.data;
     return res.data;
   } catch (err) {
     console.error("Update Product Error:", err);
@@ -85,11 +85,13 @@ export const deleteProduct = async (id) => {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await axios.delete(`/api/products/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
+    const res = await axiosClient.delete(`/api/products/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
-    return { ok: res.status === 200, data: res.data };
+    return res.data;
   } catch (err) {
     console.error("Delete Product Error:", err);
     throw err;

@@ -1,6 +1,7 @@
 const express = require("express");
 const {register, login, refresh, googleLogin, logout, forgotPassword, resetPassword, verifyOTP} = require("../controllers/users.controller");
 const { upload } = require("../middleware/multer");
+const { verifyToken } = require("../middleware/authMiddleware");
 
 const userRouter = express.Router();
 

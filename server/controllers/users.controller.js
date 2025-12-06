@@ -102,7 +102,7 @@ const login = async (req, res) => {
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      sameSite: "None",
+      sameSite: "Lax",
       secure: false,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
@@ -122,8 +122,9 @@ const login = async (req, res) => {
 };
 
 const refresh = async (req, res) => {
+  console.log("Refresh token request received");
   const refreshToken = req.cookies?.jwt;
-
+  console.log("Refresh Token from cookie:", refreshToken);
   if (!refreshToken) {
     return res
       .status(401)
@@ -165,7 +166,7 @@ const refresh = async (req, res) => {
 
     res.cookie("jwt", newRefreshToken, {
       httpOnly: true,
-      sameSite: "None",
+      sameSite: "Lax",
       secure: false,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });

@@ -1,8 +1,8 @@
-import axios from "axios";
+import axiosClient from "axios";
 
 export const sendEmail = async ({ email, name, subject, html }) => {
   try {
-    const res = await axios.post("/api/send-email", {
+    const res = await axiosClient.post("/api/send-email", {
       email,
       name,
       subject,

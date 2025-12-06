@@ -48,6 +48,9 @@ import AddGallery from "./admin/component/AddImages";
 import ProtectedRoute from "./utils/ProtectedRoute.jsx";
 import OrderHistory from "./component/OrderHistory.jsx";
 
+import { Toaster } from "react-hot-toast";
+import AboutUs from "./component/AboutUs.jsx";
+
 // -------------------- PUBLIC LAYOUT --------------------
 const PublicLayout = ({ onSearch }) => {
   const location = useLocation();
@@ -79,91 +82,94 @@ function App() {
   const [search, setSearch] = useState("");
 
   return (
-    <CartProvider>
-      <Router>
-        <Routes>
-          {/* ---------- PUBLIC CLIENT SIDE ---------- */}
-          <Route element={<PublicLayout onSearch={setSearch} />}>
-            <Route
-              path="/"
-              element={
-                <>
-                  <div className="section">
-                    <HomePage search={search} />
-                  </div>
+    <>
+      <Toaster position="top-right" reverseOrder={false} />
+      <CartProvider>
+        <Router>
+          <Routes>
+            {/* ---------- PUBLIC CLIENT SIDE ---------- */}
+            <Route element={<PublicLayout onSearch={setSearch} />}>
+              <Route
+                path="/"
+                element={
+                  <>
+                    <div className="section">
+                      <HomePage search={search} />
+                    </div>
 
-                  <div className="section">
-                    <DiscountBanner />
-                  </div>
+                    <div className="section">
+                      <DiscountBanner />
+                    </div>
 
-                  <div className="section">
-                    <BestSellers search={search} />
-                  </div>
+                    <div className="section">
+                      <BestSellers search={search} />
+                    </div>
 
-                  <div className="section">
-                    <ShareCard />
-                  </div>
+                    <div className="section">
+                      <ShareCard />
+                    </div>
 
-                  <div className="section">
-                    <OurProducts search={search} />
-                  </div>
+                    <div className="section">
+                      <OurProducts search={search} />
+                    </div>
 
-                  <div className="section">
-                    <HowToUse />
-                  </div>
+                    <div className="section">
+                      <HowToUse />
+                    </div>
 
-                  <div className="section">
-                    <CommentsAndReviews />
-                  </div>
+                    <div className="section">
+                      <CommentsAndReviews />
+                    </div>
 
-                  <div className="section">
-                    <ContactUs />
-                  </div>
+                    <div className="section">
+                      <ContactUs />
+                    </div>
 
-                  <div className="section">
-                    <AdditionalInfo />
-                  </div>
-                </>
-              }
-            />
+                    <div className="section">
+                      <AdditionalInfo />
+                    </div>
+                  </>
+                }
+              />
 
-            <Route path="/product-view" element={<ProductView />} />
-            <Route path="/product-details" element={<ProductDetails />} />
-            <Route path="/payment" element={<PaymentDetails />} />
-            <Route path="/billing" element={<BillingForm />} />
-            <Route path="/ingredients" element={<Ingredients />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/order-history" element={<OrderHistory />} />
-
-          </Route>
-
-          {/* ---------- AUTH ---------- */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-
-          {/* ---------- ADMIN ONLY ---------- */}
-          <Route element={<ProtectedRoute />}>
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route index element={<Dashboard />} />
-              <Route path="add-products" element={<AddProducts />} />
-              <Route path="add-products/:id" element={<AddProducts />} />
-              <Route path="ad-products" element={<AdProductForm />} />
-              <Route path="list-products" element={<ListProducts />} />
-              <Route path="category" element={<CategoryList />} />
-              <Route path="order" element={<OrderManagement />} />
-              <Route path="order/:id" element={<ViewOrder />} />
-              <Route path="add-category" element={<AddCategory />} />
-              <Route path="ad-list" element={<AdList />} />
-              <Route path="ad-form" element={<AdProductForm />} />
-              <Route path="ad-form/:id" element={<AdProductForm />} />
-              <Route path="list-gallery" element={<GalleryList />} />
-              <Route path="add-images" element={<AddGallery />} />
-              <Route path="add-images/:id" element={<AddGallery />} />
+              <Route path="/product-view" element={<ProductView />} />
+              <Route path="/product-details" element={<ProductDetails />} />
+              <Route path="/payment" element={<PaymentDetails />} />
+              <Route path="/billing" element={<BillingForm />} />
+              <Route path="/ingredients" element={<Ingredients />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/order-history" element={<OrderHistory />} />
+               <Route path="/about" element={<AboutUs />} />
             </Route>
-          </Route>
-        </Routes>
-      </Router>
-    </CartProvider>
+
+            {/* ---------- AUTH ---------- */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+
+            {/* ---------- ADMIN ONLY ---------- */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<Dashboard />} />
+                <Route path="add-products" element={<AddProducts />} />
+                <Route path="add-products/:id" element={<AddProducts />} />
+                <Route path="ad-products" element={<AdProductForm />} />
+                <Route path="list-products" element={<ListProducts />} />
+                <Route path="category" element={<CategoryList />} />
+                <Route path="order" element={<OrderManagement />} />
+                <Route path="order/:id" element={<ViewOrder />} />
+                <Route path="add-category" element={<AddCategory />} />
+                <Route path="ad-list" element={<AdList />} />
+                <Route path="ad-form" element={<AdProductForm />} />
+                <Route path="ad-form/:id" element={<AdProductForm />} />
+                <Route path="list-gallery" element={<GalleryList />} />
+                <Route path="add-images" element={<AddGallery />} />
+                <Route path="add-images/:id" element={<AddGallery />} />
+              </Route>
+            </Route>
+          </Routes>
+        </Router>
+      </CartProvider>
+    </>
   );
 }
 
