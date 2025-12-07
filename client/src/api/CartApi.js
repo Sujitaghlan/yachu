@@ -5,9 +5,9 @@ export const addToCartApi = (productId, quantity) => {
   return axiosClient.post("/api/cart", { productId, quantity });
 };
 
-// Get cart by user
-export const getCartApi = (userId) => {
-  return axiosClient.get(`/api/cart/${userId}`);
+// Get cart by user (userId no longer needed - uses authenticated user from token)
+export const getCartApi = () => {
+  return axiosClient.get(`/api/cart`);
 };
 
 // Update cart quantity

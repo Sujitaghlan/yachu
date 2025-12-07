@@ -97,11 +97,18 @@ const updateAd = async (req, res) => {
 const deleteAd = async (req, res) => {
   try {
     const {adId} = req.params;
-    const ad = await AdProduct.findByIdAndDelete(adId);
-
+       const ad = await AdProduct.findById(adId);
     if (!ad) {
       return res.status(404).json({ success: false, message: "Ad not found" });
     }
+
+    const product = await Product.findById(ad.productId);
+    if (product) {
+      product.discountedPrice = null; // Reset discount
+      await product.save();
+    }
+
+    await AdProduct.findByIdAndDelete(adId);
 
     res.status(200).json({ success: true, message: "Ad deleted successfully" });
   } catch (err) {

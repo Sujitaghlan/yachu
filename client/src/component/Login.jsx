@@ -34,6 +34,9 @@ export default function Login() {
           localStorage.removeItem("profileImage");
         }
 
+        // Dispatch custom event to notify CartContext of login
+        window.dispatchEvent(new Event("userLogin"));
+
         if (res.user.isAdmin) {
           toast.success("Admin login successful!");
           navigate("/admin");
@@ -60,6 +63,10 @@ export default function Login() {
       localStorage.setItem("token", data.accessToken);
       localStorage.setItem("user", JSON.stringify(data.user));
       console.log("Authenticated User:", data.user);
+
+      // Dispatch custom event to notify CartContext of login
+      window.dispatchEvent(new Event("userLogin"));
+
       alert("Login Successful!");
       if (window.history.length > 1) {
         navigate(-1);

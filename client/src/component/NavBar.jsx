@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaShoppingCart, FaBars, FaUserCircle, FaUserAlt, FaSearch, FaClipboardList } from "react-icons/fa";
+import {
+  FaShoppingCart,
+  FaBars,
+  FaUserCircle,
+  FaUserAlt,
+  FaSearch,
+  FaClipboardList,
+} from "react-icons/fa";
 import logo from "../assets/logo.png";
 import NavLinks from "../utils/NavLinks";
 import { useCart } from "../context/CartContext";
@@ -49,6 +56,10 @@ function NavBar({ onSearch }) {
     setUser(null);
     setProfileImage(null);
     setDropdownOpen(false);
+
+    // Dispatch custom event to notify CartContext of logout
+    window.dispatchEvent(new Event("userLogout"));
+
     navigate("/login");
   };
 
@@ -144,7 +155,9 @@ function NavBar({ onSearch }) {
                           <FaUserCircle className="w-10 h-10 text-gray-600" />
                         )}
                         <div className="flex flex-col">
-                          <span className="text-gray-800 font-semibold text-sm">{user.email}</span>
+                          <span className="text-gray-800 font-semibold text-sm">
+                            {user.email}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -165,7 +178,7 @@ function NavBar({ onSearch }) {
                           className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 font-medium"
                           onClick={handleLogout}
                         >
-                          <FaUserCircle className="text-gray-500" /> 
+                          <FaUserCircle className="text-gray-500" />
                           Logout
                         </button>
                       </>
@@ -174,7 +187,7 @@ function NavBar({ onSearch }) {
                         className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 font-medium"
                         onClick={handleLoginRedirect}
                       >
-                        <FaUserAlt className="text-gray-500" /> 
+                        <FaUserAlt className="text-gray-500" />
                         Login
                       </button>
                     )}
