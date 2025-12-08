@@ -9,6 +9,7 @@ import GoogleButton from "../constant/HandleGoogleLoginAndSignup";
 import { googlePopup } from "../firebase/firebaseAuth";
 import { loginUser, googleLogin } from "../api/userApi";
 import { toast } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -118,9 +119,9 @@ export default function Login() {
               className="rounded-full"
             />
 
-            <p className="text-center text-gray-600 text-sm cursor-pointer hover:underline">
+            <Link to="/forgot-password" className="text-center text-gray-600 text-sm cursor-pointer hover:underline">
               Forgot password?
-            </p>
+            </Link>
 
             <Button
               type="submit"

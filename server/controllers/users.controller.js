@@ -142,7 +142,6 @@ const refresh = async (req, res) => {
     });
 
     if (!user) {
-      // Token is valid but not found in DB - possible token reuse/compromise
       return res.status(403).json({
         message: "Forbidden - Invalid refresh token",
       });
