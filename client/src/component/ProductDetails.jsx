@@ -47,8 +47,18 @@ export default function ProductDetails() {
     });
   };
 
-  const handleIncrease = () => updateQuantity(cartItemId, "inc");
-  const handleDecrease = () => updateQuantity(cartItemId, "dec");
+  const handleIncrease = () => {
+    if (cartItemId) {
+      updateQuantity(cartItemId, "inc");
+    } else {
+      handleAddToCart();
+    }
+  };
+  const handleDecrease = () => {
+    if (cartItemId) {
+      updateQuantity(cartItemId, "dec");
+    }
+  };
 
   const handleBack = () => {
     if (window.history.state && window.history.state.idx > 0) {
@@ -87,12 +97,16 @@ export default function ProductDetails() {
             {title}
           </h1>
 
-          <p className="text-tertiary text-paragraph mt-1 text-left ml-4">{size}</p>
+          <p className="text-tertiary text-paragraph mt-1 text-left ml-4">
+            {size}
+          </p>
 
           <div className="flex gap-2">
             {discount ? (
               <p className="text-[20px] font-semibold text-gray-900 mt-2 text-left ml-4">
-                <span className="line-through text-gray-400 mr-2">Rs. {numericPrice}</span>
+                <span className="line-through text-gray-400 mr-2">
+                  Rs. {numericPrice}
+                </span>
                 <span className="text-primary">Rs. {discountedPrice}</span>
               </p>
             ) : (
@@ -148,7 +162,9 @@ export default function ProductDetails() {
             Product Description
           </h3>
 
-          <p className="text-tertiary text-[14px] leading-relaxed mt-1">{description}</p>
+          <p className="text-tertiary text-[14px] leading-relaxed mt-1">
+            {description}
+          </p>
         </div>
       </div>
     </div>

@@ -9,7 +9,6 @@ const createOrder = async (req, res) => {
     const { fullName, address, phone, paymentType, deliveryCharge, note } =
       req.body;
 
-    // Handle payment slip for eSewa
     let paymentSlip = null;
     if (paymentType === "esewa") {
       if (!req.file) {
@@ -22,20 +21,17 @@ const createOrder = async (req, res) => {
       paymentSlip = await uploadBufferToCloudinary(req.file.buffer, "payments");
     }
 
-    // Fetch cart
     const cart = await Cart.findOne({ user: userId }).populate("items.product");
     if (!cart || cart.items.length === 0) {
       return res.status(400).json({ message: "Your cart is empty." });
     }
 
     let subTotal = 0;
+    let totalQuantity = 0;
     const orderProducts = [];
 
-    // Loop through cart items
     for (let item of cart.items) {
       const product = item.product;
-
-      // Skip deleted products
       if (!product) continue;
 
       const priceToUse = Number(product.discountedPrice ?? product.price ?? 0);
@@ -48,18 +44,23 @@ const createOrder = async (req, res) => {
       }
 
       subTotal += priceToUse * quantity;
+      totalQuantity += quantity;
 
       orderProducts.push({
         productId: product._id,
         quantity,
         price: priceToUse,
       });
-      await product.save();
+    }
+
+    let discountAmount = 0;
+    if (totalQuantity >= 3) {
+      discountAmount = (subTotal * 10) / 100;
+      subTotal -= discountAmount;
     }
 
     const totalAmount = subTotal + Number(deliveryCharge ?? 0);
 
-    // Create the order
     const order = await Order.create({
       fullName,
       address,
@@ -73,12 +74,10 @@ const createOrder = async (req, res) => {
       products: orderProducts,
       subTotal,
       totalAmount,
-      stockDeducted: true,
+      stockDeducted: false,
     });
 
-    // Clear the cart
-    cart.items = [];
-    await cart.save();
+    await Cart.deleteOne({ user: userId });
 
     return res.status(200).json({
       success: true,

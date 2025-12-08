@@ -10,9 +10,9 @@ userRouter.post("/login", login);
 userRouter.post("/refresh", refresh);
 userRouter.post("/google-login", googleLogin);
 userRouter.post("/logout", logout);
-userRouter.post("/forgotPassword", forgotPassword);
-userRouter.post("/verifyOTP", verifyOTP);
-userRouter.post("/resetPassword", resetPassword);
+userRouter.post("/forgot-password", forgotPassword);
+userRouter.post("/verify-otp", verifyOTP);
+userRouter.post("/reset-password", resetPassword);
 
 module.exports = {
   userRouter

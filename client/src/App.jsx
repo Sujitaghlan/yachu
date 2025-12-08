@@ -30,6 +30,9 @@ import Gallery from "./component/Gallery";
 import Login from "./component/Login";
 import Signup from "./component/Signup";
 import Footer from "./component/Footer.jsx";
+import ForgotPassword from "./component/ForgotPassword.jsx";
+import VerifyOTP from "./component/VerifyOTP.jsx";
+import ResetPassword from "./component/ResetPassword.jsx";
 
 // Admin Components
 import AddProducts from "./admin/component/AddProducts";
@@ -145,6 +148,11 @@ function App() {
             {/* ---------- AUTH ---------- */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+
+            {/* ---------- PASSWORD RESET FLOW ---------- */}
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/verify-otp" element={<VerifyOTP />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
 
             {/* ---------- ADMIN ONLY ---------- */}
             <Route element={<ProtectedRoute />}>

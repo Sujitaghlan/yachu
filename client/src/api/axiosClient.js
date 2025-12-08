@@ -2,14 +2,13 @@ import axios from "axios";
 
 // Create axios instance
 const axiosClient = axios.create({
-  baseURL: "http://localhost:3000", // optional: set base URL
-  withCredentials: true, // send cookies for refresh token
+  baseURL: "http://localhost:3000", 
+  withCredentials: true,
 });
 
-// REQUEST INTERCEPTOR: attach access token
 axiosClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-  if (token) {
+  if (token && !config.url?.includes("/auth/refresh")) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
@@ -26,9 +25,9 @@ axiosClient.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        // Call refresh endpoint
-        const response = await axios.post(
-          "http://localhost:3000/api/auth/refresh", // relative path works because of baseURL
+        // Call refresh endpoint (using relative path with axiosClient)
+        const response = await axiosClient.post(
+          "/api/auth/refresh",
           {},
           { withCredentials: true }
         );

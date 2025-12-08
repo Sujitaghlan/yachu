@@ -102,18 +102,18 @@ function Cart({ onClose }) {
           <span>Subtotal</span>
           <span>Rs. {totalPrice.toFixed(2)}</span>
         </div>
-        {/* 
+
         {discount > 0 && (
           <div className="flex justify-between mb-2 text-green-600 font-semibold text-sm">
             <span>Discount (10%)</span>
             <span>- Rs. {discount.toFixed(2)}</span>
           </div>
-        )} */}
-        {/* 
+        )}
+
         <div className="flex justify-between mb-4 text-primary font-bold text-base">
           <span>Total</span>
           <span>Rs. {finalTotal.toFixed(2)}</span>
-        </div> */}
+        </div>
 
         <Button
           onClick={handleCheckout}

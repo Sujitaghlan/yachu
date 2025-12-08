@@ -33,3 +33,19 @@ export const googleLogin = async (idToken) => {
     throw error.response?.data || error;
   }
 };
+
+export const sendOTP = async (data) => {
+  const res = await API.post("/forgot-password", data);
+  return res.data;
+};
+
+export const verifyOTP = async (data) => {
+  const res = await API.post("/verify-otp", data);
+  return res.data;
+};
+
+export const resetPassword = async (data) => {
+  const res = await API.post("/reset-password", data);
+  return res.data;
+};
+

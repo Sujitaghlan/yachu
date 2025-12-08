@@ -64,7 +64,7 @@ function OrderManagement() {
               Confirm
             </button>
             <button
-              onClick={() => handleStatusUpdate(id, "Canceled")}
+              onClick={() => handleStatusUpdate(id, "Cancelled")}
               className="bg-red-600 text-white px-3 py-1 text-xs rounded hover:bg-red-800 transition"
             >
               Cancel
