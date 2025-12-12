@@ -53,8 +53,8 @@ function RelatedProducts({ currentProduct }) {
       {/* Updated: Same padding as NavBar */}
       <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
         <div className="flex gap-4 overflow-x-auto scrollbar-hide 
-                       md:grid md:grid-cols-2 md:gap-6 
-                       lg:grid-cols-4 lg:gap-8 md:overflow-visible">
+                       md:grid md:grid-cols-3 md:gap-6 
+                       2xl:grid-cols-4 lg:gap-8 md:overflow-visible">
           {relatedProducts.map((item) => (
             <ProductCard
               key={item._id}

@@ -27,7 +27,7 @@ function HowToUse() {
   ];
 
   return (
-    <div className="w-full py-10 bg-white">
+    <div className="w-full py-10">
       {/* Header */}
       <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto mb-8">
         <h1 className="text-heading font-headline font-bold text-black mb-0 text-center animate-fade-in-up">

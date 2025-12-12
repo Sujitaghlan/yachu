@@ -26,11 +26,12 @@ export default function Login() {
       const res = await loginUser(userData);
 
       if (res.accessToken && res.user) {
+        console.log("Login Response:", res);
         localStorage.setItem("token", res.accessToken);
         localStorage.setItem("user", JSON.stringify(res.user));
 
-        if (res.user.profileImage) {
-          localStorage.setItem("profileImage", res.user.profileImage);
+        if (res.user.imageUrl) {
+          localStorage.setItem("profileImage", res.user.imageUrl);
         } else {
           localStorage.removeItem("profileImage");
         }
@@ -63,6 +64,7 @@ export default function Login() {
       console.log("Google Login Response:", data);
       localStorage.setItem("token", data.accessToken);
       localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("profileImage", data.user.imageUrl);
       console.log("Authenticated User:", data.user);
 
       // Dispatch custom event to notify CartContext of login
@@ -81,8 +83,8 @@ export default function Login() {
   };
 
   return (
-    <div className="w-full h-screen bg-[#1C1C1C] flex flex-col md:flex-row overflow-hidden">
-      <div className="w-full md:w-1/2 h-1/2 md:h-full bg-[#013067] flex flex-col items-center justify-center px-8 py-12">
+    <div className="w-full min-h-screen bg-[#1C1C1C] flex flex-col md:flex-row overflow-hidden">
+      <div className="w-full md:w-1/2 bg-[#013067] flex flex-col items-center justify-center px-8 py-12">
         <div className="w-52 h-52 rounded-full bg-[#0a396f] overflow-hidden flex items-center justify-center shadow-lg">
           <img
             src={productImage}
@@ -95,7 +97,7 @@ export default function Login() {
         </h1>
       </div>
 
-      <div className="w-full md:w-1/2 h-full bg-white flex flex-col justify-center px-8 py-12 overflow-auto">
+      <div className="w-full md:w-1/2 bg-white flex flex-col justify-center px-8 py-12">
         <div className="max-w-md mx-auto w-full">
           <h1 className="text-4xl font-bold text-center md:hidden text-[#013067] mb-8">
             Login
@@ -119,7 +121,10 @@ export default function Login() {
               className="rounded-full"
             />
 
-            <Link to="/forgot-password" className="text-center text-gray-600 text-sm cursor-pointer hover:underline">
+            <Link
+              to="/forgot-password"
+              className="text-center text-gray-600 text-sm cursor-pointer hover:underline"
+            >
               Forgot password?
             </Link>
 

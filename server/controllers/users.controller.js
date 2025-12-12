@@ -244,7 +244,7 @@ const googleLogin = async (req, res) => {
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      sameSite: "None",
+      sameSite: "Lax",
       secure: false,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -255,6 +255,8 @@ const googleLogin = async (req, res) => {
         id: user._id,
         email: user.email,
         name: user.name,
+        imageUrl: user.imageUrl,
+        isAdmin: user.isAdmin,
       },
     });
   } catch (err) {
@@ -277,7 +279,7 @@ const logout = async (req, res) => {
 
     res.clearCookie("jwt", {
       httpOnly: true,
-      sameSite: "None",
+      sameSite: "Lax",
       secure: false,
     });
 

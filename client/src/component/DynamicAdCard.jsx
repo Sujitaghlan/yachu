@@ -20,10 +20,17 @@ export default function DynamicAdCard({ ad }) {
   };
 
   return (
-    <div className="w-full bg-gradient-to-r from-primary to-info p-6 rounded-lg text-white font-paragraph relative flex items-center gap-1 md:flex-row md:justify-between mx-auto animate-slide-in-left">
+    <div className="w-full bg-gradient-to-r from-primary to-info p-6 rounded-lg text-white font-paragraph relative md:flex items-center gap-1 md:flex-row md:justify-between mx-auto animate-slide-in-left">
+      {/* Mobile: Get X% above image, full width */}
+      <div className="md:hidden w-full text-center mb-4">
+        <h1 className="text-4xl font-headline font-bold">
+          Get <span className="text-green">{ad.discountPercent}%</span>
+        </h1>
+        <p className="text-sm font-paragraph mt-1">DISCOUNT</p>
+      </div>
 
-      {/* Left text section */}
-      <div className="flex flex-col flex-1 text-left animate-fade-in-up">
+      {/* Left text section - hidden on mobile, shown on desktop */}
+      <div className="hidden md:flex flex-col flex-1 text-left animate-fade-in-up">
         <h1 className="text-heading font-headline font-bold mb-2 md:text-[55px]">
           Get <span className="text-green">{ad.discountPercent}%</span>
         </h1>
@@ -34,7 +41,9 @@ export default function DynamicAdCard({ ad }) {
             {ad.netContent}
           </span>
         </p>
-        <p className="font-headline text-h3 mt-1 md:text-[14px]">{ad.productName}</p>
+        <p className="font-headline text-h3 mt-1 md:text-[14px]">
+          {ad.productName}
+        </p>
 
         <Button
           onClick={handleShopNow}
@@ -49,8 +58,8 @@ export default function DynamicAdCard({ ad }) {
         </Button>
       </div>
 
-      {/* Right image and discount badge */}
-      <div className="relative w-[160px] h-[220px] flex flex-col items-center justify-center border border-white rounded-md md:w-[300px] md:h-[400px] animate-fade-in-down">
+      {/* Image section */}
+      <div className="relative w-[160px] h-[220px] flex flex-col items-center justify-center border border-white rounded-md md:w-[300px] md:h-[400px] animate-fade-in-down mx-auto md:mx-0">
         <img
           src={ad.imageUrl}
           alt={ad.productName}
@@ -59,6 +68,26 @@ export default function DynamicAdCard({ ad }) {
         <div className="absolute top-0 left-0 bg-white text-primary font-bold text-xs md:text-lg px-3 py-1 md:px-4 md:py-2 rounded-sm border border-primary select-none animate-bounce-slow">
           {ad.discountPercent}% OFF
         </div>
+      </div>
+
+      {/* Mobile*/}
+      <div className="md:hidden w-full mt-6">
+        <p className="text-center text-lg font-paragraph mb-2">
+          {ad.productName}
+        </p>
+        <p className="text-center text-sm text-muted-foreground mb-4">
+          {ad.adContent}
+        </p>
+        <Button
+          onClick={handleShopNow}
+          className="w-full text-center text-lg py-3 hover:bg-green/90 animate-pulse-slow"
+          background="#00FF00"
+          textColor="#013067"
+          padding="12px 0"
+          borderRadius="8px"
+        >
+          Shop Now
+        </Button>
       </div>
     </div>
   );

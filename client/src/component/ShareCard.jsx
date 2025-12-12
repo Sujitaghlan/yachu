@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FiShare2 } from "react-icons/fi";
 
 function ShareCard() {
-  const [shares, setShares] = useState(0); 
+  const [shares, setShares] = useState(0);
 
   const handleShare = async () => {
     const shareData = {
@@ -14,7 +14,7 @@ function ShareCard() {
     if (navigator.share) {
       try {
         await navigator.share(shareData);
-        setShares(prev => prev + 1);
+        setShares((prev) => prev + 1);
       } catch (err) {
         console.error("Share failed:", err);
       }
@@ -22,7 +22,7 @@ function ShareCard() {
       try {
         await navigator.clipboard.writeText(shareData.url);
         alert("Link copied to clipboard!");
-        setShares(prev => prev + 1);
+        setShares((prev) => prev + 1);
       } catch (err) {
         console.error("Copy failed:", err);
       }
@@ -31,13 +31,13 @@ function ShareCard() {
 
   return (
     <div
-      className="bg-white rounded-xl p-4 shadow-md flex flex-col justify-between
+      className="bg-white rounded-xl p-4 shadow-md flex justify-between items-center
                  max-w-full mx-auto w-[90vw]
                  sm:w-[320px] sm:h-auto
-                 lg:flex-row lg:items-center lg:justify-between lg:p-6 lg:w-[500px]"
+                lg:p-6 lg:w-[500px]"
     >
       {/* Top / Left content */}
-      <div className="flex flex-col space-y-1 lg:flex-1">
+      <div className="flex-col space-y-1 lg:flex-1">
         <p className="text-paragraph text-tertiary truncate font-paragraph text-left lg:text-lg">
           Share yachuuchit.np.com
         </p>
@@ -48,11 +48,11 @@ function ShareCard() {
 
       {/* Bottom / Right row for desktop */}
       <div className="flex items-center justify-start mt-4 gap-6 lg:mt-0 lg:ml-6">
-         {/* Share count */}
-        <div className="flex flex-col text-right leading-none">
+        {/* Share count */}
+        {/* <div className="flex flex-col text-right leading-none">
           <span className="font-bold text-h2 font-headline lg:text-2xl">{shares}</span>
           <span className="text-paragraph text-tertiary font-paragraph lg:text-base">shares</span>
-        </div>
+        </div> */}
         {/* Share button */}
         <button
           onClick={handleShare}
@@ -60,10 +60,8 @@ function ShareCard() {
                      shadow-md hover:brightness-90 transition flex-shrink-0 lg:w-16 lg:h-12"
           aria-label="Share"
         >
-          <FiShare2 size={20} color="#000000" className="lg:text-2xl"/>
+          <FiShare2 size={20} color="#000000" className="lg:text-2xl" />
         </button>
-
-       
       </div>
     </div>
   );

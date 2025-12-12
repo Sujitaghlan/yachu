@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { FaBold, FaItalic, FaUnderline, FaPaperPlane } from "react-icons/fa";
 import { createReview } from "../api/reviewApi";
 import { useNavigate } from "react-router-dom";
@@ -8,20 +8,15 @@ export default function AddYourComment({ onNewReview }) {
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const textareaRef = useRef(null); // ref to control textarea
+
   const handleSubmit = async () => {
-    // Check if user is logged in
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!token || !user) {
-      // Optional: Show a message before redirecting
       alert("Please login to submit a review");
-      navigate("/login", { 
-        state: { 
-          from: window.location.pathname,
-          message: "Please login to submit a review" 
-        } 
-      });
+      navigate("/login", { state: { from: window.location.pathname } });
       return;
     }
 
@@ -34,18 +29,10 @@ export default function AddYourComment({ onNewReview }) {
       setLoading(true);
       const res = await createReview(description, token);
       setDescription("");
-      
-      // Notify parent component about the new review
-      if (onNewReview) {
-        onNewReview(res.review);
-      }
-      
-      // Optional: Show success message
+      if (onNewReview) onNewReview(res.review);
       alert("Review submitted successfully!");
     } catch (error) {
       console.error("Failed to submit review", error);
-      
-      // Check if error is due to authentication
       if (error.response?.status === 401 || error.response?.status === 403) {
         alert("Your session has expired. Please login again.");
         localStorage.removeItem("token");
@@ -53,10 +40,31 @@ export default function AddYourComment({ onNewReview }) {
         navigate("/login");
         return;
       }
-      
-      alert(error.response?.data?.message || "Failed to submit review. Please try again.");
+      alert(
+        error.response?.data?.message ||
+          "Failed to submit review. Please try again."
+      );
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleFocus = () => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!token || !user) {
+      // Remove focus immediately to prevent re-triggering
+      if (textareaRef.current) textareaRef.current.blur();
+
+      const shouldLogin = window.confirm(
+        "You need to login to submit a review. Login now?"
+      );
+
+      if (shouldLogin) {
+        navigate("/login", { state: { from: window.location.pathname } });
+      }
+      // If Cancel, just return to UI. Next focus will show confirm again.
     }
   };
 
@@ -73,33 +81,21 @@ export default function AddYourComment({ onNewReview }) {
 
       {/* Textarea */}
       <textarea
+        ref={textareaRef}
         rows="4"
         placeholder="Write your comment here..."
         className="w-full p-4 md:p-5 rounded-xl border-2 border-gray-200 bg-white text-black outline-none font-paragraph text-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 resize-none"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        onFocus={() => {
-          // Check if user is logged in when they start typing
-          const token = localStorage.getItem("token");
-          const user = JSON.parse(localStorage.getItem("user"));
-          if (!token || !user) {
-            const shouldLogin = window.confirm("You need to login to submit a review. Login now?");
-            if (shouldLogin) {
-              navigate("/login", { 
-                state: { from: window.location.pathname } 
-              });
-            }
-          }
-        }}
+        onFocus={handleFocus}
       ></textarea>
-
       {/* Formatting tools and submit button */}
       <div className="flex flex-col md:flex-row items-center justify-between mt-4 gap-4">
         {/* Formatting tools */}
         <div className="flex items-center gap-6 text-2xl text-primary/70">
-          <button 
+          <button
             type="button"
-            className="hover:text-primary transition-colors hover:scale-110" 
+            className="hover:text-primary transition-colors hover:scale-110"
             title="Bold"
             onClick={() => {
               const token = localStorage.getItem("token");
@@ -113,9 +109,9 @@ export default function AddYourComment({ onNewReview }) {
           >
             <FaBold />
           </button>
-          <button 
+          <button
             type="button"
-            className="hover:text-primary transition-colors hover:scale-110" 
+            className="hover:text-primary transition-colors hover:scale-110"
             title="Italic"
             onClick={() => {
               const token = localStorage.getItem("token");
@@ -129,9 +125,9 @@ export default function AddYourComment({ onNewReview }) {
           >
             <FaItalic />
           </button>
-          <button 
+          <button
             type="button"
-            className="hover:text-primary transition-colors hover:scale-110" 
+            className="hover:text-primary transition-colors hover:scale-110"
             title="Underline"
             onClick={() => {
               const token = localStorage.getItem("token");

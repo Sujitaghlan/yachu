@@ -1,9 +1,27 @@
 const { cloudinary } = require("../config/cloudinary.js");
-const { uploadBufferToCloudinary } = require("../utils/uploadBufferToCloudinary");
-const {Product} = require("../models")
+const {
+  uploadBufferToCloudinary,
+} = require("../utils/uploadBufferToCloudinary");
+const { Product } = require("../models");
 const addProduct = async (req, res) => {
   try {
-    const { productName, description, price, category, netContent, stock, discountedPrice } = req.body;
+    const {
+      productName,
+      description,
+      price,
+      category,
+      netContent,
+      stock,
+      discountedPrice,
+    } = req.body;
+
+    const existingProduct = await Product.findOne({
+      productName: { $regex: `^${productName}$`, $options: "i" },
+    });
+
+    if (existingProduct) {
+      return res.status(400).json({ message: "Product exists" });
+    }
 
     if (!req.file) {
       return res.status(400).json({ message: "Image file is required" });
@@ -32,7 +50,7 @@ const addProduct = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error", err:err.message });
+    res.status(500).json({ message: "Server error", err: err.message });
   }
 };
 
@@ -59,7 +77,15 @@ const getAllProducts = async (req, res) => {
 const editProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { productName, description, price, category, netContent, stock, discountedPrice } = req.body;
+    const {
+      productName,
+      description,
+      price,
+      category,
+      netContent,
+      stock,
+      discountedPrice,
+    } = req.body;
 
     const product = await Product.findById(id);
     if (!product) return res.status(404).json({ message: "Product not found" });

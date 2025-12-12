@@ -3,7 +3,7 @@ import { FaUserCircle } from "react-icons/fa";
 
 export default function CommentCard({ text, username, avatar, timestamp }) {
   return (
-    <div className="w-full md:w-[48%] bg-white shadow-lg rounded-2xl p-5 md:p-6 flex gap-4 hover:shadow-xl transition-shadow duration-300">
+    <div className="w-full bg-white shadow-lg rounded-2xl p-5 md:p-6 flex gap-4 hover:shadow-xl transition-shadow duration-300">
       {/* Avatar */}
       <div className="flex-shrink-0">
         {avatar ? (
@@ -25,11 +25,13 @@ export default function CommentCard({ text, username, avatar, timestamp }) {
             {username || "Anonymous"}
           </h3>
           <p className="text-sm text-tertiary">
-            {timestamp ? new Date(timestamp).toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric',
-              year: 'numeric'
-            }) : "Just now"}
+            {timestamp
+              ? new Date(timestamp).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })
+              : "Just now"}
           </p>
         </div>
 

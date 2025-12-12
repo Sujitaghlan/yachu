@@ -8,6 +8,13 @@ const createAd = async (req, res) => {
     const product = await Product.findById(productId);
     if (!product) return res.status(404).json({ success: false, message: "Product not found" });
 
+     if (product.adProduct) {
+      return res.status(400).json({
+        success: false,
+        message: "This product already has an  ad.",
+      });
+    }
+
     const productPrice = Number(product.price);
     const discount = Number(discountPercent);
     const discountedPrice = Math.round(productPrice - (productPrice * discount) / 100);

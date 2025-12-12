@@ -69,7 +69,7 @@ const PublicLayout = ({ onSearch }) => {
       )}
       {!hideNav && isCartOpen && <Cart onClose={() => setCartOpen(false)} />}
 
-      <main className="pt-20 pb-32 overflow-x-hidden">
+      <main className="pt-16 pb-16 overflow-x-hidden">
         <div className="page-container">
           <Outlet />
         </div>
@@ -100,7 +100,7 @@ function App() {
                       <HomePage search={search} />
                     </div>
 
-                    <div className="section">
+                    <div className="mb-16">
                       <DiscountBanner />
                     </div>
 
@@ -108,7 +108,7 @@ function App() {
                       <BestSellers search={search} />
                     </div>
 
-                    <div className="section">
+                    <div className="mb-16">
                       <ShareCard />
                     </div>
 
@@ -116,7 +116,7 @@ function App() {
                       <OurProducts search={search} />
                     </div>
 
-                    <div className="section">
+                    <div className="mb-16">
                       <HowToUse />
                     </div>
 
@@ -128,7 +128,7 @@ function App() {
                       <ContactUs />
                     </div>
 
-                    <div className="section">
+                    <div>
                       <AdditionalInfo />
                     </div>
                   </>
@@ -142,7 +142,7 @@ function App() {
               <Route path="/ingredients" element={<Ingredients />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/order-history" element={<OrderHistory />} />
-               <Route path="/about" element={<AboutUs />} />
+              <Route path="/about" element={<AboutUs />} />
             </Route>
 
             {/* ---------- AUTH ---------- */}
