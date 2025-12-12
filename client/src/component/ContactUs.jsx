@@ -78,7 +78,7 @@ function ContactUs() {
   ];
 
   return (
-    <div className="w-full py-10 bg-white">
+    <div className="w-full py-10">
       <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto animate-fade-in-up">
         <h2 className="font-headline text-h1 mb-10 md:mb-12 text-primary text-center">
           Contact Us

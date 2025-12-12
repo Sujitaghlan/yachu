@@ -40,7 +40,7 @@ function BestSellers({ search }) {
       <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
         <div className="flex gap-4 overflow-x-auto scrollbar-hide 
                        md:grid md:grid-cols-2 md:gap-6 
-                       lg:grid-cols-4 lg:gap-6 md:overflow-visible">
+                       lg:grid-cols-3 2xl:grid-cols-4 md:overflow-visible">
           {filtered.map((item) => (
             <ProductCard
               key={item._id}

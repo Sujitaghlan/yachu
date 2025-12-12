@@ -3,7 +3,13 @@ import React from "react";
 // React Icons
 import { LuLeaf } from "react-icons/lu";
 import { FiSearch, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
-import { FaHandsHelping, FaStar, FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import {
+  FaHandsHelping,
+  FaStar,
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
+} from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { MdLocationCity } from "react-icons/md";
 
@@ -13,9 +19,8 @@ import logo from "../assets/logo.png";
 const AboutUs = () => {
   return (
     <main className="min-h-screen bg-background">
-
       {/* Hero Section */}
-      <section className="py-12 md:py-20 px-4 md:px-8 lg:px-16 bg-slate-50 dark:bg-slate-900">
+      <section className="py-12 md:py-20 px-4 md:px-8 lg:px-16 bg-slate-50 dark:bg-[#FFFFFF]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="order-2 md:order-1">
@@ -52,7 +57,7 @@ const AboutUs = () => {
       </section>
 
       {/* Mission Section */}
-      <section className="py-12 md:py-20 px-4 md:px-8 lg:px-16">
+      <section className="py-12 md:py-20 px-4 md:px-8 lg:px-16 bg-[#F8F9FA]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="flex justify-center md:justify-start order-2 md:order-1">
@@ -93,7 +98,7 @@ const AboutUs = () => {
       </section>
 
       {/* Story Section */}
-      <section className="py-12 md:py-20 px-4 md:px-8 lg:px-16 bg-slate-50 dark:bg-slate-900">
+      <section className="py-12 md:py-20 px-4 md:px-8 lg:px-16 bg-slate-50 dark:bg-[#FFFFFF]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="order-2 md:order-1">
@@ -132,7 +137,7 @@ const AboutUs = () => {
       </section>
 
       {/* Founder Section */}
-      <section className="py-12 md:py-20 px-4 md:px-8 lg:px-16">
+      <section className="py-12 md:py-20 px-4 md:px-8 lg:px-16 bg-[#F8F9FA]">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-12 text-foreground text-center text-balance">
             Founder of Our Company
@@ -145,11 +150,11 @@ const AboutUs = () => {
                   alt="Company founder"
                   className="w-full max-w-sm h-auto rounded-lg shadow-lg object-cover"
                 />
-                <div className="absolute bottom-6 left-6 right-6 bg-white dark:bg-slate-800 rounded-lg p-4 shadow-lg">
-                  <p className="text-sm font-semibold text-foreground">
+                <div className="absolute bottom-6 left-6 right-6 bg-white dark:bg-[#003366] rounded-lg p-4 shadow-lg">
+                  <p className="text-sm font-semibold text-foreground text-[#FFFFFF]">
                     Founder & Visionary
                   </p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-muted-foreground text-[#FFFFFF]">
                     Natural Care Pioneer
                   </p>
                 </div>
@@ -209,7 +214,7 @@ const AboutUs = () => {
       </section>
 
       {/* Values Section */}
-      <section className="py-16 md:py-24 bg-secondary/50">
+      <section className="py-16 md:py-24 bg-[#FFFFFF]">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto mb-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -220,7 +225,8 @@ const AboutUs = () => {
               are as a company.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
                 title: "Natural & Authentic",
@@ -249,9 +255,9 @@ const AboutUs = () => {
             ].map((value, index) => (
               <div
                 key={index}
-                className="bg-card p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                className="bg-[#F8F9FA] p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100"
               >
-                <div className="text-4xl mb-4">{value.icon}</div>
+                <div className="mb-4 text-gray-700">{value.icon}</div>
                 <h3 className="text-xl font-semibold text-foreground mb-3">
                   {value.title}
                 </h3>
@@ -288,7 +294,7 @@ const AboutUs = () => {
       </section>
 
       {/* Team Section */}
-      <section className="py-16 md:py-24 bg-background">
+      <section className="py-16 md:py-24 bg-background bg-[#F8F9FA]">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto mb-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -339,14 +345,15 @@ const AboutUs = () => {
       </section>
 
       {/* Locations Section */}
-      <section className="py-16 md:py-24 bg-secondary/50">
+      <section className="py-16 md:py-24 bg-[#FFFFFF]">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto mb-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Our Locations
             </h2>
             <p className="text-muted-foreground text-lg">
-              Rooted in Nepal, serving customers worldwide with authentic natural solutions.
+              Rooted in Nepal, serving customers worldwide with authentic
+              natural solutions.
             </p>
           </div>
 
@@ -398,10 +405,12 @@ const AboutUs = () => {
               Visit Us
             </h3>
             <p className="text-muted-foreground mb-4">
-              We welcome customers, partners, and wellness enthusiasts to visit our facilities in Nepal. Experience our commitment to quality and natural wellness firsthand.
+              We welcome customers, partners, and wellness enthusiasts to visit
+              our facilities in Nepal. Experience our commitment to quality and
+              natural wellness firsthand.
             </p>
             <a
-              href="https://maps.google.com/?q=Kathmandu+Nepal"
+              href="https://maps.app.goo.gl/dYVS1d8oDguJzz7g9"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block px-6 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity"
@@ -413,67 +422,78 @@ const AboutUs = () => {
       </section>
 
       {/* Contact Section */}
-     <section className="py-16 md:py-24 bg-background">
-  <div className="container mx-auto px-4">
-    <div className="max-w-3xl mx-auto">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-          Get In Touch
-        </h2>
-        <p className="text-muted-foreground text-lg">
-          Have questions? We'd love to hear from you. Reach out to our team anytime.
-        </p>
-      </div>
+      <section className="py-16 md:py-24 bg-[#F8F9FA]">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                Get In Touch
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                Have questions? We'd love to hear from you. Reach out to our
+                team anytime.
+              </p>
+            </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              {/* Email */}
+              <div className="text-center flex flex-col items-center">
+                <div className="text-3xl mb-4">
+                  <FiMail />
+                </div>
+                <h3 className="font-semibold text-foreground mb-2">Email</h3>
+                <a
+                  href="mailto:info@yachu.com"
+                  className="text-primary hover:underline"
+                >
+                  info@yachu.com
+                </a>
+              </div>
 
-  {/* Email */}
-  <div className="text-center flex flex-col items-center">
-    <div className="text-3xl mb-4">
-      <FiMail />
-    </div>
-    <h3 className="font-semibold text-foreground mb-2">Email</h3>
-    <a href="mailto:info@yachu.com" className="text-primary hover:underline">
-      info@yachu.com
-    </a>
-  </div>
+              {/* Phone */}
+              <div className="text-center flex flex-col items-center">
+                <div className="text-3xl mb-4">
+                  <FiPhone />
+                </div>
+                <h3 className="font-semibold text-foreground mb-2">Phone</h3>
+                <a
+                  href="tel:+977-1-1234567"
+                  className="text-primary hover:underline"
+                >
+                  +977-1-1234567
+                </a>
+              </div>
 
-  {/* Phone */}
-  <div className="text-center flex flex-col items-center">
-    <div className="text-3xl mb-4">
-      <FiPhone />
-    </div>
-    <h3 className="font-semibold text-foreground mb-2">Phone</h3>
-    <a href="tel:+977-1-1234567" className="text-primary hover:underline">
-      +977-1-1234567
-    </a>
-  </div>
-
-  {/* Address */}
-  <div className="text-center flex flex-col items-center">
-    <div className="text-3xl mb-4">
-      <MdLocationCity />
-    </div>
-    <h3 className="font-semibold text-foreground mb-2">Address</h3>
-    <p className="text-muted-foreground">Kathmandu, Nepal</p>
-  </div>
-
-</div>
-
-
-            {/* Social Icons */}
-            <div className="bg-secondary/50 p-8 rounded-lg text-center">
-              <h3 className="text-xl font-semibold text-foreground mb-4">
-                Follow Us
-              </h3>
-              <div className="flex justify-center gap-6 text-2xl text-primary">
-                <a href="#" className="hover:text-primary/80"><FaFacebookF /></a>
-                <a href="#" className="hover:text-primary/80"><FaXTwitter /></a>
-                <a href="#" className="hover:text-primary/80"><FaInstagram /></a>
-                <a href="#" className="hover:text-primary/80"><FaLinkedinIn /></a>
+              {/* Address */}
+              <div className="text-center flex flex-col items-center">
+                <div className="text-3xl mb-4">
+                  <MdLocationCity />
+                </div>
+                <h3 className="font-semibold text-foreground mb-2">Address</h3>
+                <p className="text-muted-foreground">Kathmandu, Nepal</p>
               </div>
             </div>
 
+            {/* Social Icons */}
+            <div className="bg-[#003366] p-8 rounded-lg text-center">
+              <h3 className="text-xl font-semibold text-foreground mb-4 text-[#FFFFFF]">
+                Follow Us
+              </h3>
+              <div className="flex justify-center gap-6 text-2xl text-[#FFFFFF]">
+                <a href="#" className="hover:text-[#F8F9FA]/80">
+                  <FaFacebookF />
+                </a>
+                <a href="#" className="hover:text-[#F8F9FA]/80">
+                  <FaXTwitter />
+                </a>
+                <a href="#" className="hover:text-[#F8F9FA]/80">
+                  <FaInstagram />
+                </a>
+                <a href="#" className="hover:text-[#F8F9FA]/80">
+                  <FaLinkedinIn />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -60,7 +60,7 @@ function NavBar({ onSearch }) {
     // Dispatch custom event to notify CartContext of logout
     window.dispatchEvent(new Event("userLogout"));
 
-    navigate("/login");
+    navigate("/");
   };
 
   const handleLoginRedirect = () => {
@@ -141,7 +141,7 @@ function NavBar({ onSearch }) {
 
               {/* Dropdown Menu */}
               {dropdownOpen && (
-                <div className="absolute right-0 mt-3 w-56 bg-white shadow-xl rounded-xl overflow-hidden z-50 animate-fade-in-down border border-gray-100">
+                <div className="absolute right-0 mt-3 min-w-[16rem] max-w-xs bg-white shadow-xl rounded-xl overflow-hidden z-50 animate-fade-in-down border border-gray-100">
                   {user ? (
                     <div className="p-4 border-b border-gray-100 flex flex-col items-start bg-gray-50">
                       <div className="flex items-center gap-3">
@@ -155,7 +155,7 @@ function NavBar({ onSearch }) {
                           <FaUserCircle className="w-10 h-10 text-gray-600" />
                         )}
                         <div className="flex flex-col">
-                          <span className="text-gray-800 font-semibold text-sm">
+                          <span className="text-gray-800 font-semibold text-sm break-all">
                             {user.email}
                           </span>
                         </div>

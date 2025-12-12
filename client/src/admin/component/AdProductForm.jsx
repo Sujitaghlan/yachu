@@ -99,7 +99,7 @@ export default function AdProductForm() {
       navigate("/admin/ad-list");
     } catch (err) {
       console.error("Failed to save ad:", err);
-      alert(err.message || "Failed to save ad.");
+      alert(err?.response?.data?.message || err.message || "Failed to save ad.");
     }
   };
 

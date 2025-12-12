@@ -53,12 +53,6 @@ const createOrder = async (req, res) => {
       });
     }
 
-    let discountAmount = 0;
-    if (totalQuantity >= 3) {
-      discountAmount = (subTotal * 10) / 100;
-      subTotal -= discountAmount;
-    }
-
     const totalAmount = subTotal + Number(deliveryCharge ?? 0);
 
     const order = await Order.create({

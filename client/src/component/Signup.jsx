@@ -44,17 +44,17 @@ export default function Signup() {
   };
 
   return (
-    <div className="w-full h-screen bg-[#1C1C1C] flex flex-col md:flex-row overflow-hidden">
+    <div className="w-full min-h-screen bg-[#1C1C1C] flex flex-col md:flex-row overflow-hidden">
 
       {/* Left Section */}
-      <div className="w-full md:w-1/2 h-1/2 md:h-full bg-[#013067] flex flex-col justify-center px-16 py-12">
+      <div className="w-full md:w-1/2 bg-[#013067] flex flex-col justify-center px-16 py-12">
         <h1 className="text-white text-3xl sm:text-4xl font-bold leading-snug">
           Let’s <br /> Create <br /> Your <br /> Account
         </h1>
       </div>
 
       {/* Right Section */}
-      <div className="w-full md:w-1/2 h-full bg-white flex flex-col justify-center px-6 py-12 overflow-auto">
+      <div className="w-full md:w-1/2 bg-white flex flex-col justify-center px-6 py-12">
         <div className="max-w-md mx-auto w-full">
 
           <h1 className="text-4xl font-bold text-center md:hidden text-[#013067] mb-8">

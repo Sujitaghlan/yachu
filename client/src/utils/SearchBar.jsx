@@ -8,6 +8,10 @@ function SearchBar({ placeholder = "Search Product...", onSearch }) {
     const value = e.target.value;
     setQuery(value);
     if (onSearch) onSearch(value);
+     const section = document.getElementById("products");
+    if (section && value.trim() !== "") {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (

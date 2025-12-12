@@ -7,7 +7,7 @@ export default function AdditionalInfo() {
   const toggleOpen = () => setIsOpen(!isOpen);
 
   return (
-    <div className="w-full py-8 bg-white">
+    <div className="w-full py-8">
       {/* Outer container with same padding as NavBar */}
       <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
         {/* Inner container */}

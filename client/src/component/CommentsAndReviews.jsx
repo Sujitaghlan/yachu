@@ -35,25 +35,30 @@ export default function CommentsAndReviews() {
   }, [toggle, commentList]);
 
   const getTwoComments = () => {
+    // FIX: Only show one comment if list has only 1 item
+    if (commentList.length === 1) {
+      return [commentList[0]];
+    }
+
     const first = commentList[currentIndex];
     const second = commentList[(currentIndex + 1) % commentList.length];
     return [first, second];
   };
 
-  const commentsToDisplay = toggle ? getTwoComments() : commentList.slice(0, 2);
+  const commentsToDisplay = toggle ? getTwoComments() : commentList.slice(-2);
 
-  const handleNewReview = (newReview) => {
-    setCommentList((prev) => [newReview, ...prev]);
+  const handleNewReview = async (newReview) => {
+    await loadReviews();
   };
 
   return (
     <div className="w-full py-8 bg-white">
       {/* Outer container with same padding as NavBar */}
-      <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
+      <div className="w-full md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
         {/* Inner container with rounded corners and shadow */}
-        <div className="w-full bg-white rounded-3xl shadow-sm p-6 md:p-8">
+        <div className="w-full bg-white rounded-3xl shadow-sm md:p-8">
           {/* Tabs */}
-          <div className="flex items-center justify-between mb-6 md:mb-8">
+          <div className="flex items-center justify-between gap-2 mb-6 md:mb-8">
             <div className="flex items-center gap-3 font-paragraph">
               <Button
                 onClick={() => setActiveTab("new")}
@@ -105,8 +110,12 @@ export default function CommentsAndReviews() {
           {/* Comments */}
           <div className="flex flex-col md:flex-row justify-between gap-4 md:gap-6 mb-8 min-h-[150px]">
             {commentsToDisplay.length > 0 ? (
-              commentsToDisplay.map((comment) => (
-                <div key={comment._id || comment.id} className="flex-1">
+              commentsToDisplay.map((comment, index) => (
+                // FIX: Use compound key to prevent duplicate rendering
+                <div
+                  key={`${comment._id || comment.id}-${index}`}
+                  className="flex-1"
+                >
                   <CommentCard
                     text={comment.description || comment.text}
                     username={comment.user?.name || "Anonymous"}
@@ -117,7 +126,9 @@ export default function CommentsAndReviews() {
               ))
             ) : (
               <div className="w-full text-center py-10">
-                <p className="text-gray-500 italic text-lg">No comments found</p>
+                <p className="text-gray-500 italic text-lg">
+                  No comments found
+                </p>
               </div>
             )}
           </div>

@@ -69,19 +69,19 @@ export default function ProductDetails() {
   };
 
   return (
-    <div className="w-full bg-white px-4 py-2 md:py-4 flex justify-center font-paragraph">
-      <div className="w-full max-w-7xl flex flex-col md:flex-row md:gap-6 gap-4 relative">
+    <div className="w-full bg-white px-4 py-4 md:py-4 flex justify-center font-paragraph">
+      <div className="w-full max-w-4xl flex flex-col p-4 md:flex-row md:gap-6 gap-4 relative">
         {/* Back Button */}
         <button
           onClick={handleBack}
           aria-label="back"
-          className="absolute left-4 top-4 bg-transparent p-2 rounded-md"
+          className="absolute left-0 top-4 bg-transparent p-2 rounded-md"
         >
           <FaArrowLeft className="text-[22px] text-black" />
         </button>
 
         {/* Product Image */}
-        <div className="flex justify-center md:flex-1 md:justify-start">
+        <div className="flex justify-center md:flex-1">
           <div className="w-60 h-60 md:w-96 md:h-96 flex items-center justify-center">
             <img
               src={productImg}
@@ -92,7 +92,7 @@ export default function ProductDetails() {
         </div>
 
         {/* Product Details */}
-        <div className="flex-1 flex flex-col justify-start md:justify-start mt-2 md:mt-0">
+        <div className="flex-1 flex flex-col justify-start items-center md:items-start md:justify-start mt-2 md:mt-0">
           <h1 className="text-h1 font-bold text-gray-900 text-center md:text-left font-headline">
             {title}
           </h1>
@@ -120,7 +120,7 @@ export default function ProductDetails() {
           </div>
 
           {/* Add to Cart / Quantity Selector */}
-          <div className="mt-4 md:mt-5 w-full flex justify-center md:justify-start">
+          <div className="mt-4 md:mt-5 w-fit flex justify-center md:justify-start">
             {quantity === 0 ? (
               <Button
                 onClick={handleAddToCart}

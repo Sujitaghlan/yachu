@@ -8,7 +8,7 @@ import { getAllAds } from "../api/adApi";
 function OurProducts({ search }) {
   const [products, setProducts] = useState([]);
   const [ads, setAds] = useState([]);
-  const [filterCategory, setFilterCategory] = useState("all");
+  const [filterCategory, setFilterCategory] = useState("Hair Oil");
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -32,22 +32,31 @@ function OurProducts({ search }) {
   };
 
   const filtered = products.filter((p) => {
-    const matchCategory = filterCategory === "all" || p.category === filterCategory;
-    const matchSearch = p.productName.toLowerCase().includes(search.toLowerCase());
+    const matchCategory = p.category.name === filterCategory;
+    console.log("ddd", p.category.name, filterCategory, matchCategory);
+    const matchSearch = p.productName
+      .toLowerCase()
+      .includes(search.toLowerCase());
     return matchCategory && matchSearch;
   });
 
   return (
     <div className="w-full py-10 bg-white">
-      <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center font-headline">Our Products</h2>
+      <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center font-headline">
+        Our Products
+      </h2>
 
       {/* Category filter icons with proper centering */}
       <div className="flex justify-center items-center gap-6 md:gap-10 mb-10">
         <div
           className="flex flex-col items-center gap-1 cursor-pointer"
-          onClick={() => setFilterCategory("oil")}
+          onClick={() => setFilterCategory("Hair Oil")}
         >
-          <div className={`w-10 h-10 flex justify-center items-center rounded-full bg-yellow-300 shadow ${filterCategory === "oil" ? "ring-2 ring-primary" : ""}`}>
+          <div
+            className={`w-10 h-10 flex justify-center items-center rounded-full bg-yellow-300 shadow ${
+              filterCategory === "Hair Oil" ? "ring-2 ring-primary" : ""
+            }`}
+          >
             <LuDroplet size={22} className="text-black" />
           </div>
           <p className="text-sm font-paragraph">Hair Oil</p>
@@ -55,19 +64,27 @@ function OurProducts({ search }) {
 
         <div
           className="flex flex-col items-center gap-1 cursor-pointer"
-          onClick={() => setFilterCategory("shampoo")}
+          onClick={() => setFilterCategory("Shampoo")}
         >
-          <div className={`w-10 h-10 flex justify-center items-center rounded-full bg-gray-700 shadow ${filterCategory === "shampoo" ? "ring-2 ring-primary" : ""}`}>
+          <div
+            className={`w-10 h-10 flex justify-center items-center rounded-full bg-gray-700 shadow ${
+              filterCategory === "Shampoo" ? "ring-2 ring-primary" : ""
+            }`}
+          >
             <FaBottleDroplet size={22} className="text-white" />
           </div>
           <p className="text-sm font-paragraph">Shampoo</p>
         </div>
 
-        <div
+        {/* <div
           className="flex flex-col items-center gap-1 cursor-pointer"
           onClick={() => setFilterCategory("sachet-oil")}
         >
-          <div className={`w-10 h-10 flex justify-center items-center rounded-full bg-blue-300 shadow ${filterCategory === "sachet-oil" ? "ring-2 ring-primary" : ""}`}>
+          <div
+            className={`w-10 h-10 flex justify-center items-center rounded-full bg-blue-300 shadow ${
+              filterCategory === "sachet-oil" ? "ring-2 ring-primary" : ""
+            }`}
+          >
             <LuDroplets size={22} className="text-black" />
           </div>
           <p className="text-sm font-paragraph">Sachet Oil</p>
@@ -77,11 +94,15 @@ function OurProducts({ search }) {
           className="flex flex-col items-center gap-1 cursor-pointer"
           onClick={() => setFilterCategory("sachet-shampoo")}
         >
-          <div className={`w-10 h-10 flex justify-center items-center rounded-full bg-blue-200 shadow ${filterCategory === "sachet-shampoo" ? "ring-2 ring-primary" : ""}`}>
+          <div
+            className={`w-10 h-10 flex justify-center items-center rounded-full bg-blue-200 shadow ${
+              filterCategory === "sachet-shampoo" ? "ring-2 ring-primary" : ""
+            }`}
+          >
             <FaBox size={22} className="text-black" />
           </div>
           <p className="text-sm font-paragraph">Sachet Shampoo</p>
-        </div>
+        </div> */}
       </div>
 
       {/* Products container with same padding as NavBar */}
@@ -92,9 +113,11 @@ function OurProducts({ search }) {
           </p>
         )}
 
-        <div className="flex gap-4 overflow-x-auto scrollbar-hide 
-                       md:grid md:grid-cols-2 md:gap-6 
-                       lg:grid-cols-4 lg:gap-8 md:overflow-visible">
+        <div
+          className="flex gap-4 overflow-x-auto scrollbar-hide 
+                       md:grid md:grid-cols-3 md:gap-6 
+                       2xl:grid-cols-4 lg:gap-8 md:overflow-visible"
+        >
           {filtered.map((item) => (
             <ProductCard
               key={item._id}

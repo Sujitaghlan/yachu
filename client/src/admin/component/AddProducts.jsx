@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { AiOutlineArrowLeft, AiOutlineCloudUpload } from "react-icons/ai";
 import FormField from "../../utils/FormField";
-import { createProduct, updateProduct, getProductById } from "../../api/productApi";
+import {
+  createProduct,
+  updateProduct,
+  getProductById,
+} from "../../api/productApi";
 import { getCategories } from "../../api/categoryApi";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -21,6 +25,7 @@ export default function AddProducts() {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // Load categories
   useEffect(() => {
@@ -93,6 +98,7 @@ export default function AddProducts() {
     }
 
     try {
+      setLoading(true);
       if (productId) {
         // Update product
         const response = await updateProduct(productId, { ...formData, image });
@@ -112,7 +118,11 @@ export default function AddProducts() {
       navigate("/admin/list-products");
     } catch (err) {
       console.error("Error saving product:", err);
-      alert(err.message || "Failed to save product");
+      alert(
+        err.response?.data?.message || err.message || "Failed to save product"
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -194,16 +204,21 @@ export default function AddProducts() {
 
             <div>
               <label className="block mb-1 font-medium">
-                Upload Image {productId ? "" : <span className="text-red-500">*</span>}
+                Upload Image{" "}
+                {productId ? "" : <span className="text-red-500">*</span>}
               </label>
 
               <label
                 htmlFor="upload"
                 className="w-full border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500"
               >
-                <AiOutlineCloudUpload size={30} className="mx-auto mb-2 text-gray-500" />
+                <AiOutlineCloudUpload
+                  size={30}
+                  className="mx-auto mb-2 text-gray-500"
+                />
                 <p className="text-gray-500">
-                  Drop your image here, or <span className="text-blue-500 underline">browse</span>
+                  Drop your image here, or{" "}
+                  <span className="text-blue-500 underline">browse</span>
                 </p>
 
                 <input
@@ -228,9 +243,18 @@ export default function AddProducts() {
 
         <button
           type="submit"
-          className="w-full mt-6 bg-blue-900 text-white py-3 rounded hover:bg-blue-800 transition"
+          className={`w-full mt-6 bg-blue-900 text-white py-3 rounded transition 
+    ${loading ? "opacity-70 cursor-not-allowed" : "hover:bg-blue-800"}
+  `}
+          disabled={loading}
         >
-          {productId ? "Update Product" : "Add Product"}
+          {loading
+            ? productId
+              ? "Updating..."
+              : "Adding..."
+            : productId
+            ? "Update Product"
+            : "Add Product"}
         </button>
       </form>
     </div>

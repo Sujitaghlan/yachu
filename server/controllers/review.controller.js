@@ -1,16 +1,12 @@
-const {Review} = require("../models");
+const { Review } = require("../models");
 
 // Create a new review
 const createReview = async (req, res) => {
   try {
     const { description } = req.body;
-    const user = req.user._id; 
-    const existingReview = await Review.findOne({ user });
-    if (existingReview) {
-      return res.status(400).json({ message: "You have already submitted a review" });
-    }
-
+    const user = req.user._id;
     const review = await Review.create({ user, description });
+    await review.populate("user", "name profileImage");
     res.status(201).json({ message: "Review created successfully", review });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -30,7 +26,10 @@ const getReviews = async (req, res) => {
 // Get a single review by ID
 const getReviewById = async (req, res) => {
   try {
-    const review = await Review.findById(req.params.id).populate("user", "name email");
+    const review = await Review.findById(req.params.id).populate(
+      "user",
+      "name email"
+    );
     if (!review) return res.status(404).json({ message: "Review not found" });
     res.status(200).json(review);
   } catch (error) {
@@ -47,7 +46,9 @@ const updateReview = async (req, res) => {
     if (!review) return res.status(404).json({ message: "Review not found" });
 
     if (!review.user.equals(req.user._id)) {
-      return res.status(403).json({ message: "You are not allowed to update this review" });
+      return res
+        .status(403)
+        .json({ message: "You are not allowed to update this review" });
     }
 
     review.description = description || review.description;
@@ -67,7 +68,9 @@ const deleteReview = async (req, res) => {
     if (!review) return res.status(404).json({ message: "Review not found" });
 
     if (!review.user.equals(req.user._id)) {
-      return res.status(403).json({ message: "You are not allowed to delete this review" });
+      return res
+        .status(403)
+        .json({ message: "You are not allowed to delete this review" });
     }
 
     await review.deleteOne();
