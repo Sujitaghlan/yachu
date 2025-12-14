@@ -2,19 +2,22 @@
 import React, { useState } from "react";
 import { MdEmail, MdPerson } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import Input from "../utils/Input";
 import Button from "../utils/Button";
 import GoogleButton from "../constant/HandleGoogleLoginAndSignup";
 import { registerUser } from "../api/userApi";
-import { useNavigate } from "react-router-dom";   
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [retypePassword, setRetypePassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRetypePassword, setShowRetypePassword] = useState(false);
   const [agree, setAgree] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -24,17 +27,16 @@ export default function Signup() {
     if (!agree) return alert("Please agree to Terms & Privacy");
     if (password !== retypePassword) return alert("Passwords do not match");
 
-    const userData = {
-      name: fullName,
-      email,
-      password,
-    };
-
     try {
       setLoading(true);
-      const res = await registerUser(userData);
+      await registerUser({
+        name: fullName,
+        email,
+        password,
+      });
+
       alert("Account created successfully!");
-      navigate("/login"); 
+      navigate("/login");
     } catch (error) {
       console.log(error);
       alert(error.message || "Signup failed");
@@ -45,7 +47,6 @@ export default function Signup() {
 
   return (
     <div className="w-full min-h-screen bg-[#1C1C1C] flex flex-col md:flex-row overflow-hidden">
-
       {/* Left Section */}
       <div className="w-full md:w-1/2 bg-[#013067] flex flex-col justify-center px-16 py-12">
         <h1 className="text-white text-3xl sm:text-4xl font-bold leading-snug">
@@ -56,7 +57,6 @@ export default function Signup() {
       {/* Right Section */}
       <div className="w-full md:w-1/2 bg-white flex flex-col justify-center px-6 py-12">
         <div className="max-w-md mx-auto w-full">
-
           <h1 className="text-4xl font-bold text-center md:hidden text-[#013067] mb-8">
             Signup
           </h1>
@@ -84,20 +84,46 @@ export default function Signup() {
 
             <Input
               placeholder="Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               icon={<RiLockPasswordFill className="text-[#013067] text-xl" />}
+              rightIcon={
+                <div
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="cursor-pointer"
+                >
+                  {showPassword ? (
+                    <AiFillEyeInvisible className="text-[#013067] text-xl" />
+                  ) : (
+                    <AiFillEye className="text-[#013067] text-xl" />
+                  )}
+                </div>
+              }
               borderColor="#013067"
               className="rounded-full"
             />
 
             <Input
               placeholder="Retype Password"
-              type="password"
+              type={showRetypePassword ? "text" : "password"}
               value={retypePassword}
               onChange={(e) => setRetypePassword(e.target.value)}
               icon={<RiLockPasswordFill className="text-[#013067] text-xl" />}
+              rightIcon={
+                <div
+                  onClick={() =>
+                    setShowRetypePassword(!showRetypePassword)
+                  }
+                  className="cursor-pointer"
+                >
+                  {showRetypePassword ? (
+                    <AiFillEyeInvisible className="text-[#013067] text-xl" />
+                  ) : (
+                    <AiFillEye className="text-[#013067] text-xl" />
+                  )}
+                </div>
+              }
               borderColor="#013067"
               className="rounded-full"
             />
@@ -128,7 +154,7 @@ export default function Signup() {
               Already have an account?{" "}
               <span
                 className="text-[#013067] font-semibold cursor-pointer"
-                onClick={() => navigate("/login")}    
+                onClick={() => navigate("/login")}
               >
                 Login
               </span>

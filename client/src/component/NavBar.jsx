@@ -12,7 +12,7 @@ import NavLinks from "../utils/NavLinks";
 import { useCart } from "../context/CartContext";
 import Cart from "./Cart";
 import SearchBar from "../utils/SearchBar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function NavBar({ onSearch }) {
   const [open, setOpen] = useState(false);
@@ -27,7 +27,6 @@ function NavBar({ onSearch }) {
   const links = [
     { id: 1, title: "Home", path: "/" },
     { id: 3, title: "About", path: "/about" },
-    { id: 4, title: "Contact", path: "/contact" },
     { id: 5, title: "Ingredients", path: "/ingredients" },
     { id: 6, title: "Gallery", path: "/gallery" },
   ];
@@ -75,11 +74,14 @@ function NavBar({ onSearch }) {
         <div className="flex items-center justify-between gap-4">
           {/* Left Section - Logo & Navigation */}
           <div className="flex items-center gap-4 md:gap-6 lg:gap-12">
-            <img
+            <Link to="/">
+             <img
               src={logo}
               alt="Logo"
               className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-[#FFD700] object-cover"
             />
+            </Link>
+           
             <div className="hidden lg:flex">
               <NavLinks links={links} />
             </div>
