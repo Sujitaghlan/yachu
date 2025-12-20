@@ -171,7 +171,7 @@ export const CartProvider = ({ children }) => {
   // Derived values
   const totalItems = cartItems.reduce((sum, item) => sum + item.qty, 0);
   const totalPrice = cartItems.reduce((sum, item) => {
-    const priceToUse = item.discountedPrice || item.price; // ⭐ FIX
+    const priceToUse = item.discountedPrice || item.price; 
     return sum + priceToUse * item.qty;
   }, 0);
 

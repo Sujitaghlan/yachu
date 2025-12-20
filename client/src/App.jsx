@@ -33,7 +33,7 @@ import Footer from "./component/Footer.jsx";
 import ForgotPassword from "./component/ForgotPassword.jsx";
 import VerifyOTP from "./component/VerifyOTP.jsx";
 import ResetPassword from "./component/ResetPassword.jsx";
-
+import Results from "./component/Results.jsx";
 // Admin Components
 import AddProducts from "./admin/component/AddProducts";
 import AdProductForm from "./admin/component/AdProductForm";
@@ -53,6 +53,8 @@ import OrderHistory from "./component/OrderHistory.jsx";
 
 import { Toaster } from "react-hot-toast";
 import AboutUs from "./component/AboutUs.jsx";
+import AddVideo from "./admin/component/AddVideo.jsx";
+import AdminVideos from "./admin/component/AdminVideos.jsx";
 
 // -------------------- PUBLIC LAYOUT --------------------
 const PublicLayout = ({ onSearch }) => {
@@ -143,6 +145,7 @@ function App() {
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/order-history" element={<OrderHistory />} />
               <Route path="/about" element={<AboutUs />} />
+              <Route path="/results" element={<Results />} />
             </Route>
 
             {/* ---------- AUTH ---------- */}
@@ -172,6 +175,9 @@ function App() {
                 <Route path="list-gallery" element={<GalleryList />} />
                 <Route path="add-images" element={<AddGallery />} />
                 <Route path="add-images/:id" element={<AddGallery />} />
+                <Route path="add-videos" element={<AddVideo />} />
+                <Route path="add-videos/:id" element={<AddVideo />} />
+                <Route path="list-videos" element={<AdminVideos />} />
               </Route>
             </Route>
           </Routes>

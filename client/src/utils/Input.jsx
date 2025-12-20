@@ -5,8 +5,9 @@ export default function Input({
   placeholder = "",
   value,
   onChange,
-  name, 
+  name,
   icon,
+  rightIcon,                 
   borderColor = "#013067",
   textColor = "#013067",
   className = "",
@@ -22,13 +23,15 @@ export default function Input({
 
       <input
         type={type}
-        name={name}                  
+        name={name}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
         className="w-full bg-transparent outline-none placeholder:text-gray-500"
         style={{ color: textColor }}
       />
+
+      {rightIcon && <span>{rightIcon}</span>} 
     </div>
   );
 }
