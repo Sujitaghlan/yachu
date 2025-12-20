@@ -43,11 +43,12 @@ const deleteCategory = async (req, res) => {
 const updateCategory = async (req, res) => {    
   try { 
     const { id } = req.params;
-    const { name, description } = req.body;      
+    const { icon, name, description } = req.body;      
     const category = await Category.findById(id);
     if (!category) {
       return res.status(404).json({ message: "Category not found" });
     }
+    if (icon) category.icon = icon;
     if (name) category.name = name;
     if (description) category.description = description;      
     await category.save();

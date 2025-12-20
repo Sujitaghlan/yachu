@@ -23,10 +23,37 @@ const Footer = () => {
 
             {/* Social icons row */}
             <div className="flex gap-5 mt-6 text-2xl">
-              <FaFacebookF className="hover:text-yellow-400 cursor-pointer" />
-              <FaTiktok className="hover:text-yellow-400 cursor-pointer" />
-              <FaInstagram className="hover:text-yellow-400 cursor-pointer" />
-              <FaWhatsapp className="hover:text-yellow-400 cursor-pointer" />
+              <a
+                href="https://www.facebook.com/share/1bEM3p5o1X/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaFacebookF className="hover:text-yellow-400 cursor-pointer" />
+              </a>
+              <a
+                href="https://www.instagram.com/yachubaneshwor?igsh=MTljN3Eyd2c1YzFuaA=="
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                <FaInstagram className="hover:text-yellow-400 cursor-pointer" />
+              </a>
+
+              <a
+                href="https://www.tiktok.com/@uchityachu_baneshwor?_r=1&_t=ZS-92CzhU0UAHx"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                <FaTiktok className="hover:text-yellow-400 cursor-pointer" />
+              </a>
+              <a
+                href="https://wa.me/+9779808731770"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaWhatsapp className="hover:text-yellow-400 cursor-pointer" />
+              </a>
             </div>
           </div>
 

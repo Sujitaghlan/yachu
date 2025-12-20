@@ -1,4 +1,4 @@
-import { FiFileText, FiCheckCircle, FiClock, FiTruck } from "react-icons/fi";
+import { FiFileText, FiCheckCircle, FiClock, FiTruck, FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getOrders, updateOrderStatus } from "../../api/OrderApi";
@@ -6,12 +6,17 @@ import { getOrders, updateOrderStatus } from "../../api/OrderApi";
 function OrderManagement() {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const res = await getOrders();
-        setOrders(res.orders || []);
+        // Sort descending by date (newest first)
+        const sortedOrders = (res.orders || []).sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setOrders(sortedOrders);
       } catch (err) {
         console.error("Failed to fetch orders:", err);
       }
@@ -20,12 +25,9 @@ function OrderManagement() {
     fetchOrders();
   }, []);
 
-  // UPDATE ORDER STATUS FUNCTION
   const handleStatusUpdate = async (orderId, newStatus) => {
     try {
       await updateOrderStatus(orderId, newStatus);
-
-      // Update UI instantly
       setOrders((prev) =>
         prev.map((o) => (o._id === orderId ? { ...o, status: newStatus } : o))
       );
@@ -34,12 +36,21 @@ function OrderManagement() {
     }
   };
 
+  // FILTER ORDERS BASED ON SEARCH
+  const filteredOrders = orders.filter((o) => {
+    const searchLower = search.toLowerCase();
+    const nameMatch = o.fullName.toLowerCase().includes(searchLower);
+    const statusMatch = o.status.toLowerCase().includes(searchLower);
+    const dateMatch = o.createdAt?.slice(0, 10).includes(searchLower);
+    return nameMatch || statusMatch || dateMatch;
+  });
+
   const totalOrders = orders.length;
   const completedOrders = orders.filter((o) => o.status === "Delivered").length;
   const pendingOrders = orders.filter((o) => o.status === "pending").length;
   const inTransitOrders = orders.filter((o) => o.status === "Shipped").length;
 
-  const formatOrders = orders.map((o) => ({
+  const formatOrders = filteredOrders.map((o) => ({
     id: o._id,
     date: o.createdAt?.slice(0, 10),
     customer: o.fullName,
@@ -51,7 +62,6 @@ function OrderManagement() {
     raw: o,
   }));
 
-  // RENDER ACTION BUTTONS
   const renderActions = (status, id) => {
     switch (status) {
       case "Pending":
@@ -109,7 +119,7 @@ function OrderManagement() {
       </h2>
 
       {/* STATS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div className="bg-white shadow-md rounded-lg p-4 flex justify-between items-center">
           <div>
             <p className="text-tertiary text-sm">Total Orders</p>
@@ -140,6 +150,28 @@ function OrderManagement() {
             <p className="text-3xl font-bold">{inTransitOrders}</p>
           </div>
           <FiTruck className="text-3xl text-icon" />
+        </div>
+      </div>
+
+      {/* SEARCH BAR */}
+      <div className="mb-6 flex justify-start">
+        <div className="relative w-full max-w-md">
+          <FiSearch className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400 text-lg" />
+          <input
+            type="text"
+            placeholder="Search by name, status, or date (YYYY-MM-DD)"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-10 py-2 rounded-full border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none transition text-sm"
+          />
+          {search && (
+            <button
+              onClick={() => setSearch("")}
+              className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            >
+              &#10005;
+            </button>
+          )}
         </div>
       </div>
 
@@ -201,7 +233,6 @@ function OrderManagement() {
 
                 <td className="py-3">
                   <div className="flex gap-2">
-                    {/* VIEW BUTTON */}
                     <button
                       onClick={() =>
                         navigate(`/admin/order/${o.id}`, {

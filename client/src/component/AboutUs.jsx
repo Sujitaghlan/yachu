@@ -14,6 +14,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import { MdLocationCity } from "react-icons/md";
 
 import Mam from "../assets/saroj.jpg";
+import ceo from "../assets/ceo.png";
 import logo from "../assets/logo.png";
 
 const AboutUs = () => {
@@ -146,15 +147,15 @@ const AboutUs = () => {
             <div className="flex justify-center md:justify-start">
               <div className="relative">
                 <img
-                  src={Mam}
+                  src={ceo}
                   alt="Company founder"
                   className="w-full max-w-sm h-auto rounded-lg shadow-lg object-cover"
                 />
-                <div className="absolute bottom-6 left-6 right-6 bg-white dark:bg-[#003366] rounded-lg p-4 shadow-lg">
-                  <p className="text-sm font-semibold text-foreground text-[#FFFFFF]">
+                <div className="absolute bottom-6 left-6 right-6 bg-white text-center dark:bg-[#003366] rounded-lg p-4 shadow-lg">
+                  <p className="text-sm font-semibold text-foreground text-[#003366]">
                     Founder & Visionary
                   </p>
-                  <p className="text-xs text-muted-foreground text-[#FFFFFF]">
+                  <p className="text-xs text-muted-foreground text-[#003366]">
                     Natural Care Pioneer
                   </p>
                 </div>
@@ -310,16 +311,16 @@ const AboutUs = () => {
               {
                 name: "Ujiwol Manandhar",
                 role: "Founder & CEO",
+                image: ceo,
+              },
+              {
+                name: "Ulpi Manandhar",
+                role: "Head of Operations, Baneshwor",
                 image: Mam,
               },
               {
-                name: "Sarah Chen",
-                role: "Head of Operations",
-                image: Mam,
-              },
-              {
-                name: "Raj Patel",
-                role: "Head of Research & Development",
+                name: "Rohan Manandhar",
+                role: "Head of YDM",
                 image: Mam,
               },
               {

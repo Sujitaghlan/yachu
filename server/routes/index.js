@@ -8,6 +8,7 @@ const { categoryRouter } = require("./category.routes");
 const { adProductRouter } = require("./adProduct.routes");
 const { emailRouter } = require("./mail.routes");
 const { galleryRouter } = require("./gallery.routes");
+const { videoRouter } = require("./video.routes");
 const router = express.Router();
 
 router.use("/auth", userRouter);
@@ -19,5 +20,6 @@ router.use(categoryRouter);
 router.use(adProductRouter);
 router.use(emailRouter);
 router.use(galleryRouter);
+router.use(videoRouter);
 
 module.exports = { router };

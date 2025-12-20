@@ -29,6 +29,7 @@ function NavBar({ onSearch }) {
     { id: 3, title: "About", path: "/about" },
     { id: 5, title: "Ingredients", path: "/ingredients" },
     { id: 6, title: "Gallery", path: "/gallery" },
+    { id: 7, title: "Results", path: "/results" },
   ];
 
   useEffect(() => {
@@ -75,13 +76,13 @@ function NavBar({ onSearch }) {
           {/* Left Section - Logo & Navigation */}
           <div className="flex items-center gap-4 md:gap-6 lg:gap-12">
             <Link to="/">
-             <img
-              src={logo}
-              alt="Logo"
-              className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-[#FFD700] object-cover"
-            />
+              <img
+                src={logo}
+                alt="Logo"
+                className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-[#FFD700] object-cover"
+              />
             </Link>
-           
+
             <div className="hidden lg:flex">
               <NavLinks links={links} />
             </div>

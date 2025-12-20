@@ -6,6 +6,7 @@ const Cart = require("./Cart.model");
 const Category = require("./Category.model");
 const AdProduct = require("./AdProduct.model");
 const Gallery = require("./Gallery.model");
+const Video = require("./Video.model");
 module.exports = {
   Product,
   User,
@@ -14,5 +15,6 @@ module.exports = {
   Cart, 
   Category,
   AdProduct,
-  Gallery
+  Gallery,
+  Video,
 };
