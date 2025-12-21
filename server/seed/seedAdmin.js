@@ -9,7 +9,7 @@ const seedAdmin = async () => {
   try {
     await connectDb();
 
-    const adminEmail = "admin@example.com";
+    const adminEmail = "admin@gmail.com";
     const existingAdmin = await User.findOne({ email: adminEmail });
 
     if (existingAdmin) {
@@ -17,7 +17,7 @@ const seedAdmin = async () => {
       process.exit(0);
     }
 
-    const hashedPassword = await bcrypt.hash("StrongPassword123!", saltRounds);
+    const hashedPassword = await bcrypt.hash("yachu123!", saltRounds);
 
     const adminUser = new User({
       name: "Admin",
