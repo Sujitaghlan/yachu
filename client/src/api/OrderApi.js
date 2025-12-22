@@ -15,7 +15,7 @@ export const createOrder = async (orderData) => {
       }
     }
 
-    const res = await axiosClient.post("/api/order", formData, {
+    const res = await axiosClient.post("/order", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -30,24 +30,24 @@ export const createOrder = async (orderData) => {
 
 // GET ALL ORDERS (ADMIN)
 export const getOrders = async () => {
-  const res = await axiosClient.get("/api/orders");
+  const res = await axiosClient.get("/orders");
   return res.data;
 };
 
 // GET ORDER BY ID
 export const getOrderById = async (orderId) => {
-  const res = await axiosClient.get(`/api/orders/${orderId}`);
+  const res = await axiosClient.get(`/orders/${orderId}`);
   return res.data;
 };
 
 // GET ORDERS FOR LOGGED IN USER
 export const getOrdersByUserId = async () => {
-  const res = await axiosClient.get("/api/orders/user");
+  const res = await axiosClient.get("/orders/user");
   return res.data;
 };
 
 // UPDATE ORDER STATUS
 export const updateOrderStatus = async (orderId, status) => {
-  const res = await axiosClient.patch(`/api/orders/${orderId}`, { status });
+  const res = await axiosClient.patch(`/orders/${orderId}`, { status });
   return res.data;
 };

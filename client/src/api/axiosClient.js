@@ -27,7 +27,7 @@ axiosClient.interceptors.response.use(
       try {
         // Call refresh endpoint (using relative path with axiosClient)
         const response = await axiosClient.post(
-          "/api/auth/refresh",
+          "/auth/refresh",
           {},
           { withCredentials: true }
         );

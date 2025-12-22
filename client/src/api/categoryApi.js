@@ -3,7 +3,7 @@ import axiosClient from "./axiosClient";
 // Create a new category
 export const createCategory = async (data) => {
   try {
-    const res = await axiosClient.post("/api/category", {
+    const res = await axiosClient.post("/category", {
       name: data.category,
       description: data.description,
     });
@@ -24,7 +24,7 @@ export const createCategory = async (data) => {
 // Fetch all categories
 export const getCategories = async () => {
   try {
-    const res = await axiosClient.get("/api/category");
+    const res = await axiosClient.get("/category");
     return res.data;
   } catch (err) {
     console.error("Get Categories Error:", err);
@@ -35,7 +35,7 @@ export const getCategories = async () => {
 // Update category
 export const updateCategory = async (id, data) => {
   try {
-    const res = await axiosClient.put(`/api/category/${id}`, {
+    const res = await axiosClient.put(`/category/${id}`, {
       name: data.category,
       description: data.description,
     });
@@ -56,7 +56,7 @@ export const updateCategory = async (id, data) => {
 // Delete category
 export const deleteCategory = async (id) => {
   try {
-    const res = await axiosClient.delete(`/api/category/${id}`);
+    const res = await axiosClient.delete(`/category/${id}`);
     return res.data;
   } catch (err) {
     console.error("Delete Category API Error:", err);

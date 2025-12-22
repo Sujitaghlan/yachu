@@ -3,7 +3,7 @@ import axiosClient from "./axiosClient";
 // Create ad
 export const createAd = async (data, token) => {
   try {
-    const res = await axiosClient.post("/api/ads", data, {
+    const res = await axiosClient.post("/ads", data, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export const createAd = async (data, token) => {
 // Update ad
 export const updateAd = async (id, data, token) => {
   try {
-    const res = await axiosClient.put(`/api/ads/${id}`, data, {
+    const res = await axiosClient.put(`/ads/${id}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export const updateAd = async (id, data, token) => {
 // Get ad by ID
 export const getAdById = async (id) => {
   try {
-    const res = await axiosClient.get(`/api/ads/${id}`);
+    const res = await axiosClient.get(`/ads/${id}`);
     return res.data;
   } catch (err) {
     console.error("Get Ad Error:", err);
@@ -48,7 +48,7 @@ export const getAdById = async (id) => {
 // Get all ads
 export const getAllAds = async () => {
   try {
-    const res = await axiosClient.get("/api/ads");
+    const res = await axiosClient.get("/ads");
     return res.data;
   } catch (err) {
     console.error("Get All Ads Error:", err);
@@ -59,7 +59,7 @@ export const getAllAds = async () => {
 // Delete ad
 export const deleteAd = async (id, token) => {
   try {
-    const res = await axiosClient.delete(`/api/ads/${id}`, {
+    const res = await axiosClient.delete(`/ads/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

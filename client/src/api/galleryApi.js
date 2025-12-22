@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 
-const BASE_URL = "/api/gallery";
+const BASE_URL = "/gallery";
 
 // Get all gallery items
 export const getGalleryList = async () => {

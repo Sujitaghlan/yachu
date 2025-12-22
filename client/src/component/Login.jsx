@@ -53,7 +53,7 @@ export default function Login() {
       localStorage.setItem("profileImage", data.user.imageUrl);
 
       window.dispatchEvent(new Event("userLogin"));
-      navigate(window.history.length > 1 ? -1 : "/");
+      navigate("/");
     } catch {
       alert("Login failed");
     }
@@ -63,7 +63,11 @@ export default function Login() {
     <div className="w-full max-md:h-screen bg-[#1C1C1C] flex flex-col md:flex-row overflow-hidden">
       <div className="w-full md:w-1/2 bg-[#013067] flex flex-col items-center justify-center px-8 py-12">
         <div className="w-52 h-52 rounded-full bg-[#0a396f] overflow-hidden flex items-center justify-center shadow-lg">
-          <img src={productImage} className="w-full h-full object-cover" alt="product" />
+          <img
+            src={productImage}
+            className="w-full h-full object-cover"
+            alt="product"
+          />
         </div>
         <h1 className="text-white text-4xl font-bold mt-8 hidden md:block">
           Login
@@ -133,7 +137,10 @@ export default function Login() {
               </span>
             </p>
 
-            <GoogleButton text="Login with Google" onClick={handleGoogleLogin} />
+            <GoogleButton
+              text="Login with Google"
+              onClick={handleGoogleLogin}
+            />
           </form>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 
-const API = "/api/review";
+const API = "/review";
 
 // GET all reviews
 export const getReviews = async () => {

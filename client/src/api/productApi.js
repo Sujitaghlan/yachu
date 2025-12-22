@@ -3,7 +3,7 @@ import axiosClient from "./axiosClient";
 // Fetch all products
 export const getAllProducts = async () => {
   try {
-    const res = await axiosClient.get("/api/products");
+    const res = await axiosClient.get("/products");
     return res.data;
   } catch (err) {
     console.error("Get Products Error:", err);
@@ -14,7 +14,7 @@ export const getAllProducts = async () => {
 // Fetch one product
 export const getProductById = async (id) => {
   try {
-    const res = await axiosClient.get(`/api/products/${id}`);
+    const res = await axiosClient.get(`/products/${id}`);
     return res.data;
   } catch (err) {
     console.error("Get Product Error:", err);
@@ -36,7 +36,7 @@ export const createProduct = async (data) => {
 
     const token = localStorage.getItem("token");
 
-    const res = await axiosClient.post("/api/products", formData, {
+    const res = await axiosClient.post("/products", formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
@@ -65,7 +65,7 @@ export const updateProduct = async (id, data) => {
 
     const token = localStorage.getItem("token");
 
-    const res = await axiosClient.put(`/api/products/${id}`, formData, {
+    const res = await axiosClient.put(`/products/${id}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
@@ -85,7 +85,7 @@ export const deleteProduct = async (id) => {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await axiosClient.delete(`/api/products/${id}`, {
+    const res = await axiosClient.delete(`/products/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
