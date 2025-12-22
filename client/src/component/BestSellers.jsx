@@ -9,14 +9,27 @@ function BestSellers({ search }) {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await getAllProducts();
-      console.log(res.data);
-      setProducts(res.data.slice(0, 8)); 
+      try {
+        const res = await getAllProducts();
+        // Ensure res.data is an array
+        const productsArray = Array.isArray(res.data) ? res.data : [];
+        setProducts(productsArray.slice(0, 8));
+        console.log(productsArray);
+      } catch (error) {
+        console.error("Get Products Error:", error);
+        setProducts([]); // fallback
+      }
     };
 
     const fetchAds = async () => {
-      const res = await getAllAds();
-      setAds(res.ads || []);
+      try {
+        const res = await getAllAds();
+        const adsArray = Array.isArray(res.ads) ? res.ads : [];
+        setAds(adsArray);
+      } catch (error) {
+        console.error("Get Ads Error:", error);
+        setAds([]);
+      }
     };
 
     fetchProducts();
@@ -35,13 +48,17 @@ function BestSellers({ search }) {
 
   return (
     <div className="w-full py-6 bg-white">
-      <h2 className="text-heading font-headline text-center mb-4">Best Sellers</h2>
+      <h2 className="text-heading font-headline text-center mb-4">
+        Best Sellers
+      </h2>
 
       {/* Container with same padding as navbar */}
       <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
-        <div className="flex gap-4 overflow-x-auto scrollbar-hide 
+        <div
+          className="flex gap-4 overflow-x-auto scrollbar-hide 
                        md:grid md:grid-cols-2 md:gap-6 
-                       lg:grid-cols-3 2xl:grid-cols-4 md:overflow-visible">
+                       lg:grid-cols-3 2xl:grid-cols-4 md:overflow-visible"
+        >
           {filtered.map((item) => (
             <ProductCard
               key={item._id}

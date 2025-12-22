@@ -14,9 +14,14 @@ export default function MobileHero() {
   // Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await getAllProducts();
-      console.log(res.data);
-      setProducts(res.data);
+      try {
+        const res = await getAllProducts();
+        const productsArray = Array.isArray(res.data) ? res.data : [];
+        setProducts(productsArray.slice(0, 8));
+      } catch (err) {
+        console.error(err);
+        setProducts([]);
+      }
     };
     fetchProducts();
   }, []);
@@ -131,7 +136,7 @@ export default function MobileHero() {
 
           {/* Description - Centered on mobile, below product name */}
           <p className="text-paragraph md:text-[20px] text-tertiary leading-[30px] mt-2 md:mt-4 font-paragraph text-center md:text-left">
-           {products[current]?.description || "Loading product description..."}
+            {products[current]?.description || "Loading product description..."}
           </p>
 
           {/* Action Buttons - Centered on mobile */}
@@ -173,5 +178,3 @@ export default function MobileHero() {
     </div>
   );
 }
-
-

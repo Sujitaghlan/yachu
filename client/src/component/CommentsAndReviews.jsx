@@ -19,7 +19,7 @@ export default function CommentsAndReviews() {
   const loadReviews = async () => {
     try {
       const data = await getReviews();
-      setCommentList(data || []);
+      setCommentList(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Failed to load reviews", error);
       setCommentList([]);
