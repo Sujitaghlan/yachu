@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { FaBold, FaItalic, FaUnderline, FaPaperPlane } from "react-icons/fa";
+import { FaPaperPlane } from "react-icons/fa";
 import { createReview } from "../api/reviewApi";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +8,7 @@ export default function AddYourComment({ onNewReview }) {
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const textareaRef = useRef(null); // ref to control textarea
+  const textareaRef = useRef(null);
 
   const handleSubmit = async () => {
     const token = localStorage.getItem("token");
@@ -54,7 +54,6 @@ export default function AddYourComment({ onNewReview }) {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!token || !user) {
-      // Remove focus immediately to prevent re-triggering
       if (textareaRef.current) textareaRef.current.blur();
 
       const shouldLogin = window.confirm(
@@ -64,7 +63,6 @@ export default function AddYourComment({ onNewReview }) {
       if (shouldLogin) {
         navigate("/login", { state: { from: window.location.pathname } });
       }
-      // If Cancel, just return to UI. Next focus will show confirm again.
     }
   };
 
@@ -79,7 +77,6 @@ export default function AddYourComment({ onNewReview }) {
         </p>
       </div>
 
-      {/* Textarea */}
       <textarea
         ref={textareaRef}
         rows="4"
@@ -89,61 +86,11 @@ export default function AddYourComment({ onNewReview }) {
         onChange={(e) => setDescription(e.target.value)}
         onFocus={handleFocus}
       ></textarea>
-      {/* Formatting tools and submit button */}
-      <div className="flex flex-col md:flex-row items-center justify-between mt-4 gap-4">
-        {/* Formatting tools */}
-        <div className="flex items-center gap-6 text-2xl text-primary/70">
-          <button
-            type="button"
-            className="hover:text-primary transition-colors hover:scale-110"
-            title="Bold"
-            onClick={() => {
-              const token = localStorage.getItem("token");
-              if (!token) {
-                alert("Please login to use formatting tools");
-                navigate("/login");
-                return;
-              }
-              // Add bold formatting logic here
-            }}
-          >
-            <FaBold />
-          </button>
-          <button
-            type="button"
-            className="hover:text-primary transition-colors hover:scale-110"
-            title="Italic"
-            onClick={() => {
-              const token = localStorage.getItem("token");
-              if (!token) {
-                alert("Please login to use formatting tools");
-                navigate("/login");
-                return;
-              }
-              // Add italic formatting logic here
-            }}
-          >
-            <FaItalic />
-          </button>
-          <button
-            type="button"
-            className="hover:text-primary transition-colors hover:scale-110"
-            title="Underline"
-            onClick={() => {
-              const token = localStorage.getItem("token");
-              if (!token) {
-                alert("Please login to use formatting tools");
-                navigate("/login");
-                return;
-              }
-              // Add underline formatting logic here
-            }}
-          >
-            <FaUnderline />
-          </button>
-        </div>
 
-        {/* Submit button */}
+      <div className="flex flex-col md:flex-row items-center justify-between mt-4 gap-4">
+        {/* Formatting tools container remains (empty, layout unchanged) */}
+        <div className="flex items-center gap-6 text-2xl text-primary/70"></div>
+
         <button
           onClick={handleSubmit}
           disabled={loading || !description.trim()}

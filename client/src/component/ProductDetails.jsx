@@ -19,12 +19,10 @@ export default function ProductDetails() {
 
   const { id, title, description, size, price, productImg, discount } = state;
 
-  // Find cart item
   const cartItem = cartItems.find((item) => item.id === id);
   const quantity = cartItem ? cartItem.qty : 0;
   const cartItemId = cartItem?.cartItemId;
 
-  // Calculate discounted price
   const numericPrice = Number(price.toString().replace(/\D/g, ""));
   const discountedPrice = discount
     ? Math.round(numericPrice - (numericPrice * discount) / 100)
@@ -54,6 +52,7 @@ export default function ProductDetails() {
       handleAddToCart();
     }
   };
+
   const handleDecrease = () => {
     if (cartItemId) {
       updateQuantity(cartItemId, "dec");
@@ -92,7 +91,7 @@ export default function ProductDetails() {
         </div>
 
         {/* Product Details */}
-        <div className="flex-1 flex flex-col justify-start items-center md:items-start md:justify-start mt-2 md:mt-0">
+        <div className="flex-1 flex flex-col items-center md:items-start mt-2 md:mt-0">
           <h1 className="text-h1 font-bold text-gray-900 text-center md:text-left font-headline">
             {title}
           </h1>
@@ -103,18 +102,18 @@ export default function ProductDetails() {
 
           <div className="flex gap-2">
             {discount ? (
-              <p className="text-[20px] font-semibold text-gray-900 mt-2 text-left ml-4">
+              <p className="text-[20px] font-semibold text-gray-900 mt-2 ml-4">
                 <span className="line-through text-gray-400 mr-2">
                   Rs. {numericPrice}
                 </span>
                 <span className="text-primary">Rs. {discountedPrice}</span>
               </p>
             ) : (
-              <p className="text-[20px] font-semibold text-gray-900 mt-2 text-left ml-4">
+              <p className="text-[20px] font-semibold text-gray-900 mt-2 ml-4">
                 Rs. {numericPrice}
               </p>
             )}
-            <p className="text-[12px] text-secondary mt-4 text-left">
+            <p className="text-[12px] text-secondary mt-4">
               inclusive of all taxes
             </p>
           </div>
@@ -135,21 +134,25 @@ export default function ProductDetails() {
                 Add to Cart
               </Button>
             ) : (
-              <div className="flex items-center justify-between border border-gray-300 rounded-lg overflow-hidden w-full md:w-64 h-12">
+              <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden w-full md:w-64 h-12
+                              justify-center gap-3 md:gap-0 md:justify-between">
+                
                 <button
                   onClick={handleDecrease}
-                  className="w-1/3 h-full flex items-center justify-center bg-white hover:bg-gray-50 border-r border-gray-300 text-xl font-bold transition-colors"
+                  className="w-10 md:w-1/3 h-full flex items-center justify-center bg-white hover:bg-gray-50
+                             md:border-r border-gray-300 text-xl font-bold transition-colors"
                 >
                   –
                 </button>
 
-                <div className="w-1/3 h-full flex items-center justify-center bg-gray-50">
+                <div className="w-10 md:w-1/3 h-full flex items-center justify-center bg-gray-50">
                   <span className="font-semibold text-lg">{quantity}</span>
                 </div>
 
                 <button
                   onClick={handleIncrease}
-                  className="w-1/3 h-full flex items-center justify-center bg-white hover:bg-gray-50 border-l border-gray-300 text-xl font-bold transition-colors"
+                  className="w-10 md:w-1/3 h-full flex items-center justify-center bg-white hover:bg-gray-50
+                             md:border-l border-gray-300 text-xl font-bold transition-colors"
                 >
                   +
                 </button>
