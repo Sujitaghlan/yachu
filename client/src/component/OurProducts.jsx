@@ -10,20 +10,33 @@ function OurProducts({ search }) {
   const [ads, setAds] = useState([]);
   const [filterCategory, setFilterCategory] = useState("Hair Oil");
 
-  useEffect(() => {
-    const fetchProducts = async () => {
+useEffect(() => {
+  const fetchProducts = async () => {
+    try {
       const res = await getAllProducts();
-      setProducts(res.data);
-    };
+      const productsArray = Array.isArray(res.data) ? res.data : [];
+      setProducts(productsArray);
+    } catch (error) {
+      console.error("Get Products Error:", error);
+      setProducts([]); // fallback to empty array
+    }
+  };
 
-    const fetchAds = async () => {
+  const fetchAds = async () => {
+    try {
       const res = await getAllAds();
-      setAds(res.ads || []); // ads array from API
-    };
+      const adsArray = Array.isArray(res.ads) ? res.ads : [];
+      setAds(adsArray);
+    } catch (error) {
+      console.error("Get Ads Error:", error);
+      setAds([]); // fallback
+    }
+  };
 
-    fetchProducts();
-    fetchAds();
-  }, []);
+  fetchProducts();
+  fetchAds();
+}, []);
+
 
   const getDiscountForProduct = (productId) => {
     if (!ads || !Array.isArray(ads)) return 0;
