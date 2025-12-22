@@ -140,7 +140,7 @@ export default function MobileHero() {
               onClick={handleBuyNow}
               className="bg-primary text-white font-semibold text-paragraph md:text-[18px] px-6 py-3 md:px-8 md:py-3 rounded-full hover:scale-105 transition-transform duration-300 shadow-md"
             >
-              Buy Now
+             Add to Cart 
             </button>
 
             {/* VIEW PRODUCT */}

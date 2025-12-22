@@ -98,17 +98,17 @@ function PaymentDetails() {
         {/* RIGHT: Payment Method & Place Order */}
         <div className="space-y-6 animate-slide-in-right">
           <PaymentMethod onPaymentChange={handlePaymentChange} />
-
-          <Button
-            background="primary"
-            hoverBackground="#002451"
-            textColor="#FFFFFF"
-            padding="14px 0"
-            onClick={handlePlaceOrder}
-            className="w-full text-lg font-bold"
-          >
-            {buttonText}
-          </Button>
+<Button
+  background="#013067"
+  hoverBackground="#002451"
+  textColor="#FFFFFF"
+  padding="14px 0"
+  onClick={handlePlaceOrder}
+  className="w-full text-lg font-bold"
+  disabled={false} 
+>
+  {buttonText}
+</Button>
         </div>
       </div>
     </div>
