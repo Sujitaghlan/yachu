@@ -10,9 +10,13 @@ function CategoryList() {
   const fetchData = async () => {
     try {
       const data = await getCategories();
-      setCategories(data.categories || []);
+      const categoriesArray = Array.isArray(data.categories)
+        ? data.categories
+        : [];
+      setCategories(categoriesArray);
     } catch (err) {
       console.error("Failed to load categories:", err);
+      setCategories([]);
     }
   };
 
@@ -25,7 +29,7 @@ function CategoryList() {
 
     try {
       await deleteCategory(id);
-      fetchData(); 
+      fetchData();
     } catch (err) {
       alert(err.message || "Failed to delete category");
     }
@@ -34,7 +38,6 @@ function CategoryList() {
   return (
     <div className="min-h-screen w-full flex justify-center p-4 sm:p-6">
       <div className="w-full max-w-full">
-
         {/* HEADER */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mt-3 mb-4">
           <span className="text-base sm:text-lg font-medium text-gray-800">
@@ -75,7 +78,6 @@ function CategoryList() {
 
                   <td className="px-2 py-3">
                     <div className="flex gap-2">
-
                       {/* EDIT BUTTON */}
                       <button
                         onClick={() =>
@@ -93,16 +95,13 @@ function CategoryList() {
                       >
                         Delete
                       </button>
-
                     </div>
                   </td>
                 </tr>
               ))}
-
             </tbody>
           </table>
         </div>
-
       </div>
     </div>
   );

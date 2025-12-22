@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create axios instance
 const axiosClient = axios.create({
-  baseURL: "/api", 
+  baseURL: "https://yachu.onrender.com/api", 
   withCredentials: true,
 });
 
