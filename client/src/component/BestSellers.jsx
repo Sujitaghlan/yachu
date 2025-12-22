@@ -10,6 +10,7 @@ function BestSellers({ search }) {
   useEffect(() => {
     const fetchProducts = async () => {
       const res = await getAllProducts();
+      console.log(res.data);
       setProducts(res.data.slice(0, 8)); 
     };
 

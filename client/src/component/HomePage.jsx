@@ -15,6 +15,7 @@ export default function MobileHero() {
   useEffect(() => {
     const fetchProducts = async () => {
       const res = await getAllProducts();
+      console.log(res.data);
       setProducts(res.data);
     };
     fetchProducts();
