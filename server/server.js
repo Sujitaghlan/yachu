@@ -8,7 +8,11 @@ const cookieparser = require("cookie-parser");
 const app = express();
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://yachuhairoil.netlify.app"],
+    origin: [
+      "http://localhost:5173",
+      "https://yachuhairoil.netlify.app",
+      "https://yachuhairandglow.com",
+    ],
     credentials: true,
   })
 );
