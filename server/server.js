@@ -13,9 +13,13 @@ app.use(
       "https://yachuhairoil.netlify.app",
       "https://yachuhairandglow.com",
     ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
+
+app.options("*", cors());
 app.use(express.json());
 app.use(cookieparser());
 
