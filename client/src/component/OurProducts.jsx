@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { LuDroplet, LuDroplets } from "react-icons/lu";
 import { FaBottleDroplet, FaBox } from "react-icons/fa6";
+import { AiOutlineProduct } from "react-icons/ai";
 import ProductCard from "../utils/ProductCard";
 import { getAllProducts } from "../api/productApi";
 import { getAllAds } from "../api/adApi";
@@ -8,35 +9,34 @@ import { getAllAds } from "../api/adApi";
 function OurProducts({ search }) {
   const [products, setProducts] = useState([]);
   const [ads, setAds] = useState([]);
-  const [filterCategory, setFilterCategory] = useState("Hair Oil");
+  const [filterCategory, setFilterCategory] = useState("All");
 
-useEffect(() => {
-  const fetchProducts = async () => {
-    try {
-      const res = await getAllProducts();
-      const productsArray = Array.isArray(res.data) ? res.data : [];
-      setProducts(productsArray);
-    } catch (error) {
-      console.error("Get Products Error:", error);
-      setProducts([]); // fallback to empty array
-    }
-  };
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await getAllProducts();
+        const productsArray = Array.isArray(res.data) ? res.data : [];
+        setProducts(productsArray);
+      } catch (error) {
+        console.error("Get Products Error:", error);
+        setProducts([]); // fallback to empty array
+      }
+    };
 
-  const fetchAds = async () => {
-    try {
-      const res = await getAllAds();
-      const adsArray = Array.isArray(res.ads) ? res.ads : [];
-      setAds(adsArray);
-    } catch (error) {
-      console.error("Get Ads Error:", error);
-      setAds([]); // fallback
-    }
-  };
+    const fetchAds = async () => {
+      try {
+        const res = await getAllAds();
+        const adsArray = Array.isArray(res.ads) ? res.ads : [];
+        setAds(adsArray);
+      } catch (error) {
+        console.error("Get Ads Error:", error);
+        setAds([]); // fallback
+      }
+    };
 
-  fetchProducts();
-  fetchAds();
-}, []);
-
+    fetchProducts();
+    fetchAds();
+  }, []);
 
   const getDiscountForProduct = (productId) => {
     if (!ads || !Array.isArray(ads)) return 0;
@@ -45,8 +45,8 @@ useEffect(() => {
   };
 
   const filtered = products.filter((p) => {
-    const matchCategory = p.category.name === filterCategory;
-    console.log("ddd", p.category.name, filterCategory, matchCategory);
+    const matchCategory =
+      filterCategory === "All" || p.category.name === filterCategory;
     const matchSearch = p.productName
       .toLowerCase()
       .includes(search.toLowerCase());
@@ -61,6 +61,20 @@ useEffect(() => {
 
       {/* Category filter icons with proper centering */}
       <div className="flex justify-center items-center gap-6 md:gap-10 mb-10">
+        <div
+          className="flex flex-col items-center gap-1 cursor-pointer"
+          onClick={() => setFilterCategory("All")}
+        >
+          <div
+            className={`w-10 h-10 flex justify-center items-center rounded-full bg-yellow-300 shadow ${
+              filterCategory === "All" ? "ring-2 ring-primary" : ""
+            }`}
+          >
+            <AiOutlineProduct size={22} className="text-black" />{" "}
+            {/* You can use any icon here */}
+          </div>
+          <p className="text-sm font-paragraph">All</p>
+        </div>
         <div
           className="flex flex-col items-center gap-1 cursor-pointer"
           onClick={() => setFilterCategory("Hair Oil")}
@@ -80,11 +94,11 @@ useEffect(() => {
           onClick={() => setFilterCategory("Shampoo")}
         >
           <div
-            className={`w-10 h-10 flex justify-center items-center rounded-full bg-gray-700 shadow ${
+            className={`w-10 h-10 flex justify-center items-center rounded-full bg-yellow-300 shadow ${
               filterCategory === "Shampoo" ? "ring-2 ring-primary" : ""
             }`}
           >
-            <FaBottleDroplet size={22} className="text-white" />
+            <FaBottleDroplet size={22} className="text-black" />
           </div>
           <p className="text-sm font-paragraph">Shampoo</p>
         </div>

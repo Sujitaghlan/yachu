@@ -3,13 +3,13 @@ import { getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD-ABq5cK1v56oDGThSZGAFP1TvZjFYZwI",
-  authDomain: "yachu-86b5e.firebaseapp.com",
-  projectId: "yachu-86b5e",
-  storageBucket: "yachu-86b5e.appspot.com",
-  messagingSenderId: "669237212372",
-  appId: "1:669237212372:web:fd7f77e4af362919fcf741",
-  measurementId: "G-00K1DCKBZ2"
+  apiKey: "AIzaSyC-MztQ2V-Ty8gFnA6wJvLQ0Atp4PtqH88",
+  authDomain: "uchit-traders-c7a4e.firebaseapp.com",
+  projectId: "uchit-traders-c7a4e",
+  storageBucket: "uchit-traders-c7a4e.firebasestorage.app",
+  messagingSenderId: "621025684010",
+  appId: "1:621025684010:web:c2adadb09beb2e94e67153",
+  measurementId: "G-2ZMWVTMG4R"
 };
 
 const app = initializeApp(firebaseConfig);
