@@ -9,7 +9,10 @@ import { createOrder } from "../api/OrderApi";
 function PaymentDetails() {
   const navigate = useNavigate(); 
   const [billing, setBilling] = useState(null);
-  const [cartAtCheckout, setCartAtCheckout] = useState({ items: [], deliveryCharge: 0 });
+  const [cartAtCheckout, setCartAtCheckout] = useState({
+    items: [],
+    deliveryCharge: 0,
+  });
   const [selectedMethod, setSelectedMethod] = useState("cod");
   const [paymentImage, setPaymentImage] = useState(null);
   const [buttonText, setButtonText] = useState("Place Order");
@@ -42,7 +45,7 @@ function PaymentDetails() {
       deliveryCharge: cartAtCheckout.deliveryCharge,
       note: billing.orderNotes || "",
       paymentType: selectedMethod,
-      products: cartAtCheckout.items.map(item => ({
+      products: cartAtCheckout.items.map((item) => ({
         productId: item.id,
         quantity: item.qty,
         price: item.price,
@@ -57,9 +60,14 @@ function PaymentDetails() {
       const res = await createOrder(orderData);
       console.log("Order placed:", res);
 
-      setButtonText(res.message || "Order Placed");
+      setButtonText("Order Placed");
 
-      navigate("/order-history");
+      localStorage.removeItem("billingData");
+      localStorage.removeItem("cartAtCheckout");
+
+      navigate("/order-history", { replace: true });
+      window.location.reload();
+
     } catch (error) {
       console.error("Failed to place order:", error);
       setButtonText("Failed. Try Again");
@@ -80,16 +88,20 @@ function PaymentDetails() {
           {billing && (
             <div className="border rounded-md bg-white p-6 text-paragraph shadow-md space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-tertiary font-bold">Name:</span> {billing.fullName}
+                <span className="text-tertiary font-bold">Name:</span>
+                {billing.fullName}
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-tertiary font-bold">Address:</span> {billing.address}
+                <span className="text-tertiary font-bold">Address:</span>
+                {billing.address}
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-tertiary font-bold">Email:</span> {billing.email}
+                <span className="text-tertiary font-bold">Email:</span>
+                {billing.email}
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-tertiary font-bold">Shipping:</span> Rs. {cartAtCheckout.deliveryCharge}
+                <span className="text-tertiary font-bold">Shipping:</span>
+                Rs. {cartAtCheckout.deliveryCharge}
               </div>
             </div>
           )}
@@ -98,18 +110,20 @@ function PaymentDetails() {
         {/* RIGHT: Payment Method & Place Order */}
         <div className="space-y-6 animate-slide-in-right">
           <PaymentMethod onPaymentChange={handlePaymentChange} />
-<Button
-  background="#013067"
-  hoverBackground="#002451"
-  textColor="#FFFFFF"
-  padding="14px 0"
-  onClick={handlePlaceOrder}
-  className="w-full text-lg font-bold"
-  disabled={false} 
->
-  {buttonText}
-</Button>
+
+          <Button
+            background="#013067"
+            hoverBackground="#002451"
+            textColor="#FFFFFF"
+            padding="14px 0"
+            onClick={handlePlaceOrder}
+            className="w-full text-lg font-bold"
+            disabled={loading}
+          >
+            {buttonText}
+          </Button>
         </div>
+
       </div>
     </div>
   );
