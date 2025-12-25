@@ -44,9 +44,9 @@ function ViewOrder() {
     qty: order.products?.[0]?.quantity || 1,
     productName: order.products?.[0]?.productId?.productName || "Product",
     productImage: order.products?.[0]?.productId?.imageUrl || "/placeholder.png",
+    paymentImage: order.paymentSlip?.url || null, 
   };
 
-  // Function to update order status
   const handleStatusUpdate = async (newStatus) => {
     try {
       await updateOrderStatus(id, newStatus);
@@ -64,13 +64,10 @@ function ViewOrder() {
         <p className="text-sm md:text-base mt-1">Order ID: {id}</p>
       </div>
 
-      {/* Main Content */}
       <div className="flex-1 px-4 md:px-10 py-6 space-y-6">
 
         {/* Customer & Order Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          {/* Customer Info */}
           <div className="p-4 border rounded-md bg-white shadow-sm">
             <h2 className="font-semibold text-lg mb-2">Customer Information</h2>
             <p><b>Name:</b> {formatted.customer}</p>
@@ -78,7 +75,6 @@ function ViewOrder() {
             <p><b>Address:</b> {formatted.address}</p>
           </div>
 
-          {/* Order Info */}
           <div className="p-4 border rounded-md bg-white shadow-sm">
             <h2 className="font-semibold text-lg mb-2">Order Information</h2>
             <p><b>Date:</b> {formatted.date}</p>
@@ -87,10 +83,21 @@ function ViewOrder() {
           </div>
         </div>
 
+        {/* Payment Slip Image */}
+        {formatted.payment === "esewa" && formatted.paymentImage && (
+          <div className="p-4 border rounded-md bg-white shadow-sm">
+            <h2 className="font-semibold text-lg mb-4">Payment Slip</h2>
+            <img
+              src={formatted.paymentImage}
+              alt="Payment Slip"
+              className="max-w-xs object-contain"
+            />
+          </div>
+        )}
+
         {/* Order Item */}
         <div className="p-4 border rounded-md bg-white shadow-sm">
           <h2 className="font-semibold text-lg mb-4">Order Item</h2>
-
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
             <img
               src={formatted.productImage}
@@ -117,7 +124,7 @@ function ViewOrder() {
           </p>
         </div>
 
-        {/* Action Buttons */}
+        {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-3 mt-4">
           {(order.status === "Pending" || order.status === "Confirmed") && (
             <>
@@ -145,6 +152,7 @@ function ViewOrder() {
             Close
           </button>
         </div>
+
       </div>
     </div>
   );

@@ -7,7 +7,6 @@ import { getReviews } from "../api/reviewApi";
 
 export default function CommentsAndReviews() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("new");
   const [toggle, setToggle] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [commentList, setCommentList] = useState([]);
@@ -28,14 +27,15 @@ export default function CommentsAndReviews() {
 
   useEffect(() => {
     if (!toggle || commentList.length === 0) return;
+
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % commentList.length);
     }, 3000);
+
     return () => clearInterval(interval);
   }, [toggle, commentList]);
 
   const getTwoComments = () => {
-    // FIX: Only show one comment if list has only 1 item
     if (commentList.length === 1) {
       return [commentList[0]];
     }
@@ -45,51 +45,22 @@ export default function CommentsAndReviews() {
     return [first, second];
   };
 
-  const commentsToDisplay = toggle ? getTwoComments() : commentList.slice(-2);
+  const commentsToDisplay = toggle
+    ? getTwoComments()
+    : commentList.slice(-2);
 
-  const handleNewReview = async (newReview) => {
+  const handleNewReview = async () => {
     await loadReviews();
   };
 
   return (
     <div className="w-full py-8 bg-white">
-      {/* Outer container with same padding as NavBar */}
       <div className="w-full md:px-8 lg:px-16 xl:px-20 2xl:px-24 mx-auto">
-        {/* Inner container with rounded corners and shadow */}
         <div className="w-full bg-white rounded-3xl shadow-sm md:p-8">
-          {/* Tabs */}
-          <div className="flex items-center justify-between gap-2 mb-6 md:mb-8">
-            <div className="flex items-center gap-3 font-paragraph">
-              <Button
-                onClick={() => setActiveTab("new")}
-                background={activeTab === "new" ? "#ffffff" : "transparent"}
-                hoverBackground="#ffffff"
-                textColor={activeTab === "new" ? "#013067" : "#6B7280"}
-                padding="8px 20px"
-                borderRadius="9999px"
-                borderColor="#d1d5db"
-                borderWidth="1px"
-                className="text-sm whitespace-nowrap"
-              >
-                New Comments
-              </Button>
 
-              <Button
-                onClick={() => setActiveTab("top")}
-                background={activeTab === "top" ? "#ffffff" : "transparent"}
-                hoverBackground="#ffffff"
-                textColor={activeTab === "top" ? "#013067" : "#6B7280"}
-                padding="8px 20px"
-                borderRadius="9999px"
-                borderColor="#d1d5db"
-                borderWidth="1px"
-                className="text-sm whitespace-nowrap"
-              >
-                Top Comments
-              </Button>
-            </div>
-
-            {/* Toggle Switch */}
+          {/* Header Row (Tabs removed, layout preserved) */}
+          <div className="flex items-center justify-end gap-2 mb-6 md:mb-8">
+            {/* Auto Scroll Toggle */}
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-600 font-paragraph hidden sm:block">
                 Auto Scroll
@@ -111,7 +82,6 @@ export default function CommentsAndReviews() {
           <div className="flex flex-col md:flex-row justify-between gap-4 md:gap-6 mb-8 min-h-[150px]">
             {commentsToDisplay.length > 0 ? (
               commentsToDisplay.map((comment, index) => (
-                // FIX: Use compound key to prevent duplicate rendering
                 <div
                   key={`${comment._id || comment.id}-${index}`}
                   className="flex-1"
@@ -133,19 +103,20 @@ export default function CommentsAndReviews() {
             )}
           </div>
 
-          {/* Add Comment Form */}
+          {/* Add Comment */}
           <div className="mt-8">
             <AddYourComment
-              onNewReview={(review) => {
+              onNewReview={() => {
                 const token = localStorage.getItem("token");
                 if (!token) {
                   navigate("/login");
                   return;
                 }
-                handleNewReview(review);
+                handleNewReview();
               }}
             />
           </div>
+
         </div>
       </div>
     </div>

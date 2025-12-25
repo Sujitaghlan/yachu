@@ -22,6 +22,7 @@ function NavBar({ onSearch }) {
   const [profileImage, setProfileImage] = useState(null);
   const [user, setUser] = useState(null);
   const dropdownRef = useRef(null);
+  const mobileMenuRef = useRef(null); 
   const navigate = useNavigate();
 
   const links = [
@@ -39,15 +40,22 @@ function NavBar({ onSearch }) {
     if (storedImage) setProfileImage(storedImage);
   }, []);
 
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
       }
+
+      // ✅ Close mobile menu when clicking outside
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target) && open) {
+        setOpen(false);
+      }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [open]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -57,7 +65,6 @@ function NavBar({ onSearch }) {
     setProfileImage(null);
     setDropdownOpen(false);
 
-    // Dispatch custom event to notify CartContext of logout
     window.dispatchEvent(new Event("userLogout"));
 
     navigate("/");
@@ -142,7 +149,6 @@ function NavBar({ onSearch }) {
                 )}
               </div>
 
-              {/* Dropdown Menu */}
               {dropdownOpen && (
                 <div className="absolute right-0 mt-3 min-w-[16rem] max-w-xs bg-white shadow-xl rounded-xl overflow-hidden z-50 animate-fade-in-down border border-gray-100">
                   {user ? (
@@ -166,7 +172,6 @@ function NavBar({ onSearch }) {
                     </div>
                   ) : null}
 
-                  {/* Actions */}
                   <div className="flex flex-col p-2">
                     {user ? (
                       <>
@@ -212,7 +217,10 @@ function NavBar({ onSearch }) {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="lg:hidden bg-primary/95 backdrop-blur-sm border-t border-white/10">
+        <div
+          ref={mobileMenuRef} 
+          className="lg:hidden bg-primary/95 backdrop-blur-sm border-t border-white/10"
+        >
           <div className="px-4 py-3">
             <NavLinks
               links={links}
