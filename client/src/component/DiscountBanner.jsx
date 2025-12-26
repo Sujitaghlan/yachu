@@ -15,6 +15,7 @@ export default function DiscountBanner() {
           const dynamicAds = res.ads
             .filter((a) => a.productId)
             .map((a) => ({
+              id: a.productId?._id, 
               productName:
                 a.productId?.productName?.replace(/"/g, "") ||
                 "Unknown Product",
@@ -36,24 +37,19 @@ export default function DiscountBanner() {
     fetchAds();
   }, []);
 
-  const adsToDisplay = ads;
-
-  // Auto-rotate only when ads exist
   useEffect(() => {
-    if (adsToDisplay.length === 0) return; // ⛔ prevent NaN modulo
+    if (ads.length === 0) return;
 
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % adsToDisplay.length);
+      setCurrentIndex((prev) => (prev + 1) % ads.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [adsToDisplay.length]);
+  }, [ads.length]);
 
   return (
     <div className="w-full px-4 md:px-8 lg:px-16 xl:px-20 2xl:px-24 py-4">
-      {adsToDisplay.length > 0 && (
-        <DynamicAdCard ad={adsToDisplay[currentIndex]} />
-      )}
+      {ads.length > 0 && <DynamicAdCard ad={ads[currentIndex]} />}
     </div>
   );
 }
