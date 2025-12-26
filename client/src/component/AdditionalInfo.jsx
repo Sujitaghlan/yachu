@@ -53,7 +53,7 @@ export default function AdditionalInfo() {
               <div>
                 <p className="font-semibold text-primary mb-1 md:mb-2">Customer Care Details</p>
                 <p className="leading-relaxed">
-                  Ulpi Manandhar - uchityachu@gmail.com <br />
+                 uchittraders50@gmail.com <br />
                   +977-9808731770
                 </p>
               </div>
