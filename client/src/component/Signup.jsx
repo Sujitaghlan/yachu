@@ -5,7 +5,6 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import Input from "../utils/Input";
 import Button from "../utils/Button";
-import GoogleButton from "../constant/HandleGoogleLoginAndSignup";
 import { registerUser } from "../api/userApi";
 import { useNavigate } from "react-router-dom";
 
@@ -160,7 +159,6 @@ export default function Signup() {
               </span>
             </p>
 
-            <GoogleButton text="Signup with Google" />
           </form>
         </div>
       </div>

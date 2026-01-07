@@ -48,10 +48,10 @@ const Gallery = () => {
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-headline text-primary mb-4">
-            Simple Gallery
+            Uchit Traders Gallery
           </h1>
           <p className="text-lg md:text-xl font-paragraph text-tertiary max-w-2xl mx-auto">
-            Beautiful photos with clean titles
+            Moments from Uchit Traders’ journey.
           </p>
         </div>
 
@@ -75,7 +75,7 @@ const Gallery = () => {
 
               {/* Description */}
               <div className="p-5 md:p-6">
-                <h3 className="text-lg md:text-xl font-headline text-primary text-center">
+                <h3 className="text-lg md:text-xl font-headline text-primary text-center font-bold">
                   {image.description}
                 </h3>
               </div>

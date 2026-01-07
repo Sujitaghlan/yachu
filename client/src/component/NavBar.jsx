@@ -13,7 +13,7 @@ import { useCart } from "../context/CartContext";
 import Cart from "./Cart";
 import SearchBar from "../utils/SearchBar";
 import { Link, useNavigate } from "react-router-dom";
-
+import toast from "react-hot-toast";
 function NavBar({ onSearch }) {
   const [open, setOpen] = useState(false);
   const [showCart, setShowCart] = useState(false);
@@ -24,7 +24,7 @@ function NavBar({ onSearch }) {
   const dropdownRef = useRef(null);
   const mobileMenuRef = useRef(null); 
   const navigate = useNavigate();
-
+  
   const links = [
     { id: 1, title: "Home", path: "/" },
     { id: 3, title: "About", path: "/about" },
@@ -64,7 +64,7 @@ function NavBar({ onSearch }) {
     setUser(null);
     setProfileImage(null);
     setDropdownOpen(false);
-
+    toast.success("Logged out successfully");
     window.dispatchEvent(new Event("userLogout"));
 
     navigate("/");

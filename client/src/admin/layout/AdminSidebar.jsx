@@ -5,6 +5,7 @@ import { MdOutlineInventory2 } from "react-icons/md";
 import { BiCategory } from "react-icons/bi";
 import { FaAd } from "react-icons/fa";
 import { FaVideo } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 function AdminSidebar({ open, setOpen }) {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ function AdminSidebar({ open, setOpen }) {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/login");
+    toast.success("Logged out successfully");
     if (open) setOpen(false);
   };
 

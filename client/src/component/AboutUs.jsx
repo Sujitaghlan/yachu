@@ -13,7 +13,7 @@ import {
 import { FaXTwitter } from "react-icons/fa6";
 import { MdLocationCity } from "react-icons/md";
 
-import Mam from "../assets/saroj.jpg";
+import Mam from "../assets/mam.png";
 import ceo from "../assets/ceo.png";
 import logo from "../assets/logo.png";
 
@@ -306,7 +306,7 @@ const AboutUs = () => {
               customer satisfaction.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="flex items-center justify-center gap-8 flex-wrap">
             {[
               {
                 name: "Ujiwol Manandhar",
@@ -315,19 +315,10 @@ const AboutUs = () => {
               },
               {
                 name: "Ulpi Manandhar",
-                role: "Head of Operations, Baneshwor",
+                role: "Founde and CEO, Baneshwor",
                 image: Mam,
               },
-              {
-                name: "Rohan Manandhar",
-                role: "Head of YDM",
-                image: Mam,
-              },
-              {
-                name: "Maya Kumar",
-                role: "Head of Marketing",
-                image: Mam,
-              },
+
             ].map((member, index) => (
               <div key={index} className="text-center">
                 <img

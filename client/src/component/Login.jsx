@@ -60,8 +60,8 @@ export default function Login() {
   };
 
   return (
-    <div className="w-full max-md:h-screen bg-[#1C1C1C] flex flex-col md:flex-row overflow-hidden">
-      <div className="w-full md:w-1/2 bg-[#013067] flex flex-col items-center justify-center px-8 py-12">
+    <div className="w-full max-md:h-screen bg-[#1C1C1C] flex flex-col md:flex-row overflow-auto">
+      <div className="w-full md:w-1/2 bg-[#013067] flex flex-col items-center justify-center p-8">
         <div className="w-52 h-52 rounded-full bg-[#0a396f] overflow-hidden flex items-center justify-center shadow-lg">
           <img
             src={productImage}
@@ -74,9 +74,9 @@ export default function Login() {
         </h1>
       </div>
 
-      <div className="w-full h-screen md:w-1/2 bg-white flex flex-col justify-center px-8 py-12">
+      <div className="w-full h-screen md:w-1/2 bg-white flex flex-col justify-center px-8 py-8">
         <div className="max-w-md mx-auto w-full">
-          <h1 className="text-4xl font-bold text-center md:hidden text-[#013067] mb-8">
+          <h1 className="text-4xl font-bold text-center md:hidden text-[#013067] mb-6">
             Login
           </h1>
 
