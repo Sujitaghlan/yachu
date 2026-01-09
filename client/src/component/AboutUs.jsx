@@ -16,6 +16,9 @@ import { MdLocationCity } from "react-icons/md";
 import Mam from "../assets/mam.png";
 import ceo from "../assets/ceo.png";
 import logo from "../assets/logo.png";
+import location from "../assets/location.jpg";
+import wholeFamily from "../assets/whole-family.png";
+import goal from "../assets/saroj.jpg";
 
 const AboutUs = () => {
   return (
@@ -40,7 +43,7 @@ const AboutUs = () => {
             <div className="order-1 md:order-2 flex justify-center md:justify-end">
               <div className="relative w-full max-w-sm">
                 <img
-                  src={Mam}
+                  src={location}
                   alt="Our product showcase"
                   className="w-full h-auto rounded-lg shadow-lg object-cover"
                 />
@@ -63,7 +66,7 @@ const AboutUs = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="flex justify-center md:justify-start order-2 md:order-1">
               <img
-                src={Mam}
+                src={goal}
                 alt="Our mission"
                 className="w-full max-w-md h-auto rounded-lg shadow-lg object-cover"
               />
@@ -126,9 +129,9 @@ const AboutUs = () => {
                 Countless smiles restored through healthy hair.
               </p>
             </div>
-            <div className="flex justify-center md:justify-end order-1 md:order-2">
+            <div className="flex justify-center  md:justify-end order-1 md:order-2">
               <img
-                src={Mam}
+                src={wholeFamily}
                 alt="Our story"
                 className="w-full max-w-md h-auto rounded-lg shadow-lg object-cover"
               />
@@ -272,7 +275,7 @@ const AboutUs = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 md:py-24 bg-green">
+      <section className="py-16 md:py-24 bg-green text-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
@@ -310,15 +313,14 @@ const AboutUs = () => {
             {[
               {
                 name: "Ujiwol Manandhar",
-                role: "Founder & CEO",
+                role: "Founder of Yachu",
                 image: ceo,
               },
               {
                 name: "Ulpi Manandhar",
-                role: "Founde and CEO, Baneshwor",
+                role: "Founder and CEO, Baneshwor",
                 image: Mam,
               },
-
             ].map((member, index) => (
               <div key={index} className="text-center">
                 <img
