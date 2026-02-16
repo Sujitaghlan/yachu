@@ -10,7 +10,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://yachuhairoil.netlify.app",
+      "https://yachuhairandglow.netlify.app",
       "https://yachuhairandglow.com",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
